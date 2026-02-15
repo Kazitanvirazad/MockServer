@@ -11,6 +11,9 @@ import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ButtonImageViewTableCell<S, T> extends TableCell<S, T> {
     private static final Logger log = LogManager.getLogger(ButtonImageViewTableCell.class);
     private String imagePath;

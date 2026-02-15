@@ -15,6 +15,9 @@ import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ServerRestartRepository {
     private static final Logger log = LogManager.getLogger(ServerRestartRepository.class);
 

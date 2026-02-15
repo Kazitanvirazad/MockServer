@@ -7,6 +7,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public record CollectionDto(String collectionName,
                             Timestamp createdOn,
                             List<ServerDto> servers) {

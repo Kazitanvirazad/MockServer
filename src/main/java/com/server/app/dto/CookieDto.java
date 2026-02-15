@@ -2,6 +2,9 @@ package com.server.app.dto;
 
 import com.server.app.model.data.Cookie;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public record CookieDto(boolean httpOnly,
                         boolean partitioned,
                         boolean secure,

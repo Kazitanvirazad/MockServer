@@ -3,6 +3,9 @@ package com.server.app.model.view;
 import com.server.app.model.data.Cookie;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class CookieTableData implements TableData {
     private SimpleObjectProperty<Cookie> cookieSimpleObjectProperty;
 

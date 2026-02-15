@@ -13,6 +13,9 @@ import java.util.ResourceBundle;
 
 import static com.server.app.util.AppUtil.closeWindowButtonEvent;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class SettingsController implements Initializable {
     private final SettingsService settingsService;
 

@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public record ServerDto(long delay,
                         int port,
                         Integer responseCode,

@@ -18,6 +18,9 @@ import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 import static com.server.app.util.Serializer.serializeList;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ServerService {
     private final ServerRepository serverRepository;
 

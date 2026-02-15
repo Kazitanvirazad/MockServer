@@ -5,6 +5,9 @@ import com.server.app.util.ImportExportUtil;
 import javafx.scene.image.Image;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public enum AppConfig {
     INSTANCE;
     private final Image appLogo;

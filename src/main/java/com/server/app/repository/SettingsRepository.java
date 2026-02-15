@@ -16,6 +16,9 @@ import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 import static com.server.app.util.Serializer.deSerialize;
 import static com.server.app.util.Serializer.serialize;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class SettingsRepository {
     private static final Logger log = LogManager.getLogger(SettingsRepository.class);
 

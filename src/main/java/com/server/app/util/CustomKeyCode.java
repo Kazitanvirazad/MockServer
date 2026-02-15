@@ -4,6 +4,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public enum CustomKeyCode {
     INSTANCE;
     private final KeyCodeCombination COPY_KEYCODE_COMBINATION;

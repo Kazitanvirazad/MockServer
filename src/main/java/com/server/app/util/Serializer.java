@@ -10,6 +10,9 @@ import tools.jackson.databind.JavaType;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public final class Serializer {
     private static final Logger log = LogManager.getLogger(Serializer.class);
 

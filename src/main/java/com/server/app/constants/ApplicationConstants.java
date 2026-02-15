@@ -1,5 +1,8 @@
 package com.server.app.constants;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public final class ApplicationConstants {
     private ApplicationConstants() {
         throw new AssertionError("Initialization of this class is not allowed");

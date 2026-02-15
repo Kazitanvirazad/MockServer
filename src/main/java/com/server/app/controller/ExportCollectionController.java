@@ -35,6 +35,9 @@ import static com.server.app.util.AppUtil.getApplicationWindowByTitle;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static javafx.beans.binding.Bindings.not;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ExportCollectionController implements Initializable {
     private static final Logger log = LogManager.getLogger(ExportCollectionController.class);
     private final CollectionService collectionService;

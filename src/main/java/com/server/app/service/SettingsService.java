@@ -3,6 +3,9 @@ package com.server.app.service;
 import com.server.app.repository.Repository;
 import com.server.app.repository.SettingsRepository;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class SettingsService {
     private final SettingsRepository settingsRepository;
 

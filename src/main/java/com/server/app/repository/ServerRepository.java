@@ -18,6 +18,9 @@ import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 import static com.server.app.util.Serializer.deSerializeList;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ServerRepository {
     private static final Logger log = LogManager.getLogger(ServerRepository.class);
 

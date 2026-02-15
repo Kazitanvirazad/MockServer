@@ -11,6 +11,9 @@ import static com.server.app.constants.ApplicationConstants.EQUALS_CHAR;
 import static com.server.app.util.AppUtil.generateUUID7BasedId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class Header implements Serializable {
     @Serial
     private static final long serialVersionUID = 1369250911334029278L;

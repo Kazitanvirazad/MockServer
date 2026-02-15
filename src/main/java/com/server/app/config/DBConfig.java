@@ -9,6 +9,9 @@ import org.sqlite.SQLiteDataSource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public enum DBConfig {
     INSTANCE;
     private DataSource dataSource;

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 @JsonInclude(content = JsonInclude.Include.NON_NULL)
 public class Configuration implements Serializable {
     @Serial

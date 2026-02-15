@@ -16,6 +16,9 @@ import static com.server.app.constants.ApplicationConstants.DEFAULT_PATH;
 import static com.server.app.constants.ApplicationConstants.EMPTY_SPACE;
 import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class Server implements Comparable<Server> {
     private long delay;
     private int port;

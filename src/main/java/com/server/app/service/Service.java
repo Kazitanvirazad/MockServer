@@ -2,6 +2,9 @@ package com.server.app.service;
 
 import javafx.application.HostServices;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public enum Service {
     INSTANCE;
     private final CollectionService collectionService;

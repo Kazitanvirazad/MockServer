@@ -24,6 +24,9 @@ import static com.server.app.constants.ApplicationConstants.SQL_COMMENT;
 import static com.server.app.constants.ApplicationConstants.SQL_DDL_QUERY_FILE_PATH;
 import static com.server.app.constants.ApplicationConstants.SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public final class DatabaseUtil {
     private static final Logger log = LogManager.getLogger(DatabaseUtil.class);
 

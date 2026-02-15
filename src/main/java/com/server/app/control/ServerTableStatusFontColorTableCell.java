@@ -5,6 +5,9 @@ import com.server.app.server.ServerManager;
 import javafx.scene.control.TableCell;
 import org.apache.commons.lang3.ObjectUtils;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ServerTableStatusFontColorTableCell extends TableCell<ServerTableData, String> {
     @Override
     protected void updateItem(String item, boolean empty) {

@@ -3,6 +3,9 @@ package com.server.app.model.view;
 import com.server.app.model.data.Header;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class HeaderTableData implements TableData {
     private SimpleObjectProperty<Header> headerSimpleObjectProperty;
 

@@ -3,6 +3,9 @@ package com.server.app.model.view;
 import com.server.app.model.data.Server;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class ServerTableData implements TableData {
     private SimpleObjectProperty<Server> serverObjectProperty;
 

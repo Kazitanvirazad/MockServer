@@ -29,6 +29,9 @@ import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
 import static com.server.app.constants.ApplicationConstants.HYPHEN;
 import static com.server.app.constants.ApplicationConstants.SECURE_RANDOM_ALGORITHM;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public final class AppUtil {
     private static final Logger log = LogManager.getLogger(AppUtil.class);
     public static final IntegerRange SERVER_PORT_RANGE = IntegerRange.of(1, 65535);

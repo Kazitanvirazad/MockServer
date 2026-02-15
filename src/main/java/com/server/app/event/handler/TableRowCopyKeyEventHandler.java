@@ -9,6 +9,9 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyEvent;
 import org.apache.commons.collections4.CollectionUtils;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class TableRowCopyKeyEventHandler implements EventHandler<KeyEvent> {
 
     @Override

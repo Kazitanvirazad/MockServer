@@ -23,6 +23,9 @@ import static com.server.app.constants.ApplicationConstants.SEMI_COLON;
 import static com.server.app.util.AppUtil.generateUUID7BasedId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
+/**
+ * author: Kazi Tanvir Azad
+ */
 public class Cookie implements Serializable {
     @Serial
     private static final long serialVersionUID = 8650284304480177017L;
