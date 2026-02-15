@@ -3,6 +3,7 @@ package com.server.app.fxml.loader;
 import com.server.app.config.AppConfig;
 import com.server.app.controller.SettingsController;
 import com.server.app.exception.StageLoadException;
+import com.server.app.util.CustomKeyCode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -30,6 +31,12 @@ public class SettingsStageLoader implements StageLoader<SettingsController> {
     public void loadStage() {
         try {
             Scene scene = new Scene(fxmlLoader.load());
+            // Adding key press event handler for settings Scene
+            scene.setOnKeyPressed(keyEvent -> {
+                if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
+                    stage.close();
+                }
+            });
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle(APP_SETTING_TITLE);
