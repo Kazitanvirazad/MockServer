@@ -100,4 +100,9 @@ public class ServerService {
         }
         return Optional.empty();
     }
+
+    public boolean deleteServerById(String ServerId) {
+        int status = serverRepository.deleteServer(ServerId);
+        return status > 0;
+    }
 }

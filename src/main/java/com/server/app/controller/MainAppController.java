@@ -1,6 +1,6 @@
 package com.server.app.controller;
 
-import com.server.app.control.DeleteImageViewTableCell;
+import com.server.app.control.ButtonImageViewTableCell;
 import com.server.app.control.ServerTableStatusFontColorTableCell;
 import com.server.app.event.handler.TableRowCopyKeyEventHandler;
 import com.server.app.fxml.loader.ActiveServersStageLoader;
@@ -19,20 +19,24 @@ import com.server.app.service.CollectionService;
 import com.server.app.service.ServerService;
 import com.server.app.service.Service;
 import com.server.app.util.AppUtil;
+import com.server.app.util.CustomKeyCode;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -47,6 +51,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.server.app.constants.ApplicationConstants.ACTIVE;
 import static com.server.app.constants.ApplicationConstants.APP_COLLECTION_FORM_TITLE;
@@ -55,9 +61,11 @@ import static com.server.app.constants.ApplicationConstants.APP_IMPORT_COLLECTIO
 import static com.server.app.constants.ApplicationConstants.APP_SERVER_FORM_EDIT_TITLE;
 import static com.server.app.constants.ApplicationConstants.APP_SERVER_FORM_TITLE;
 import static com.server.app.constants.ApplicationConstants.APP_SETTING_TITLE;
+import static com.server.app.constants.ApplicationConstants.DELETE_BUTTON_IMAGE_PATH;
 import static com.server.app.constants.ApplicationConstants.EDIT_COLLECTION_FORM_TITLE;
 import static com.server.app.constants.ApplicationConstants.INACTIVE;
 import static com.server.app.util.AppUtil.bringExistingActiveWindowToFrontOrElse;
+import static com.server.app.util.AppUtil.triggerConfirmationPrompt;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static javafx.beans.binding.Bindings.isEmpty;
 import static javafx.beans.binding.Bindings.size;
@@ -120,7 +128,7 @@ public class MainAppController implements Initializable {
 
     @FXML
     private void addCollectionEvent(ActionEvent event) {
-        triggerCreateModifyCollectionEvent(event, false);
+        createCollection(event);
     }
 
     @FXML
@@ -200,9 +208,7 @@ public class MainAppController implements Initializable {
         // setting File>Close MenuItem action event
         closeAppMenuItem.setOnAction(AppUtil::exitApplication);
         // setting Options>Create Collection MenuItem action event
-        createCollectionMenuItem.setOnAction(event -> {
-            triggerCreateModifyCollectionEvent(event, false);
-        });
+        createCollectionMenuItem.setOnAction(this::createCollection);
         // setting Options>Active Servers MenuItem action event
         activeServersMenuItem.setOnAction(event -> {
             if (ServerManager.INSTANCE.hasAnyActiveServer()) {
@@ -279,19 +285,51 @@ public class MainAppController implements Initializable {
     private void initializeCollectionTable() {
         // Allowing only single row selection in collectionTable
         collectionTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        // Adding copy event handler for collectionTable row
-        collectionTable.setOnKeyPressed(new TableRowCopyKeyEventHandler());
+        // // Adding key press event handler for collectionTable row
+        collectionTable.setOnKeyPressed(keyEvent -> {
+            // Adding 'Copy' event handler for collectionTable row
+            if (CustomKeyCode.INSTANCE.getCopyKeycodeCombination().match(keyEvent)) {
+                EventHandler<KeyEvent> keyEventHandler = new TableRowCopyKeyEventHandler();
+                keyEventHandler.handle(keyEvent);
+            }
+            // remove collection table row selection for Escape key press event
+            if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
+                // clear server table items and also clear collection table row selection
+                clearCollectionTableSelection();
+            }
+            // Edit collection for 'Enter' key press event
+            if (CustomKeyCode.INSTANCE.getEnterKeycode().equals(keyEvent.getCode())) {
+                modifyCollection();
+            }
+            // Delete collection for 'Delete' key press event
+            if (CustomKeyCode.INSTANCE.getDeleteKeycode().equals(keyEvent.getCode())) {
+                Optional.ofNullable(collectionTable.getSelectionModel())
+                        .filter(collectionTableSelectionModel ->
+                                !collectionTableSelectionModel.isEmpty())
+                        .filter(collectionTableSelectionModel -> {
+                            ButtonType promptResult = triggerConfirmationPrompt("Delete Collection?",
+                                    """
+                                            All the server associated with this collection will get deleted.
+                                            Continue to delete the collection""");
+                            return ButtonType.OK == promptResult;
+                        })
+                        .map(TableView.TableViewSelectionModel::getSelectedItem)
+                        .map(CollectionTableData::getCollectionObjectProperty)
+                        .map(collection -> collectionService.getCollectionById(collection.getCollectionId()))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .ifPresent(new DeleteCollectionConsumer());
+            }
+        });
         // adding existing data
         collectionTable.setItems(FXCollections.observableList(collectionService.getCollectionTableData()));
         // setting row factory for row related interactions
         collectionTable.setRowFactory(tableView -> {
             TableRow<CollectionTableData> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
-                if (!tableRow.isEmpty()) {
-                    if (event.getClickCount() == 2 && !collectionTable.getSelectionModel().isEmpty()) {
-                        // handle collection edit on row double click
-                        triggerCreateModifyCollectionEvent(null, true);
-                    }
+                if (!tableRow.isEmpty() && event.getClickCount() == 2) {
+                    // handle collection edit on row double click
+                    modifyCollection();
                 }
             });
             return tableRow;
@@ -319,13 +357,25 @@ public class MainAppController implements Initializable {
 
         // setting cell factory for cell(column/row) related interactions for 'collectionDelete' column
         collectionDeleteCol.setCellFactory(tableColumn -> {
-            DeleteImageViewTableCell<CollectionTableData, StackPane> deleteCollectionTableCell =
-                    new DeleteImageViewTableCell<>();
+            ButtonImageViewTableCell<CollectionTableData, StackPane> deleteCollectionTableCell =
+                    new ButtonImageViewTableCell<>(DELETE_BUTTON_IMAGE_PATH);
             deleteCollectionTableCell.setCustomMouseEvent(event -> {
-                if (!deleteCollectionTableCell.isEmpty()) {
+                ButtonType promptResult = triggerConfirmationPrompt("Delete Collection?",
+                        """
+                                All the server associated with this collection will get deleted.
+                                Continue to delete the collection""");
+                if (ButtonType.OK == promptResult && !deleteCollectionTableCell.isEmpty()) {
                     // Handle click event to delete the selected Collection
-                    CollectionTableData columnData = deleteCollectionTableCell.getTableRow().getItem();
-                    log.info("Clicked on: {}", columnData.getCollectionObjectProperty().getCollectionName());
+                    Optional.ofNullable(deleteCollectionTableCell.getTableRow())
+                            .map(TableRow::getItem)
+                            .map(CollectionTableData::getCollectionObjectProperty)
+                            .stream()
+                            .filter(ObjectUtils::isNotEmpty)
+                            .map(collection -> collectionService.getCollectionById(collection.getCollectionId()))
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .findFirst()
+                            .ifPresent(new DeleteCollectionConsumer());
                 }
             });
             return deleteCollectionTableCell;
@@ -337,40 +387,61 @@ public class MainAppController implements Initializable {
         serverTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         // Allowing only single row selection in serverTable
         serverTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        // Adding copy event handler for serverTable row
-        serverTable.setOnKeyPressed(new TableRowCopyKeyEventHandler());
+        // Adding key press event handler for serverTable row
+        serverTable.setOnKeyPressed(keyEvent -> {
+            // Adding 'Copy' event handler for serverTable row
+            if (CustomKeyCode.INSTANCE.getCopyKeycodeCombination().match(keyEvent)) {
+                EventHandler<KeyEvent> keyEventHandler = new TableRowCopyKeyEventHandler();
+                keyEventHandler.handle(keyEvent);
+            }
+            // Remove server table row selection for 'Escape' key press event
+            if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
+                Optional.ofNullable(serverTable.getSelectionModel())
+                        .ifPresent(serverTableSelectionModel -> {
+                            if (ObjectUtils.isNotEmpty(serverTableSelectionModel.getSelectedItem())) {
+                                serverTableSelectionModel.clearSelection();
+                            } else {
+                                // clear server table items and also clear collection table row selection
+                                clearCollectionTableSelection();
+                            }
+                        });
+            }
+            // Edit server for 'Enter' key press event
+            if (CustomKeyCode.INSTANCE.getEnterKeycode().equals(keyEvent.getCode())) {
+                editServer();
+            }
+            // Delete server for 'Delete' key press event
+            if (CustomKeyCode.INSTANCE.getDeleteKeycode().equals(keyEvent.getCode())) {
+                Optional.ofNullable(serverTable.getSelectionModel())
+                        .filter(serverTableSelectionModel ->
+                                !serverTableSelectionModel.isEmpty())
+                        .filter(serverTableSelectionModel -> {
+                            ButtonType promptResult = triggerConfirmationPrompt("Delete Server?", "Continue to delete the server");
+                            return ButtonType.OK == promptResult;
+                        })
+                        .map(TableView.TableViewSelectionModel::getSelectedItem)
+                        .map(ServerTableData::getServerObjectProperty)
+                        .map(server -> serverService.getServerById(server.getServerId()))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .stream()
+                        .map(new DeleteServerFunction())
+                        .findFirst()
+                        .ifPresent(isServerDeleted -> {
+                            if (!isServerDeleted) {
+                                triggerErrorAlert("Server deletion failed!", """
+                                        Something went wrong. Try again later.""");
+                            }
+                        });
+            }
+        });
         // setting row factory for row related interactions
         serverTable.setRowFactory(tableView -> {
             TableRow<ServerTableData> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
                 if (!tableRow.isEmpty() && event.getClickCount() == 2) {
                     // Edit server
-                    bringExistingActiveWindowToFrontOrElse(() -> {
-                        if (!serverTable.getSelectionModel().isEmpty() && !collectionTable.getSelectionModel().isEmpty()) {
-                            Collection selectedCollection = collectionTable.getSelectionModel().getSelectedItem()
-                                    .getCollectionObjectProperty();
-                            Server selectedServer = serverTable.getSelectionModel().getSelectedItem()
-                                    .getServerObjectProperty();
-                            StageLoader<ServerFormController> stageLoader =
-                                    new ServerFormStageLoader(selectedServer.getServerId(), selectedCollection);
-                            stageLoader.loadStage();
-                            ServerFormController controller = stageLoader.getController();
-                            controller.getServerInput()
-                                    .ifPresent(server -> {
-                                        String serverId = selectedServer.getServerId();
-                                        // stop the server if it's already running before performing update
-                                        if (ServerManager.INSTANCE.isServerActive(serverId)) {
-                                            ServerManager.INSTANCE.stopServer(selectedServer, true);
-                                        }
-                                        server.setServerId(serverId);
-                                        Optional<Server> updatedServerOptional = serverService.updateServer(server);
-                                        updatedServerOptional.ifPresent(srvr -> {
-                                            selectCollection(srvr.getCollectionId());
-                                            selectServer(srvr);
-                                        });
-                                    });
-                        }
-                    }, APP_SERVER_FORM_TITLE, APP_SERVER_FORM_EDIT_TITLE);
+                    editServer();
                 }
             });
             return tableRow;
@@ -378,13 +449,28 @@ public class MainAppController implements Initializable {
 
         // setting cell factory for cell(column/row) related interactions for 'serverDelete' column
         serverDeleteCol.setCellFactory(tableColumn -> {
-            DeleteImageViewTableCell<ServerTableData, StackPane> deleteServerTableCell =
-                    new DeleteImageViewTableCell<>();
+            ButtonImageViewTableCell<ServerTableData, StackPane> deleteServerTableCell =
+                    new ButtonImageViewTableCell<>(DELETE_BUTTON_IMAGE_PATH);
             deleteServerTableCell.setCustomMouseEvent(event -> {
-                if (!deleteServerTableCell.isEmpty()) {
+                ButtonType promptResult = triggerConfirmationPrompt("Delete Server?", "Continue to delete the server");
+                if (ButtonType.OK == promptResult && !deleteServerTableCell.isEmpty()) {
                     // Handle click event to delete the selected Server
-                    ServerTableData serverData = deleteServerTableCell.getTableRow().getItem();
-                    log.info("Clicked on: {}", serverData.getServerObjectProperty().getServerName());
+                    Optional.ofNullable(deleteServerTableCell.getTableRow())
+                            .map(TableRow::getItem)
+                            .map(ServerTableData::getServerObjectProperty)
+                            .stream()
+                            .filter(ObjectUtils::isNotEmpty)
+                            .map(server -> serverService.getServerById(server.getServerId()))
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .map(new DeleteServerFunction())
+                            .findFirst()
+                            .ifPresent(isServerDeleted -> {
+                                if (!isServerDeleted) {
+                                    triggerErrorAlert("Server deletion failed!", """
+                                            Something went wrong. Try again later.""");
+                                }
+                            });
                 }
             });
             return deleteServerTableCell;
@@ -459,7 +545,20 @@ public class MainAppController implements Initializable {
                 });
     }
 
-    private void triggerCreateModifyCollectionEvent(ActionEvent event, boolean doEdit) {
+    private void createCollection(ActionEvent event) {
+        openCreateModifyCollectionWindow(event, false);
+    }
+
+    private void modifyCollection() {
+        Optional.ofNullable(collectionTable.getSelectionModel())
+                .filter(collectionTableSelectionModel ->
+                        !collectionTableSelectionModel.isEmpty())
+                .ifPresent(collectionTableSelectionModel -> {
+                    openCreateModifyCollectionWindow(null, true);
+                });
+    }
+
+    private void openCreateModifyCollectionWindow(ActionEvent event, boolean doEdit) {
         bringExistingActiveWindowToFrontOrElse(() -> {
             StageLoader<CollectionFormController> stageLoader;
             Collection selectedCollection;
@@ -529,6 +628,87 @@ public class MainAppController implements Initializable {
             if (ObjectUtils.isNotEmpty(selectedServer)) {
                 selectServer(selectedServer);
             }
+        }
+    }
+
+    private void clearCollectionTableSelection() {
+        Optional.ofNullable(collectionTable.getSelectionModel())
+                .ifPresent(collectionTableSelectionModel -> {
+                    // clear server table items
+                    serverTable.getItems().clear();
+                    // clear collection table row selection
+                    collectionTableSelectionModel.clearSelection();
+                });
+    }
+
+    private void editServer() {
+        Optional.ofNullable(serverTable.getSelectionModel())
+                .filter(serverTableSelectionModel ->
+                        !serverTableSelectionModel.isEmpty())
+                .ifPresent(serverTableSelectionModel -> {
+                    openServerEditWindow();
+                });
+    }
+
+    private void openServerEditWindow() {
+        bringExistingActiveWindowToFrontOrElse(() -> {
+            if (!serverTable.getSelectionModel().isEmpty() && !collectionTable.getSelectionModel().isEmpty()) {
+                Collection selectedCollection = collectionTable.getSelectionModel().getSelectedItem()
+                        .getCollectionObjectProperty();
+                Server selectedServer = serverTable.getSelectionModel().getSelectedItem()
+                        .getServerObjectProperty();
+                StageLoader<ServerFormController> stageLoader =
+                        new ServerFormStageLoader(selectedServer.getServerId(), selectedCollection);
+                stageLoader.loadStage();
+                ServerFormController controller = stageLoader.getController();
+                controller.getServerInput()
+                        .ifPresent(server -> {
+                            String serverId = selectedServer.getServerId();
+                            // stop the server if it's already running before performing update
+                            if (ServerManager.INSTANCE.isServerActive(serverId)) {
+                                ServerManager.INSTANCE.stopServer(selectedServer, true);
+                            }
+                            server.setServerId(serverId);
+                            Optional<Server> updatedServerOptional = serverService.updateServer(server);
+                            updatedServerOptional.ifPresent(srvr -> {
+                                selectCollection(srvr.getCollectionId());
+                                selectServer(srvr);
+                            });
+                        });
+            }
+        }, APP_SERVER_FORM_TITLE, APP_SERVER_FORM_EDIT_TITLE);
+    }
+
+    private class DeleteCollectionConsumer implements Consumer<Collection> {
+        @Override
+        public void accept(Collection collection) {
+            serverService.getServersByCollection(collection.getCollectionId())
+                    .filter(ObjectUtils::isNotEmpty)
+                    .forEach(server -> {
+                        if (ServerManager.INSTANCE.isServerActive(server.getServerId())) {
+                            ServerManager.INSTANCE.stopServer(server, true);
+                        }
+                        serverService.deleteServerById(server.getServerId());
+                    });
+            if (collectionService.deleteCollectionById(collection.getCollectionId())) {
+                collectionTable.setItems(FXCollections.observableList(collectionService.getCollectionTableData()));
+                serverTable.getItems().clear();
+            }
+        }
+    }
+
+    private class DeleteServerFunction implements Function<Server, Boolean> {
+        @Override
+        public Boolean apply(Server server) {
+            if (ServerManager.INSTANCE.isServerActive(server.getServerId())) {
+                ServerManager.INSTANCE.stopServer(server, true);
+            }
+            if (serverService.deleteServerById(server.getServerId())) {
+                serverTable.setItems(FXCollections.observableList(serverService
+                        .getServerTableDataList(server.getCollectionId())));
+                return true;
+            }
+            return false;
         }
     }
 }

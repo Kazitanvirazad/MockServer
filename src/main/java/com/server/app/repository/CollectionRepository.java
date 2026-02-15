@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -36,7 +35,7 @@ public class CollectionRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return collection;
@@ -60,7 +59,7 @@ public class CollectionRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return collection;
@@ -84,7 +83,7 @@ public class CollectionRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return collections;
@@ -106,7 +105,7 @@ public class CollectionRepository {
                 preparedStatement.setString(2, collectionName);
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;
@@ -126,7 +125,7 @@ public class CollectionRepository {
                 preparedStatement.setTimestamp(4, collection.getModifiedOn());
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;
@@ -144,7 +143,23 @@ public class CollectionRepository {
                 preparedStatement.setString(2, collectionId);
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+        }
+        return status;
+    }
+
+    public int deleteCollection(String collectionId) {
+        int status = 0;
+        final String query = """
+                DELETE FROM collection WHERE collection_id=?""";
+        try {
+            status = executeUpdateQuery(connection -> {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, collectionId);
+                return preparedStatement.executeUpdate();
+            });
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;

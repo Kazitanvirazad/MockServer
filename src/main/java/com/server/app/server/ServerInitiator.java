@@ -56,14 +56,14 @@ public class ServerInitiator {
         EndpointInitiator existingEndpointInitiator = endPoints.getOrDefault(urlEndpoint, null);
         // similar server with same url endpoint and method is already running
         if (ObjectUtils.isNotEmpty(existingEndpointInitiator) && existingEndpointInitiator.getMethods().containsKey(server.getMethod())) {
-            ButtonType promptSelector = triggerConfirmationPrompt("""
+            ButtonType promptResult = triggerConfirmationPrompt("""
                             Server with similar Endpoint and
                             method is already running.""",
                     """
                             Click OK to override the existing
                             server with the new one.""");
             // Pressed 'OK' to override the existing server
-            if (ButtonType.OK == promptSelector) {
+            if (ButtonType.OK == promptResult) {
                 // getting the server to overridden
                 MethodInitiator methodInitiatorToOverride = existingEndpointInitiator.getMethods().get(server.getMethod());
                 String serverIdToOverride = ObjectUtils.isNotEmpty(methodInitiatorToOverride.getServerId()) ?

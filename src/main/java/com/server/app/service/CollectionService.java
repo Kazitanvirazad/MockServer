@@ -83,4 +83,9 @@ public class CollectionService {
         }
         return Optional.empty();
     }
+
+    public boolean deleteCollectionById(String collectionId) {
+        int status = collectionRepository.deleteCollection(collectionId);
+        return status > 0;
+    }
 }

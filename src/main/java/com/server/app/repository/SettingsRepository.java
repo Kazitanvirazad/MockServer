@@ -7,10 +7,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 import static com.server.app.util.Serializer.deSerialize;
@@ -33,7 +33,7 @@ public class SettingsRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
     }
@@ -69,7 +69,7 @@ public class SettingsRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return count.get();
@@ -81,7 +81,7 @@ public class SettingsRepository {
         final String query = """
                 INSERT INTO settings (id, config_json_text) VALUES (1, ?)""";
         try {
-            executeUpdateQuery(connection -> {
+            executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, initConfigJson);
                 return preparedStatement.executeUpdate();

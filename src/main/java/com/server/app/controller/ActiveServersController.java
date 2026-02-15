@@ -6,17 +6,20 @@ import com.server.app.model.view.ServerTableData;
 import com.server.app.server.ServerManager;
 import com.server.app.service.ServerService;
 import com.server.app.service.Service;
+import com.server.app.util.CustomKeyCode;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -64,8 +67,8 @@ public class ActiveServersController implements Initializable {
 
     @FXML
     private void handleStopAllServerButton(ActionEvent event) {
-        ButtonType result = triggerConfirmationPrompt("Stop all servers?", "Confirm to stop all active servers");
-        if (ButtonType.OK == result) {
+        ButtonType promptResult = triggerConfirmationPrompt("Stop all servers?", "Confirm to stop all active servers");
+        if (ButtonType.OK == promptResult) {
             ServerManager.INSTANCE.stopAllServers(true);
             closeWindowButtonEvent(event);
         }
@@ -73,10 +76,16 @@ public class ActiveServersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Allowing only single row selection in serverTable
+        // Allowing only single row selection in activeServerTable
         activeServerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        // Adding copy event handler for serverTable row
-        activeServerTable.setOnKeyPressed(new TableRowCopyKeyEventHandler());
+        // Adding key press event handler for activeServerTable row
+        activeServerTable.setOnKeyPressed(keyEvent -> {
+            // Adding 'Copy' event handler for activeServerTable row
+            if (CustomKeyCode.INSTANCE.getCopyKeycodeCombination().match(keyEvent)) {
+                EventHandler<KeyEvent> keyEventHandler = new TableRowCopyKeyEventHandler();
+                keyEventHandler.handle(keyEvent);
+            }
+        });
 
         // setting server table cell value factory for all columns
         serverNameCol.setCellValueFactory(cellData ->

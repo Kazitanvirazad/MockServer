@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,15 +31,15 @@ public final class DatabaseUtil {
         throw new AssertionError("Initialization of this class is not allowed");
     }
 
-    public static Integer executeUpdateQuery(CheckedFunction<Connection, Integer> function) throws SQLException {
-        return execute(function);
+    public static Integer executeUpdateQuery(CheckedFunction<Connection, Integer> updateFunction) throws Exception {
+        return execute(updateFunction);
     }
 
-    public static Integer executeCreateQuery(CheckedFunction<Connection, Integer> function) throws SQLException {
-        return execute(function);
+    public static Integer executeCreateQuery(CheckedFunction<Connection, Integer> createFunction) throws Exception {
+        return execute(createFunction);
     }
 
-    private static Integer execute(CheckedFunction<Connection, Integer> function) throws SQLException {
+    private static Integer execute(CheckedFunction<Connection, Integer> function) throws Exception {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         int status;
         Connection connection = dataSource.getConnection();
@@ -61,11 +60,11 @@ public final class DatabaseUtil {
         return status;
     }
 
-    public static void executeFetchQuery(CheckedConsumer<Connection> consumer) throws SQLException {
+    public static void executeFetchQuery(CheckedConsumer<Connection> consumer) throws Exception {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         try (Connection connection = dataSource.getConnection()) {
             consumer.accept(connection);
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
             throw exception;
         }

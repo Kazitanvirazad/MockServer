@@ -8,12 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 import static com.server.app.util.Serializer.deSerializeList;
@@ -54,7 +54,7 @@ public class ServerRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return server;
@@ -101,7 +101,7 @@ public class ServerRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return servers;
@@ -113,7 +113,7 @@ public class ServerRepository {
                 INSERT INTO server (server_id,server_name,url_endpoint,response_code,method,delay,port,response_data,
                 headers,cookies,collection_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)""";
         try {
-            status = executeUpdateQuery(connection -> {
+            status = executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, server.getServerId());
                 preparedStatement.setString(2, server.getServerName());
@@ -128,7 +128,7 @@ public class ServerRepository {
                 preparedStatement.setString(11, server.getCollectionId());
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;
@@ -140,7 +140,7 @@ public class ServerRepository {
                 INSERT INTO server (server_id,server_name,url_endpoint,response_code,method,delay,port,response_data,
                 headers,cookies,createdOn,modifiedOn,collection_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""";
         try {
-            status = executeUpdateQuery(connection -> {
+            status = executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, serverId);
                 preparedStatement.setString(2, server.getServerName());
@@ -157,7 +157,7 @@ public class ServerRepository {
                 preparedStatement.setString(13, collectionId);
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;
@@ -185,7 +185,23 @@ public class ServerRepository {
                 preparedStatement.setString(11, server.getServerId());
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+        }
+        return status;
+    }
+
+    public int deleteServer(String serverId) {
+        int status = 0;
+        final String query = """
+                DELETE FROM server WHERE server_id=?""";
+        try {
+            status = executeUpdateQuery(connection -> {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, serverId);
+                return preparedStatement.executeUpdate();
+            });
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return status;

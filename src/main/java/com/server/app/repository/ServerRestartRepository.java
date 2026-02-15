@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.server.app.constants.ApplicationConstants.COMMA;
 import static com.server.app.constants.ApplicationConstants.SQL_QUERY;
+import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
@@ -26,7 +26,7 @@ public class ServerRestartRepository {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
     }
@@ -48,7 +48,7 @@ public class ServerRestartRepository {
                 }
                 resultSet.close();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return serverRestartData;
@@ -57,7 +57,7 @@ public class ServerRestartRepository {
     public void insertServerRestartData(List<String> serverIds) {
         final String query = constructInsertServerRestartDataQuery(serverIds.size());
         try {
-            executeUpdateQuery(connection -> {
+            executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 for (int i = 0; i < serverIds.size(); i++) {
                     String serverId = serverIds.get(i);
@@ -65,7 +65,7 @@ public class ServerRestartRepository {
                 }
                 return preparedStatement.executeUpdate();
             });
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
     }

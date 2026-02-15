@@ -1,7 +1,7 @@
 package com.server.app.controller;
 
 import com.server.app.constants.Method;
-import com.server.app.control.DeleteImageViewTableCell;
+import com.server.app.control.ButtonImageViewTableCell;
 import com.server.app.event.handler.TableRowCopyKeyEventHandler;
 import com.server.app.fxml.loader.CookieFormStageLoader;
 import com.server.app.fxml.loader.HeaderFormStageLoader;
@@ -15,9 +15,11 @@ import com.server.app.model.view.HeaderTableData;
 import com.server.app.service.CollectionService;
 import com.server.app.service.ServerService;
 import com.server.app.service.Service;
+import com.server.app.util.CustomKeyCode;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -29,6 +31,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import org.apache.commons.collections4.CollectionUtils;
@@ -48,6 +51,7 @@ import static com.server.app.constants.ApplicationConstants.APP_COOKIE_FORM_TITL
 import static com.server.app.constants.ApplicationConstants.APP_HEADER_FORM_TITLE;
 import static com.server.app.constants.ApplicationConstants.DEFAULT_PATH;
 import static com.server.app.constants.ApplicationConstants.DEFAULT_RESPONSE_CODE;
+import static com.server.app.constants.ApplicationConstants.DELETE_BUTTON_IMAGE_PATH;
 import static com.server.app.util.AppUtil.RESPONSE_CODE_RANGE;
 import static com.server.app.util.AppUtil.SERVER_PORT_RANGE;
 import static com.server.app.util.AppUtil.bringExistingActiveWindowToFrontOrElse;
@@ -343,13 +347,36 @@ public class ServerFormController {
     private void initializeHeaderTable() {
         // Allowing only single row selection in headerTable
         headerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        // Adding copy event handler for headerTable row
-        headerTable.setOnKeyPressed(new TableRowCopyKeyEventHandler());
+        // Adding key press event handler for headerTable row
+        headerTable.setOnKeyPressed(keyEvent -> {
+            // Adding 'Copy' event handler for headerTable row
+            if (CustomKeyCode.INSTANCE.getCopyKeycodeCombination().match(keyEvent)) {
+                EventHandler<KeyEvent> keyEventHandler = new TableRowCopyKeyEventHandler();
+                keyEventHandler.handle(keyEvent);
+            }
+            // Delete header for 'Delete' key press event
+            if (CustomKeyCode.INSTANCE.getDeleteKeycode().equals(keyEvent.getCode())) {
+                Optional.ofNullable(headerTable.getSelectionModel())
+                        .filter(headerTableSelectionModel ->
+                                !headerTableSelectionModel.isEmpty())
+                        .map(TableView.TableViewSelectionModel::getSelectedItem)
+                        .map(HeaderTableData::getHeaderSimpleObjectProperty)
+                        .ifPresent(headerToDelete -> {
+                            List<HeaderTableData> headersData = headerTable.getItems()
+                                    .stream()
+                                    .map(HeaderTableData::getHeaderSimpleObjectProperty)
+                                    .filter(header -> !header.equals(headerToDelete))
+                                    .map(header -> new HeaderTableData(new SimpleObjectProperty<>(header)))
+                                    .collect(Collectors.toList());
+                            headerTable.setItems(FXCollections.observableList(headersData));
+                        });
+            }
+        });
 
         // setting cell factory for cell(column/row) related interactions for 'headerDeleteColumn' column
         headerDeleteColumn.setCellFactory(tableColumn -> {
-            DeleteImageViewTableCell<HeaderTableData, StackPane> deleteHeaderTableCell =
-                    new DeleteImageViewTableCell<>();
+            ButtonImageViewTableCell<HeaderTableData, StackPane> deleteHeaderTableCell =
+                    new ButtonImageViewTableCell<>(DELETE_BUTTON_IMAGE_PATH);
             deleteHeaderTableCell.setCustomMouseEvent(event -> {
                 if (!deleteHeaderTableCell.isEmpty()) {
                     // Handle click event to delete the selected header
@@ -378,13 +405,36 @@ public class ServerFormController {
     private void initializeCookieTable() {
         // Allowing only single row selection in cookieTable
         cookieTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        // Adding copy event handler for cookieTable row
-        cookieTable.setOnKeyPressed(new TableRowCopyKeyEventHandler());
+        // Adding key press event handler for cookieTable row
+        cookieTable.setOnKeyPressed(keyEvent -> {
+            // Adding 'Copy' event handler for cookieTable row
+            if (CustomKeyCode.INSTANCE.getCopyKeycodeCombination().match(keyEvent)) {
+                EventHandler<KeyEvent> keyEventHandler = new TableRowCopyKeyEventHandler();
+                keyEventHandler.handle(keyEvent);
+            }
+            // Delete cookie for 'Delete' key press event
+            if (CustomKeyCode.INSTANCE.getDeleteKeycode().equals(keyEvent.getCode())) {
+                Optional.ofNullable(cookieTable.getSelectionModel())
+                        .filter(cookieTableSelectionModel ->
+                                !cookieTableSelectionModel.isEmpty())
+                        .map(TableView.TableViewSelectionModel::getSelectedItem)
+                        .map(CookieTableData::getCookieSimpleObjectProperty)
+                        .ifPresent(cookieToDelete -> {
+                            List<CookieTableData> cookieData = cookieTable.getItems()
+                                    .stream()
+                                    .map(CookieTableData::getCookieSimpleObjectProperty)
+                                    .filter(cookie -> !cookieToDelete.equals(cookie))
+                                    .map(cookie -> new CookieTableData(new SimpleObjectProperty<>(cookie)))
+                                    .collect(Collectors.toList());
+                            cookieTable.setItems(FXCollections.observableList(cookieData));
+                        });
+            }
+        });
 
         // setting cell factory for cell(column/row) related interactions for 'cookieDeleteColumn' column
         cookieDeleteColumn.setCellFactory(tableColumn -> {
-            DeleteImageViewTableCell<CookieTableData, StackPane> deleteCookieTableCell =
-                    new DeleteImageViewTableCell<>();
+            ButtonImageViewTableCell<CookieTableData, StackPane> deleteCookieTableCell =
+                    new ButtonImageViewTableCell<>(DELETE_BUTTON_IMAGE_PATH);
             deleteCookieTableCell.setCustomMouseEvent(event -> {
                 if (!deleteCookieTableCell.isEmpty()) {
                     // Handle click event to delete the selected cookie
