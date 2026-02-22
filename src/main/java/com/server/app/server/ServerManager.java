@@ -135,8 +135,10 @@ public enum ServerManager {
                 .map(Optional::get)
                 .toList();
         return activeServers.stream()
-                .peek(server -> stopServer(server, silent))
-                .map(Server::getServerId)
+                .map(server -> {
+                    stopServer(server, silent);
+                    return server.getServerId();
+                })
                 .toList();
     }
 }
