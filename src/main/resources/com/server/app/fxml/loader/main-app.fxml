@@ -39,9 +39,9 @@
         </MenuBar>
     </top>
     <left>
-        <AnchorPane prefHeight="675.0" prefWidth="213.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="633.0" prefWidth="240.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="collectionTable" editable="true" layoutX="2.0" prefHeight="675.0" prefWidth="228.0"
+                <TableView fx:id="collectionTable" editable="true" layoutX="2.0" prefHeight="633.0" prefWidth="240.0"
                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="collectionNameCol" prefWidth="186.0" resizable="false" sortable="false"

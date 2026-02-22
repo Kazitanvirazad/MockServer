@@ -129,7 +129,7 @@ public enum ServerManager {
 
     public List<String> stopAllServers(boolean silent) {
         List<Server> activeServers = activeServerIds.stream()
-                .filter(ObjectUtils::isNotEmpty)
+                .filter(StringUtils::isNotBlank)
                 .map(serverService::getServerById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)

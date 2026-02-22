@@ -5,6 +5,8 @@ import com.server.app.util.ImportExportUtil;
 import javafx.scene.image.Image;
 import tools.jackson.databind.ObjectMapper;
 
+import static com.server.app.constants.ApplicationConstants.FILE_SEPARATOR;
+
 /**
  * author: Kazi Tanvir Azad
  */
@@ -37,8 +39,10 @@ public enum AppConfig {
     }
 
     {
-        this.appLogo = new Image("/static/icons/mockface-40.png");
-        this.splashScreenLogo = new Image("/static/icons/mockface-100.png");
+        String appLogoPath = String.format("%sstatic%sicons%smockface-40.png", FILE_SEPARATOR, FILE_SEPARATOR, FILE_SEPARATOR);
+        String splashScreenLogoPath = String.format("%sstatic%sicons%smockface-100.png", FILE_SEPARATOR, FILE_SEPARATOR, FILE_SEPARATOR);
+        this.appLogo = new Image(appLogoPath);
+        this.splashScreenLogo = new Image(splashScreenLogoPath);
         this.mapper = new ObjectMapper();
         this.configuration = new Configuration();
         this.ioUtil = new ImportExportUtil();

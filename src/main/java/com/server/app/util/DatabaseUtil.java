@@ -19,7 +19,7 @@ import java.util.List;
 
 import static com.server.app.constants.ApplicationConstants.BLOCK_COMMENT_END;
 import static com.server.app.constants.ApplicationConstants.BLOCK_COMMENT_START;
-import static com.server.app.constants.ApplicationConstants.SEPARATOR;
+import static com.server.app.constants.ApplicationConstants.SQL_QUERY_SEPARATOR;
 import static com.server.app.constants.ApplicationConstants.SQL_COMMENT;
 import static com.server.app.constants.ApplicationConstants.SQL_DDL_QUERY_FILE_PATH;
 import static com.server.app.constants.ApplicationConstants.SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY;
@@ -89,7 +89,7 @@ public final class DatabaseUtil {
                     .forEach(stringBuilder::append);
             String rawQuery = stringBuilder.toString();
             if (StringUtils.isNotBlank(rawQuery)) {
-                queries.addAll(Arrays.asList(rawQuery.split(SEPARATOR)));
+                queries.addAll(Arrays.asList(rawQuery.split(SQL_QUERY_SEPARATOR)));
             }
         } catch (Exception exception) {
             log.error(exception.getMessage());

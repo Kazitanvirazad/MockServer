@@ -1,5 +1,7 @@
 package com.server.app.constants;
 
+import java.nio.file.FileSystems;
+
 /**
  * author: Kazi Tanvir Azad
  */
@@ -26,7 +28,7 @@ public final class ApplicationConstants {
     public static final String SQL_QUERY = "(?)";
     public static final String BLOCK_COMMENT_START = "/*";
     public static final String BLOCK_COMMENT_END = "*/";
-    public static final String SEPARATOR = "\\|~\\|~\\|";
+    public static final String SQL_QUERY_SEPARATOR = "\\|~\\|~\\|";
     public static final String SPLIT_URL_AND_QUERY_PARAM_REGEX = "\\?(?!\\?)";
     public static final String LOCALHOST_1 = "127.0.0.1";
     public static final String LOCALHOST_2 = "0.0.0.0";
@@ -73,8 +75,10 @@ public final class ApplicationConstants {
     public static final String ACTIVE = "ACTIVE";
     public static final String INACTIVE = "INACTIVE";
     public static final String JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH = System.getProperty("user.home");
+    public static final String FILE_SEPARATOR = FileSystems.getDefault().getSeparator();
     public static final String LIGHT_GREY_COLOR_HEX_CODE = "#e3e3e3;";
     public static final String LIGHT_RED_COLOR_HEX_CODE = "#fcc6c2;";
     public static final String LIGHT_GREEN_COLOR_HEX_CODE = "#cafadb;";
-    public static final String DELETE_BUTTON_IMAGE_PATH = "/static/icons/delete-24.png";
+    public static final String DELETE_BUTTON_IMAGE_PATH = String.format("%sstatic%sicons%sdelete-24.png",
+            FILE_SEPARATOR, FILE_SEPARATOR, FILE_SEPARATOR);
 }

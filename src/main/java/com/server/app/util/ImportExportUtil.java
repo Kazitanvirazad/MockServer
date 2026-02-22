@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.server.app.constants.ApplicationConstants.FILE_SEPARATOR;
 import static com.server.app.constants.ApplicationConstants.UNDERSCORE;
 import static com.server.app.util.AppUtil.getRandomNumberInRange;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
@@ -51,7 +52,7 @@ public class ImportExportUtil {
             Optional<String> optionalCollectionJson = serializeList(exportData);
             if (FileUtils.isDirectory(selectedDirectory) && optionalCollectionJson.isPresent()) {
                 int randomNumberInRange = getRandomNumberInRange(999, 3999);
-                File output = new File(selectedDirectory.getAbsolutePath() + "\\collection_"
+                File output = new File(selectedDirectory.getAbsolutePath() + FILE_SEPARATOR + "collection_"
                         + randomNumberInRange + ".json");
                 FileUtils.writeStringToFile(output, optionalCollectionJson.get(), StandardCharsets.UTF_8);
             }
@@ -93,9 +94,7 @@ public class ImportExportUtil {
                 Optional<String> optionalImportedCollectionId = collectionService.createImportedCollection(collection);
                 if (optionalImportedCollectionId.isPresent() && CollectionUtils.isNotEmpty(collection.getServers())) {
                     List<Server> servers = collection.getServers();
-                    servers.forEach(server -> {
-                        Optional<String> optionalServerId = serverService.createImportedServer(server, optionalImportedCollectionId.get());
-                    });
+                    servers.forEach(server -> serverService.createImportedServer(server, optionalImportedCollectionId.get()));
                 }
             }
         } catch (Exception exception) {
