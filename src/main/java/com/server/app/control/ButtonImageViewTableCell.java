@@ -30,15 +30,16 @@ public class ButtonImageViewTableCell<S, T> extends TableCell<S, T> {
         this.buttonImageView.setFitHeight(24.0);
         this.buttonImageView.setFitWidth(24.0);
         this.buttonImageView.setPreserveRatio(true);
-        Image placeholderImage;
+        Image placeholderImage = null;
         try {
             placeholderImage = new Image(this.imagePath);
         } catch (Exception exception) {
             log.error("Error loading placeholder image: {}", exception.getMessage());
-            placeholderImage = new Image("/static/icons/check-mark-24.png");
         }
         this.buttonImageView.setCursor(Cursor.HAND);
-        this.buttonImageView.setImage(placeholderImage);
+        if (null != placeholderImage) {
+            this.buttonImageView.setImage(placeholderImage);
+        }
         this.stackPaneContainer = new StackPane(buttonImageView);
         this.stackPaneContainer.setAlignment(Pos.CENTER);
     }
