@@ -10,6 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.server.app.constants.ApplicationConstants.FILE_SEPARATOR;
 import static com.server.app.constants.ApplicationConstants.UNDERSCORE;
 import static com.server.app.util.AppUtil.getRandomNumberInRange;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
@@ -52,8 +52,8 @@ public class ImportExportUtil {
             Optional<String> optionalCollectionJson = serializeList(exportData);
             if (FileUtils.isDirectory(selectedDirectory) && optionalCollectionJson.isPresent()) {
                 int randomNumberInRange = getRandomNumberInRange(999, 3999);
-                File output = new File(selectedDirectory.getAbsolutePath() + FILE_SEPARATOR + "collection_"
-                        + randomNumberInRange + ".json");
+                File output = new File(selectedDirectory.getAbsolutePath() + SystemProperties.getFileSeparator()
+                        + "collection_" + randomNumberInRange + ".json");
                 FileUtils.writeStringToFile(output, optionalCollectionJson.get(), StandardCharsets.UTF_8);
             }
         } catch (Exception exception) {

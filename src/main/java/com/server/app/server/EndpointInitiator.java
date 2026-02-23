@@ -33,7 +33,7 @@ public class EndpointInitiator {
         }
         if (CollectionUtils.isNotEmpty(server.getCookies())) {
             server.getCookies().forEach(cookie ->
-                    methodInitiator.addHeader(new KeyValue(COOKIE_HEADER_KEY, cookie.print())));
+                    methodInitiator.addHeader(new KeyValue(COOKIE_HEADER_KEY, cookie.value())));
         }
         methods.put(server.getMethod(), methodInitiator);
     }

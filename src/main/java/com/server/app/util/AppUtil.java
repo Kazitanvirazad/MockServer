@@ -124,10 +124,6 @@ public final class AppUtil {
         initializeAlert(headerText, contentText, AlertType.INFORMATION);
     }
 
-    public static void triggerWarningAlert(String headerText, String contentText) {
-        initializeAlert(headerText, contentText, AlertType.WARNING);
-    }
-
     private static void initializeAlert(String headerText, String contentText, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(headerText);

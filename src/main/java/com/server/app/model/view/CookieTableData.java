@@ -27,6 +27,6 @@ public class CookieTableData implements TableData {
 
     @Override
     public String getClipboardData() {
-        return cookieSimpleObjectProperty.get().print();
+        return cookieSimpleObjectProperty.get().value();
     }
 }

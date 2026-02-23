@@ -81,7 +81,7 @@ public class Cookie implements Serializable {
         this.cookieViewUUID = uid.get();
     }
 
-    public String print() {
+    public String value() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(name).append(EQUALS_CHAR).append(value);
         if (null != domain) {

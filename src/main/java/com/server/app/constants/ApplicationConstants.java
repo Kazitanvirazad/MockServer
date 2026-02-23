@@ -1,6 +1,6 @@
 package com.server.app.constants;
 
-import java.nio.file.FileSystems;
+import org.apache.commons.lang3.SystemProperties;
 
 /**
  * author: Kazi Tanvir Azad
@@ -49,10 +49,8 @@ public final class ApplicationConstants {
     public static final String SAME_SITE = "SameSite";
     public static final String SECURE = "Secure";
     public static final String JSON_FILE_EXTENSION = "json";
-    public static final String MILLIS_SHORT_FORM = "ms";
     public static final String SPLASH_SCREEN_TITLE = "Starting Mock Server....";
     public static final String APP_TITLE = "Mock Server";
-    public static final String APP_PROMPT_MESSAGE_TITLE = "Information";
     public static final String APP_HEADER_FORM_TITLE = "Add Header";
     public static final String APP_EXPORT_COLLECTION_TITLE = "Export Collection";
     public static final String APP_IMPORT_COLLECTION_TITLE = "Import Collection";
@@ -67,18 +65,15 @@ public final class ApplicationConstants {
     public static final String DIRECTORY_SELECTOR_TITLE = "Select directory to export collections";
     public static final String FILE_SELECTOR_TITLE = "Select collection file to import";
     public static final String ACTIVE_SERVER_MANAGER_TITLE = "Active Server Manager";
-    public static final String SET_SERVER_STATUS_ACTIVE_BUTTON_TEXT = "Stop";
-    public static final String SET_SERVER_STATUS_INACTIVE_BUTTON_TEXT = "Start";
     public static final String EXPORT_DIRECTORY_PATH_DEFAULT_TEXT = "Path: ";
     public static final String IMPORT_FILE_PATH_DEFAULT_TEXT = "File Name: ";
     public static final String TRACER = "tracer";
     public static final String ACTIVE = "ACTIVE";
     public static final String INACTIVE = "INACTIVE";
-    public static final String JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH = System.getProperty("user.home");
-    public static final String FILE_SEPARATOR = FileSystems.getDefault().getSeparator();
+    public static final String JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH = SystemProperties.getUserHome();
     public static final String LIGHT_GREY_COLOR_HEX_CODE = "#e3e3e3;";
     public static final String LIGHT_RED_COLOR_HEX_CODE = "#fcc6c2;";
     public static final String LIGHT_GREEN_COLOR_HEX_CODE = "#cafadb;";
-    public static final String DELETE_BUTTON_IMAGE_PATH = String.format("%sstatic%sicons%sdelete-24.png",
-            FILE_SEPARATOR, FILE_SEPARATOR, FILE_SEPARATOR);
+    public static final String DELETE_BUTTON_IMAGE_PATH =
+            String.format("%1$sstatic%1$sicons%1$sdelete-24.png", SystemProperties.getFileSeparator());
 }

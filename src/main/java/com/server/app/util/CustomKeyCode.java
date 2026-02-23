@@ -3,6 +3,7 @@ package com.server.app.util;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import org.apache.commons.lang3.SystemUtils;
 
 /**
  * author: Kazi Tanvir Azad
@@ -34,6 +35,6 @@ public enum CustomKeyCode {
         this.COPY_KEYCODE_COMBINATION = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY);
         this.ESCAPE_KEYCODE = KeyCode.ESCAPE;
         this.ENTER_KEYCODE = KeyCode.ENTER;
-        this.DELETE_KEYCODE = KeyCode.DELETE;
+        this.DELETE_KEYCODE = SystemUtils.IS_OS_MAC ? KeyCode.BACK_SPACE : KeyCode.DELETE;
     }
 }

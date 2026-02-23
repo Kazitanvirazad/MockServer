@@ -458,7 +458,7 @@ public class ServerFormController {
 
         // setting cookie table cell value factory for all columns
         cookieColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCookieSimpleObjectProperty().print()));
+                new SimpleObjectProperty<>(cellData.getValue().getCookieSimpleObjectProperty().value()));
     }
 
     public void setMockServerFormTitle(String mockServerFormTitle) {
