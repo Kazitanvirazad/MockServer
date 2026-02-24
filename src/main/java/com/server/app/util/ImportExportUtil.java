@@ -8,7 +8,6 @@ import com.server.app.service.ServerService;
 import com.server.app.service.Service;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemProperties;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,7 +42,7 @@ public class ImportExportUtil {
     public void exportCollection(File selectedDirectory, List<Collection> collections) {
         try {
             List<CollectionDto> exportData = collections.stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .map(collection -> {
                         List<Server> servers = serverService.getServersByCollection(collection.getCollectionId())
                                 .collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class ImportExportUtil {
                 return false;
             }
             List<Collection> collections = collectionDtos.stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .filter(collectionDto -> StringUtils.isNotBlank(collectionDto.collectionName()))
                     .map(Collection::new)
                     .toList();

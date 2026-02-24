@@ -20,11 +20,11 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -54,7 +54,7 @@ public class ActiveServersController implements Initializable {
     @FXML
     private void handleStopServerButton(ActionEvent event) {
         ServerTableData selectedServerTableData = activeServerTable.getSelectionModel().getSelectedItem();
-        if (ObjectUtils.isEmpty(selectedServerTableData)) {
+        if (Objects.isNull(selectedServerTableData)) {
             triggerErrorAlert("No server is selected", "Select a server to stop");
             return;
         }

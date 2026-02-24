@@ -2,7 +2,6 @@ package com.server.app.model.data;
 
 import com.server.app.dto.CollectionDto;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
@@ -26,13 +25,13 @@ public class Collection implements Comparable<Collection> {
 
     public Collection(CollectionDto collectionDto) {
         this.collectionName = collectionDto.collectionName();
-        if (ObjectUtils.isNotEmpty(collectionDto.createdOn())) this.createdOn = collectionDto.createdOn();
+        if (Objects.nonNull(collectionDto.createdOn())) this.createdOn = collectionDto.createdOn();
         else this.createdOn = Timestamp.from(Instant.now());
         this.modifiedOn = Timestamp.from(Instant.now());
         if (CollectionUtils.isNotEmpty(collectionDto.servers())) {
             this.servers = collectionDto.servers()
                     .stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .filter(serverDto -> SERVER_PORT_RANGE.contains(serverDto.port())
                             && StringUtils.isNotBlank(serverDto.serverName())
                             && serverDto.delay() >= 0L

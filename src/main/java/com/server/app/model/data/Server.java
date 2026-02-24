@@ -3,12 +3,12 @@ package com.server.app.model.data;
 import com.server.app.constants.Method;
 import com.server.app.dto.ServerDto;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.server.app.constants.ApplicationConstants.COLON;
@@ -43,13 +43,13 @@ public class Server implements Comparable<Server> {
         if (StringUtils.isNotBlank(serverDto.urlEndpoint())) this.urlEndpoint = serverDto.urlEndpoint();
         if (StringUtils.isNotBlank(serverDto.responseData())) this.responseData = serverDto.responseData();
         if (null != serverDto.method()) this.method = serverDto.method();
-        if (ObjectUtils.isNotEmpty(serverDto.createdOn())) this.createdOn = serverDto.createdOn();
+        if (Objects.nonNull(serverDto.createdOn())) this.createdOn = serverDto.createdOn();
         else this.createdOn = Timestamp.from(Instant.now());
         this.modifiedOn = Timestamp.from(Instant.now());
         if (CollectionUtils.isNotEmpty(serverDto.headers())) {
             this.headers = serverDto.headers()
                     .stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .filter(headerDto -> StringUtils.isNotBlank(headerDto.key())
                             && StringUtils.isNotBlank(headerDto.value()))
                     .map(Header::new)
@@ -58,7 +58,7 @@ public class Server implements Comparable<Server> {
         if (CollectionUtils.isNotEmpty(serverDto.cookies())) {
             this.cookies = serverDto.cookies()
                     .stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .filter(cookieDto -> StringUtils.isNotBlank(cookieDto.name())
                             && StringUtils.isNotBlank(cookieDto.value()))
                     .map(Cookie::new)

@@ -6,12 +6,12 @@ import com.server.app.service.Service;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.server.app.util.AppUtil.triggerErrorAlert;
@@ -28,7 +28,7 @@ public enum ServerManager {
 
     public void startServer(Server server, boolean silent) {
         // execute basic validations
-        if (ObjectUtils.isEmpty(server)
+        if (Objects.isNull(server)
                 || StringUtils.isBlank(server.getServerId())
                 || StringUtils.isBlank(server.getUrlEndpoint())) {
             if (!silent) {
@@ -52,7 +52,7 @@ public enum ServerManager {
             // If already server with same port is running
             if (activeServers.containsKey(server.getPort())) {
                 ServerInitiator existinogServerInitiator = activeServers.getOrDefault(server.getPort(), null);
-                if (ObjectUtils.isNotEmpty(existinogServerInitiator)) {
+                if (Objects.nonNull(existinogServerInitiator)) {
                     existinogServerInitiator.addEndpoint(server, activeServerIds);
                     existinogServerInitiator.restartServer();
                 }
@@ -72,7 +72,7 @@ public enum ServerManager {
 
     public void stopServer(Server server, boolean silent) {
         // execute basic validations
-        if (ObjectUtils.isEmpty(server)
+        if (Objects.isNull(server)
                 || StringUtils.isBlank(server.getServerId())
                 || StringUtils.isBlank(server.getUrlEndpoint())) {
             if (!silent) {
@@ -95,7 +95,7 @@ public enum ServerManager {
         try {
             // getting already running server with same port
             ServerInitiator existinogServerInitiator = activeServers.getOrDefault(server.getPort(), null);
-            if (ObjectUtils.isNotEmpty(existinogServerInitiator)) {
+            if (Objects.nonNull(existinogServerInitiator)) {
                 existinogServerInitiator.removeEndpoint(server);
                 activeServerIds.remove(server.getServerId());
                 if (existinogServerInitiator.isServerStopped()) {

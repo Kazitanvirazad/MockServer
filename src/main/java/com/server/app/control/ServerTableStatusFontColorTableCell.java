@@ -3,7 +3,8 @@ package com.server.app.control;
 import com.server.app.model.view.ServerTableData;
 import com.server.app.server.ServerManager;
 import javafx.scene.control.TableCell;
-import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.Objects;
 
 /**
  * author: Kazi Tanvir Azad
@@ -18,9 +19,9 @@ public class ServerTableStatusFontColorTableCell extends TableCell<ServerTableDa
         } else {
             setText(item);
             ServerTableData serverTableData = getTableRow().getItem();
-            if (ObjectUtils.isNotEmpty(serverTableData)
-                    && ObjectUtils.isNotEmpty(serverTableData.getServerObjectProperty())
-                    && ObjectUtils.isNotEmpty(serverTableData.getServerObjectProperty().getServerId())) {
+            if (Objects.nonNull(serverTableData)
+                    && Objects.nonNull(serverTableData.getServerObjectProperty())
+                    && Objects.nonNull(serverTableData.getServerObjectProperty().getServerId())) {
                 String serverId = serverTableData.getServerObjectProperty().getServerId();
                 if (ServerManager.INSTANCE.isServerActive(serverId)) {
                     setStyle("""

@@ -42,12 +42,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -161,12 +161,12 @@ public class MainAppController implements Initializable {
     @FXML
     private void startServerEvent(ActionEvent event) {
         ServerTableData selectedServerTableData = serverTable.getSelectionModel().getSelectedItem();
-        if (ObjectUtils.isEmpty(selectedServerTableData)) {
+        if (Objects.isNull(selectedServerTableData)) {
             triggerErrorAlert("No server is selected", "Select a server to start");
             return;
         }
         Server selectedServer = selectedServerTableData.getServerObjectProperty();
-        if (ObjectUtils.isEmpty(selectedServer)) {
+        if (Objects.isNull(selectedServer)) {
             triggerErrorAlert("Invalid server selection", "Select a server to start");
             return;
         }
@@ -178,13 +178,13 @@ public class MainAppController implements Initializable {
     @FXML
     private void stopServerEvent(ActionEvent event) {
         ServerTableData selectedServerTableData = serverTable.getSelectionModel().getSelectedItem();
-        if (ObjectUtils.isEmpty(selectedServerTableData)) {
+        if (Objects.isNull(selectedServerTableData)) {
             triggerErrorAlert("No server is selected", "Select a server to stop");
             return;
         }
         Server selectedServer = selectedServerTableData.getServerObjectProperty();
         ServerManager.INSTANCE.stopServer(selectedServer, false);
-        if (ObjectUtils.isNotEmpty(selectedServer)) {
+        if (Objects.nonNull(selectedServer)) {
             selectCollection(selectedServer.getCollectionId());
             selectServer(selectedServer);
         }
@@ -224,21 +224,21 @@ public class MainAppController implements Initializable {
                     // get currently selected collection
                     Server selectedServer = null;
                     ServerTableData serverTableData = serverTable.getSelectionModel().getSelectedItem();
-                    if (ObjectUtils.isNotEmpty(selectedCollectionTableData) &&
-                            ObjectUtils.isNotEmpty(selectedCollectionTableData.getCollectionObjectProperty())) {
+                    if (Objects.nonNull(selectedCollectionTableData) &&
+                            Objects.nonNull(selectedCollectionTableData.getCollectionObjectProperty())) {
                         selectedCollection = selectedCollectionTableData.getCollectionObjectProperty();
                     }
-                    if (ObjectUtils.isNotEmpty(serverTableData) &&
-                            ObjectUtils.isNotEmpty(serverTableData.getServerObjectProperty())) {
+                    if (Objects.nonNull(serverTableData) &&
+                            Objects.nonNull(serverTableData.getServerObjectProperty())) {
                         selectedServer = serverTableData.getServerObjectProperty();
                     }
                     StageLoader<ImportCollectionController> importCollectionStageLoader = new ImportCollectionStageLoader();
                     importCollectionStageLoader.loadStage();
                     // refresh collection table
                     collectionTable.setItems(FXCollections.observableList(collectionService.getCollectionTableData()));
-                    if (ObjectUtils.isNotEmpty(selectedCollection)) {
+                    if (Objects.nonNull(selectedCollection)) {
                         selectCollection(selectedCollection);
-                        if (ObjectUtils.isNotEmpty(selectedServer)) {
+                        if (Objects.nonNull(selectedServer)) {
                             selectServer(selectedServer);
                         }
                     }
@@ -368,7 +368,6 @@ public class MainAppController implements Initializable {
                             .map(TableRow::getItem)
                             .map(CollectionTableData::getCollectionObjectProperty)
                             .stream()
-                            .filter(ObjectUtils::isNotEmpty)
                             .map(collection -> collectionService.getCollectionById(collection.getCollectionId()))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
@@ -396,7 +395,7 @@ public class MainAppController implements Initializable {
             if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
                 Optional.ofNullable(serverTable.getSelectionModel())
                         .ifPresent(serverTableSelectionModel -> {
-                            if (ObjectUtils.isNotEmpty(serverTableSelectionModel.getSelectedItem())) {
+                            if (Objects.nonNull(serverTableSelectionModel.getSelectedItem())) {
                                 serverTableSelectionModel.clearSelection();
                             } else {
                                 // clear server table items and also clear collection table row selection
@@ -457,7 +456,6 @@ public class MainAppController implements Initializable {
                             .map(TableRow::getItem)
                             .map(ServerTableData::getServerObjectProperty)
                             .stream()
-                            .filter(ObjectUtils::isNotEmpty)
                             .map(server -> serverService.getServerById(server.getServerId()))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
@@ -609,21 +607,21 @@ public class MainAppController implements Initializable {
         // get currently selected collection
         Server selectedServer = null;
         ServerTableData serverTableData = serverTable.getSelectionModel().getSelectedItem();
-        if (ObjectUtils.isNotEmpty(selectedCollectionTableData) &&
-                ObjectUtils.isNotEmpty(selectedCollectionTableData.getCollectionObjectProperty())) {
+        if (Objects.nonNull(selectedCollectionTableData) &&
+                Objects.nonNull(selectedCollectionTableData.getCollectionObjectProperty())) {
             selectedCollection = selectedCollectionTableData.getCollectionObjectProperty();
         }
-        if (ObjectUtils.isNotEmpty(serverTableData) &&
-                ObjectUtils.isNotEmpty(serverTableData.getServerObjectProperty())) {
+        if (Objects.nonNull(serverTableData) &&
+                Objects.nonNull(serverTableData.getServerObjectProperty())) {
             selectedServer = serverTableData.getServerObjectProperty();
         }
         StageLoader<ActiveServersController> stageLoader = new ActiveServersStageLoader();
         stageLoader.loadStage();
         // refresh collection table
         collectionTable.setItems(FXCollections.observableList(collectionService.getCollectionTableData()));
-        if (ObjectUtils.isNotEmpty(selectedCollection)) {
+        if (Objects.nonNull(selectedCollection)) {
             selectCollection(selectedCollection);
-            if (ObjectUtils.isNotEmpty(selectedServer)) {
+            if (Objects.nonNull(selectedServer)) {
                 selectServer(selectedServer);
             }
         }
@@ -681,7 +679,7 @@ public class MainAppController implements Initializable {
         @Override
         public void accept(Collection collection) {
             serverService.getServersByCollection(collection.getCollectionId())
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .forEach(server -> {
                         if (ServerManager.INSTANCE.isServerActive(server.getServerId())) {
                             ServerManager.INSTANCE.stopServer(server, true);

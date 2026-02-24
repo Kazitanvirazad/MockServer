@@ -15,12 +15,12 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.IntegerRange;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -91,7 +91,7 @@ public final class AppUtil {
     private static void closeWindowWithTitle(ObservableList<Window> windows, String title) {
         if (CollectionUtils.isNotEmpty(windows)) {
             Optional<Window> stageOptional = windows.stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .filter(window -> title.equals(((Stage) window).getTitle()))
                     .findFirst();
             stageOptional.ifPresent(window -> ((Stage) window).close());

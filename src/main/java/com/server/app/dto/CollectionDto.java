@@ -2,10 +2,10 @@ package com.server.app.dto;
 
 import com.server.app.model.data.Collection;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * author: Kazi Tanvir Azad
@@ -18,7 +18,7 @@ public record CollectionDto(String collectionName,
         if (CollectionUtils.isNotEmpty(collection.getServers())) {
             servers = collection.getServers()
                     .stream()
-                    .filter(ObjectUtils::isNotEmpty)
+                    .filter(Objects::nonNull)
                     .map(ServerDto::new)
                     .toList();
         }

@@ -8,7 +8,6 @@ import com.sun.net.httpserver.HttpServer;
 import javafx.collections.ObservableSet;
 import javafx.scene.control.ButtonType;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +18,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import static com.server.app.constants.ApplicationConstants.DEFAULT_RESPONSE_LENGTH;
@@ -55,7 +55,7 @@ public class ServerInitiator {
         String urlEndpoint = server.getUrlEndpoint();
         EndpointInitiator existingEndpointInitiator = endPoints.getOrDefault(urlEndpoint, null);
         // similar server with same url endpoint and method is already running
-        if (ObjectUtils.isNotEmpty(existingEndpointInitiator) && existingEndpointInitiator.getMethods().containsKey(server.getMethod())) {
+        if (Objects.nonNull(existingEndpointInitiator) && existingEndpointInitiator.getMethods().containsKey(server.getMethod())) {
             ButtonType promptResult = triggerConfirmationPrompt("""
                             Server with similar Endpoint and
                             method is already running.""",
@@ -66,19 +66,19 @@ public class ServerInitiator {
             if (ButtonType.OK == promptResult) {
                 // getting the server to overridden
                 MethodInitiator methodInitiatorToOverride = existingEndpointInitiator.getMethods().get(server.getMethod());
-                String serverIdToOverride = ObjectUtils.isNotEmpty(methodInitiatorToOverride.getServerId()) ?
+                String serverIdToOverride = Objects.nonNull(methodInitiatorToOverride.getServerId()) ?
                         methodInitiatorToOverride.getServerId() : null;
                 // override the existing server
                 existingEndpointInitiator.addMethod(server);
                 // update the active servers set
-                if (ObjectUtils.isNotEmpty(serverIdToOverride)) {
+                if (Objects.nonNull(serverIdToOverride)) {
                     activeServerIds.remove(serverIdToOverride);
                 }
             } else {
                 // don't do anything as user Pressed 'Cancel'
                 throw new RuntimeException();
             }
-        } else if (ObjectUtils.isNotEmpty(existingEndpointInitiator)) {
+        } else if (Objects.nonNull(existingEndpointInitiator)) {
             // similar server with same url endpoint is already running
             existingEndpointInitiator.addMethod(server);
         } else {
@@ -100,7 +100,7 @@ public class ServerInitiator {
 
     public void startServer() {
         initServer();
-        if (ObjectUtils.isNotEmpty(httpServer)) {
+        if (Objects.nonNull(httpServer)) {
             // Add server context logic from 'endPoints'
             initializeServerContext();
             httpServer.setExecutor(null);
@@ -121,11 +121,11 @@ public class ServerInitiator {
     }
 
     public boolean isServerStopped() {
-        return ObjectUtils.isEmpty(httpServer) && MapUtils.isEmpty(endPoints);
+        return Objects.isNull(httpServer) && MapUtils.isEmpty(endPoints);
     }
 
     private void stopServer() {
-        if (ObjectUtils.isNotEmpty(httpServer)) {
+        if (Objects.nonNull(httpServer)) {
             httpServer.stop(1);
             httpServer = null;
         }
