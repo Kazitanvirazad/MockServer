@@ -3,7 +3,6 @@ package com.server.app.controller;
 import com.server.app.model.data.Header;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -23,10 +22,6 @@ public class HeaderFormController {
     private TextField headerKeyInput;
     @FXML
     private TextField headerValueInput;
-    @FXML
-    private Button saveHeaderButton;
-    @FXML
-    private Button cancelButton;
     private Header headerInput;
 
     @FXML

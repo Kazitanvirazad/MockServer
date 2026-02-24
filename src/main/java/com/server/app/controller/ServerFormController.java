@@ -83,15 +83,11 @@ public class ServerFormController {
     @FXML
     private TableColumn<HeaderTableData, StackPane> headerDeleteColumn;
     @FXML
-    private Button addHeaderButton;
-    @FXML
     private TableView<CookieTableData> cookieTable;
     @FXML
     private TableColumn<CookieTableData, String> cookieColumn;
     @FXML
     private TableColumn<CookieTableData, StackPane> cookieDeleteColumn;
-    @FXML
-    private Button addCookieButton;
     @FXML
     private Button saveServerButton;
     @FXML

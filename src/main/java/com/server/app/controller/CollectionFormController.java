@@ -22,8 +22,6 @@ public class CollectionFormController implements Initializable {
     private TextField collectionNameTextField;
     @FXML
     private Button saveCollectionButton;
-    @FXML
-    private Button cancelButton;
     private String collectionNameInput;
     private boolean doEdit;
     private String collectionName;

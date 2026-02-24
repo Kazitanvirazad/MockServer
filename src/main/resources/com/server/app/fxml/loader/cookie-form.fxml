@@ -202,10 +202,9 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="96.0" prefWidth="79.0">
                             <children>
-                                <Button fx:id="saveCookieButton" mnemonicParsing="false"
-                                        onAction="#handleSaveCookieButtonEvent" prefHeight="25.0" prefWidth="55.0"
-                                        style="-fx-background-color: #31ae28;" text="Save" textAlignment="CENTER"
-                                        textFill="WHITE">
+                                <Button mnemonicParsing="false" onAction="#handleSaveCookieButtonEvent"
+                                        prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: #31ae28;"
+                                        text="Save" textAlignment="CENTER" textFill="WHITE">
                                     <cursor>
                                         <Cursor fx:constant="HAND"/>
                                     </cursor>

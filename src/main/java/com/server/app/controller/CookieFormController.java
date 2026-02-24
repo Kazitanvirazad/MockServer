@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -43,8 +42,6 @@ public class CookieFormController implements Initializable {
     private TextField pathInput;
     @FXML
     private ChoiceBox<Cookie.SameSite> sameSiteChoice;
-    @FXML
-    private Button saveCookieButton;
     private Cookie cookieInput;
 
     @FXML

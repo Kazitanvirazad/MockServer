@@ -28,7 +28,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -118,10 +117,6 @@ public class MainAppController implements Initializable {
     private TableColumn<ServerTableData, String> serverStatusCol;
     @FXML
     private TableColumn<ServerTableData, StackPane> serverDeleteCol;
-    @FXML
-    private Button createServerButton;
-    @FXML
-    private Button addCollectionButton;
     @FXML
     private TableView<CollectionTableData> collectionTable;
     @FXML

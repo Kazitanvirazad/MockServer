@@ -202,8 +202,7 @@
                                 <TableColumn fx:id="headerDeleteColumn" prefWidth="49.0" resizable="false"
                                              sortable="false">
                                     <graphic>
-                                        <Button fx:id="addHeaderButton" mnemonicParsing="false"
-                                                onAction="#handleAddHeaderButtonEvent"
+                                        <Button mnemonicParsing="false" onAction="#handleAddHeaderButtonEvent"
                                                 style="-fx-background-color: #31ae28;" text="Add" textAlignment="CENTER"
                                                 textFill="WHITE">
                                             <cursor>
@@ -223,8 +222,7 @@
                                 <TableColumn fx:id="cookieDeleteColumn" prefWidth="49.0" resizable="false"
                                              sortable="false">
                                     <graphic>
-                                        <Button fx:id="addCookieButton" mnemonicParsing="false"
-                                                onAction="#handleAddCookieButtonEvent"
+                                        <Button mnemonicParsing="false" onAction="#handleAddCookieButtonEvent"
                                                 style="-fx-background-color: #31ae28;" text="Add" textAlignment="CENTER"
                                                 textFill="WHITE">
                                             <cursor>

@@ -47,7 +47,7 @@
                 </TextField>
                 <HBox alignment="TOP_RIGHT" prefHeight="65.0" prefWidth="429.0">
                     <children>
-                        <Button fx:id="saveHeaderButton" mnemonicParsing="false" onAction="#handleSubmitButtonEvent"
+                        <Button mnemonicParsing="false" onAction="#handleSubmitButtonEvent"
                                 style="-fx-background-color: #31ae28;;" text="Submit" textAlignment="CENTER"
                                 textFill="WHITE">
                             <HBox.margin>
@@ -60,7 +60,7 @@
                                 <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Button>
-                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButtonEvent"
+                        <Button mnemonicParsing="false" onAction="#handleCancelButtonEvent"
                                 style="-fx-background-color: #f44336;;" text="Cancel" textAlignment="CENTER"
                                 textFill="WHITE">
                             <HBox.margin>
