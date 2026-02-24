@@ -28,7 +28,6 @@ jpackage \
  --temp target/installer-work/ \
  --dest target/installer/ \
  --type dmg \
- --mac-package-name MockServer \
- --mac-package-identifier com.server.app
+ --mac-package-name MockServer
 
 echo "Packaging script execution complete!"
