@@ -4,7 +4,7 @@ import com.server.app.model.data.Collection;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class CollectionTableData implements TableData {
     private SimpleObjectProperty<Collection> collectionObjectProperty;

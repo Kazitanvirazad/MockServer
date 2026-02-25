@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.server.app.util.DatabaseUtil.executeCreateQuery;
@@ -15,57 +16,61 @@ import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class CollectionRepository {
     private static final Logger log = LogManager.getLogger(CollectionRepository.class);
 
-    public Collection getCollectionById(String collectionId) {
+    public Optional<Collection> getCollectionById(String collectionId) {
         final String query = """
                 SELECT c.collection_id, c.collection_name, c.createdOn, c.modifiedOn FROM collection c
                 WHERE c.collection_id = ?""";
-        final Collection collection = new Collection();
         try {
-            executeFetchQuery(connection -> {
+            return executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, collectionId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    collection.setCollectionId(resultSet.getString(1));
-                    collection.setCollectionName(resultSet.getString(2));
-                    collection.setCreatedOn(resultSet.getTimestamp(3));
-                    collection.setModifiedOn(resultSet.getTimestamp(4));
+                Collection collection = null;
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        collection = new Collection();
+                        collection.setCollectionId(resultSet.getString(1));
+                        collection.setCollectionName(resultSet.getString(2));
+                        collection.setCreatedOn(resultSet.getTimestamp(3));
+                        collection.setModifiedOn(resultSet.getTimestamp(4));
+                    }
                 }
-                resultSet.close();
+                return Optional.ofNullable(collection);
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());
+            return Optional.empty();
         }
-        return collection;
     }
 
-    public Collection getCollectionByName(String collectionName) {
+    public Optional<Collection> getCollectionByName(String collectionName) {
         final String query = """
                 SELECT c.collection_id, c.collection_name, c.createdOn, c.modifiedOn FROM collection c
                 WHERE c.collection_name = ?""";
-        final Collection collection = new Collection();
         try {
-            executeFetchQuery(connection -> {
+            return executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, collectionName);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    collection.setCollectionId(resultSet.getString(1));
-                    collection.setCollectionName(resultSet.getString(2));
-                    collection.setCreatedOn(resultSet.getTimestamp(3));
-                    collection.setModifiedOn(resultSet.getTimestamp(4));
+                Collection collection = null;
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        collection = new Collection();
+                        collection.setCollectionId(resultSet.getString(1));
+                        collection.setCollectionName(resultSet.getString(2));
+                        collection.setCreatedOn(resultSet.getTimestamp(3));
+                        collection.setModifiedOn(resultSet.getTimestamp(4));
+                    }
                 }
-                resultSet.close();
+                return Optional.ofNullable(collection);
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());
+            return Optional.empty();
         }
-        return collection;
     }
 
     private List<Collection> getCollections() {
@@ -75,16 +80,16 @@ public class CollectionRepository {
         try {
             executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    Collection collection = new Collection();
-                    collection.setCollectionId(resultSet.getString(1));
-                    collection.setCollectionName(resultSet.getString(2));
-                    collection.setCreatedOn(resultSet.getTimestamp(3));
-                    collection.setModifiedOn(resultSet.getTimestamp(4));
-                    collections.add(collection);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Collection collection = new Collection();
+                        collection.setCollectionId(resultSet.getString(1));
+                        collection.setCollectionName(resultSet.getString(2));
+                        collection.setCreatedOn(resultSet.getTimestamp(3));
+                        collection.setModifiedOn(resultSet.getTimestamp(4));
+                        collections.add(collection);
+                    }
                 }
-                resultSet.close();
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());

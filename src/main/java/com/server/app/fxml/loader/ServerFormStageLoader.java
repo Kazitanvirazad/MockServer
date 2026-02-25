@@ -23,7 +23,7 @@ import static com.server.app.constants.ApplicationConstants.APP_SERVER_FORM_TITL
 import static com.server.app.util.AppUtil.closeWindowWithTitle;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerFormStageLoader implements StageLoader<ServerFormController> {
     private static final Logger log = LogManager.getLogger(ServerFormStageLoader.class);

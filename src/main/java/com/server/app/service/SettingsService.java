@@ -4,7 +4,7 @@ import com.server.app.repository.Repository;
 import com.server.app.repository.SettingsRepository;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class SettingsService {
     private final SettingsRepository settingsRepository;

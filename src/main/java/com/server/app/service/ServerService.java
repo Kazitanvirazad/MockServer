@@ -5,7 +5,6 @@ import com.server.app.model.view.ServerTableData;
 import com.server.app.repository.Repository;
 import com.server.app.repository.ServerRepository;
 import javafx.beans.property.SimpleObjectProperty;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,7 @@ import static com.server.app.util.AppUtil.triggerInfoAlert;
 import static com.server.app.util.Serializer.serializeList;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerService {
     private final ServerRepository serverRepository;
@@ -29,10 +28,7 @@ public class ServerService {
     }
 
     public Optional<Server> getServerById(String serverId) {
-        Server server = serverRepository.getServerById(serverId);
-        return StringUtils.isNotBlank(server.getServerId())
-                && StringUtils.isNotBlank(server.getServerName()) ?
-                Optional.of(server) : Optional.empty();
+        return serverRepository.getServerById(serverId);
     }
 
     public Stream<Server> getServersByCollection(String collectionId) {

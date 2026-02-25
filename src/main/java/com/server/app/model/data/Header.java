@@ -12,7 +12,7 @@ import static com.server.app.util.AppUtil.generateUUID7BasedId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class Header implements Serializable {
     @Serial

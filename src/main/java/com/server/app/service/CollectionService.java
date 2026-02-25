@@ -5,7 +5,6 @@ import com.server.app.model.view.CollectionTableData;
 import com.server.app.repository.CollectionRepository;
 import com.server.app.repository.Repository;
 import javafx.beans.property.SimpleObjectProperty;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,7 @@ import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class CollectionService {
     private final CollectionRepository collectionRepository;
@@ -27,15 +26,11 @@ public class CollectionService {
     }
 
     public Optional<Collection> getCollectionById(String collectionId) {
-        Collection collection = collectionRepository.getCollectionById(collectionId);
-        return StringUtils.isNotBlank(collection.getCollectionId()) && StringUtils.isNotBlank(collection.getCollectionName()) ?
-                Optional.of(collection) : Optional.empty();
+        return collectionRepository.getCollectionById(collectionId);
     }
 
     public Optional<Collection> getCollectionByName(String collectionName) {
-        Collection collection = collectionRepository.getCollectionByName(collectionName);
-        return StringUtils.isNotBlank(collection.getCollectionId()) && StringUtils.isNotBlank(collection.getCollectionName()) ?
-                Optional.of(collection) : Optional.empty();
+        return collectionRepository.getCollectionByName(collectionName);
     }
 
     public Stream<Collection> getCollectionStream() {

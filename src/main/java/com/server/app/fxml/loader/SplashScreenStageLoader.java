@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.server.app.constants.ApplicationConstants.SPLASH_SCREEN_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class SplashScreenStageLoader implements StageLoader<SplashScreenController> {
     private static final Logger log = LogManager.getLogger(SplashScreenStageLoader.class);

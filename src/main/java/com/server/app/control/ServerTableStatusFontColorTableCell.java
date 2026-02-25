@@ -7,7 +7,8 @@ import javafx.scene.control.TableCell;
 import java.util.Objects;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
+ * @apiNote TableCell implementation for server status text font color
  */
 public class ServerTableStatusFontColorTableCell extends TableCell<ServerTableData, String> {
     @Override

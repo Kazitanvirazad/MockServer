@@ -1,7 +1,7 @@
 package com.server.app;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class Launcher {
     public static void main(String[] args) {

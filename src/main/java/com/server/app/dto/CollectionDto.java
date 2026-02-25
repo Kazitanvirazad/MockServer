@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public record CollectionDto(String collectionName,
                             Timestamp createdOn,

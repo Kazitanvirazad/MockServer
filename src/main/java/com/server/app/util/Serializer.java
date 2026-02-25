@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public final class Serializer {
     private static final Logger log = LogManager.getLogger(Serializer.class);
@@ -41,6 +41,18 @@ public final class Serializer {
         return Optional.empty();
     }
 
+    public static <T> Optional<String> serializeList(List<T> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.ofNullable(AppConfig.INSTANCE.getMapper().writeValueAsString(list));
+        } catch (RuntimeException exception) {
+            log.error(exception.getMessage());
+        }
+        return Optional.empty();
+    }
+
     public static <T> Optional<List<T>> deSerializeList(String json, Class<T> clazz) {
         if (StringUtils.isBlank(json)) {
             return Optional.empty();
@@ -49,18 +61,6 @@ public final class Serializer {
                 .getTypeFactory().constructCollectionType(List.class, clazz);
         try {
             return Optional.ofNullable(AppConfig.INSTANCE.getMapper().readValue(json, type));
-        } catch (RuntimeException exception) {
-            log.error(exception.getMessage());
-        }
-        return Optional.empty();
-    }
-
-    public static <T> Optional<String> serializeList(List<T> list) {
-        if (CollectionUtils.isEmpty(list)) {
-            return Optional.empty();
-        }
-        try {
-            return Optional.ofNullable(AppConfig.INSTANCE.getMapper().writeValueAsString(list));
         } catch (RuntimeException exception) {
             log.error(exception.getMessage());
         }

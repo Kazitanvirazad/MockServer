@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.server.app.constants.ApplicationConstants.APP_EXPORT_COLLECTION_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ExportCollectionStageLoader implements StageLoader<ExportCollectionController> {
     private static final Logger log = LogManager.getLogger(ExportCollectionStageLoader.class);

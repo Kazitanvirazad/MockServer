@@ -15,7 +15,7 @@ import static com.server.app.util.AppUtil.closeWindowButtonEvent;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class CollectionFormController implements Initializable {
     @FXML

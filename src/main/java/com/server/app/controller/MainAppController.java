@@ -71,7 +71,7 @@ import static javafx.beans.binding.Bindings.size;
 import static javafx.beans.binding.Bindings.when;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class MainAppController implements Initializable {
     private static final Logger log = LogManager.getLogger(MainAppController.class);

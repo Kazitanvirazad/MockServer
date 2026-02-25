@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.server.app.constants.ApplicationConstants.APP_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class MainStageLoader implements StageLoader<MainAppController> {
     private static final Logger log = LogManager.getLogger(MainStageLoader.class);

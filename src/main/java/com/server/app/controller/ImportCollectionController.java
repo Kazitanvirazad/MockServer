@@ -34,7 +34,7 @@ import static com.server.app.util.AppUtil.getApplicationWindowByTitle;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ImportCollectionController implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(ImportCollectionController.class);

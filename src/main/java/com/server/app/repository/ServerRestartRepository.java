@@ -16,7 +16,7 @@ import static com.server.app.util.DatabaseUtil.executeFetchQuery;
 import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerRestartRepository {
     private static final Logger log = LogManager.getLogger(ServerRestartRepository.class);
@@ -45,11 +45,11 @@ public class ServerRestartRepository {
         try {
             executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    serverRestartData.add(resultSet.getString(1));
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        serverRestartData.add(resultSet.getString(1));
+                    }
                 }
-                resultSet.close();
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());

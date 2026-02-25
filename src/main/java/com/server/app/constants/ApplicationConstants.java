@@ -3,7 +3,7 @@ package com.server.app.constants;
 import org.apache.commons.lang3.SystemProperties;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public final class ApplicationConstants {
     private ApplicationConstants() {

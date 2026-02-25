@@ -14,7 +14,7 @@ import static com.server.app.util.AppUtil.RESPONSE_CODE_RANGE;
 import static com.server.app.util.AppUtil.SERVER_PORT_RANGE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class Collection implements Comparable<Collection> {
     private String collectionId;

@@ -12,7 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
+ * @apiNote TableCell implementation for delete button in table cell
  */
 public class ButtonImageViewTableCell<S, T> extends TableCell<S, T> {
     private static final Logger log = LogManager.getLogger(ButtonImageViewTableCell.class);

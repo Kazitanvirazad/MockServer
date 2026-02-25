@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.server.app.constants.ApplicationConstants.APP_SETTING_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class SettingsStageLoader implements StageLoader<SettingsController> {
     private static final Logger log = LogManager.getLogger(SettingsStageLoader.class);

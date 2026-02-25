@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public enum DBConfig {
     INSTANCE;

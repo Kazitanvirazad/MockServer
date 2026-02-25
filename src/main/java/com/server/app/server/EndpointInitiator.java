@@ -10,7 +10,7 @@ import java.util.Map;
 import static com.server.app.constants.ApplicationConstants.COOKIE_HEADER_KEY;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class EndpointInitiator {
     private String urlEndpoint;

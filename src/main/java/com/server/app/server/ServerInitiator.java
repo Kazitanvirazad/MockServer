@@ -27,7 +27,7 @@ import static com.server.app.util.AppUtil.triggerConfirmationPrompt;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerInitiator {
     private static final Logger log = LogManager.getLogger(ServerInitiator.class);
@@ -42,6 +42,7 @@ public class ServerInitiator {
 
     private void initServer() {
         try {
+            // Create and initialize httpServer
             this.httpServer = HttpServer.create(new InetSocketAddress(portNumber), 0);
             httpServer.setExecutor(null);
         } catch (IOException exception) {

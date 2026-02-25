@@ -19,48 +19,50 @@ import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 import static com.server.app.util.Serializer.deSerializeList;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerRepository {
     private static final Logger log = LogManager.getLogger(ServerRepository.class);
 
-    public Server getServerById(String serverId) {
+    public Optional<Server> getServerById(String serverId) {
         final String query = """
                 SELECT s.server_id, s.server_name, s.url_endpoint, s.response_code, s.method, s.delay, s.port,
                 s.response_data, s.headers, s.cookies, s.collection_id, s.createdOn, s.modifiedOn
                 FROM server s WHERE s.server_id = ?""";
-        final Server server = new Server();
         try {
-            executeFetchQuery(connection -> {
+            return executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, serverId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    server.setServerId(resultSet.getString(1));
-                    server.setServerName(resultSet.getString(2));
-                    server.setUrlEndpoint(resultSet.getString(3));
-                    server.setResponseCode(resultSet.getInt(4));
-                    server.setMethod(resultSet.getString(5));
-                    server.setDelay(resultSet.getLong(6));
-                    server.setPort(resultSet.getInt(7));
-                    if (null != resultSet.getString(8)) {
-                        server.setResponseData(resultSet.getString(8));
-                    }
-                    Optional<List<Header>> headers = deSerializeList(resultSet.getString(9), Header.class);
-                    Optional<List<Cookie>> cookies = deSerializeList(resultSet.getString(10), Cookie.class);
-                    headers.ifPresent(server::setHeaders);
-                    cookies.ifPresent(server::setCookies);
+                Server server = null;
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        server = new Server();
+                        server.setServerId(resultSet.getString(1));
+                        server.setServerName(resultSet.getString(2));
+                        server.setUrlEndpoint(resultSet.getString(3));
+                        server.setResponseCode(resultSet.getInt(4));
+                        server.setMethod(resultSet.getString(5));
+                        server.setDelay(resultSet.getLong(6));
+                        server.setPort(resultSet.getInt(7));
+                        if (null != resultSet.getString(8)) {
+                            server.setResponseData(resultSet.getString(8));
+                        }
+                        Optional<List<Header>> headers = deSerializeList(resultSet.getString(9), Header.class);
+                        Optional<List<Cookie>> cookies = deSerializeList(resultSet.getString(10), Cookie.class);
+                        headers.ifPresent(server::setHeaders);
+                        cookies.ifPresent(server::setCookies);
 
-                    server.setCollectionId(resultSet.getString(11));
-                    server.setCreatedOn(resultSet.getTimestamp(12));
-                    server.setModifiedOn(resultSet.getTimestamp(13));
+                        server.setCollectionId(resultSet.getString(11));
+                        server.setCreatedOn(resultSet.getTimestamp(12));
+                        server.setModifiedOn(resultSet.getTimestamp(13));
+                    }
                 }
-                resultSet.close();
+                return Optional.ofNullable(server);
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());
+            return Optional.empty();
         }
-        return server;
     }
 
     public Stream<Server> getServersByCollectionStream(String collectionId) {
@@ -77,32 +79,32 @@ public class ServerRepository {
             executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, collectionId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    Server server = new Server();
-                    server.setServerId(resultSet.getString(1));
-                    server.setServerName(resultSet.getString(2));
-                    server.setUrlEndpoint(resultSet.getString(3));
-                    server.setResponseCode(resultSet.getInt(4));
-                    server.setMethod(resultSet.getString(5));
-                    server.setDelay(resultSet.getLong(6));
-                    server.setPort(resultSet.getInt(7));
-                    if (null != resultSet.getString(8)) {
-                        server.setResponseData(resultSet.getString(8));
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Server server = new Server();
+                        server.setServerId(resultSet.getString(1));
+                        server.setServerName(resultSet.getString(2));
+                        server.setUrlEndpoint(resultSet.getString(3));
+                        server.setResponseCode(resultSet.getInt(4));
+                        server.setMethod(resultSet.getString(5));
+                        server.setDelay(resultSet.getLong(6));
+                        server.setPort(resultSet.getInt(7));
+                        if (null != resultSet.getString(8)) {
+                            server.setResponseData(resultSet.getString(8));
+                        }
+
+                        Optional<List<Header>> headers = deSerializeList(resultSet.getString(9), Header.class);
+                        Optional<List<Cookie>> cookies = deSerializeList(resultSet.getString(10), Cookie.class);
+                        headers.ifPresent(server::setHeaders);
+                        cookies.ifPresent(server::setCookies);
+
+                        server.setCollectionId(resultSet.getString(11));
+                        server.setCreatedOn(resultSet.getTimestamp(12));
+                        server.setModifiedOn(resultSet.getTimestamp(13));
+
+                        servers.add(server);
                     }
-
-                    Optional<List<Header>> headers = deSerializeList(resultSet.getString(9), Header.class);
-                    Optional<List<Cookie>> cookies = deSerializeList(resultSet.getString(10), Cookie.class);
-                    headers.ifPresent(server::setHeaders);
-                    cookies.ifPresent(server::setCookies);
-
-                    server.setCollectionId(resultSet.getString(11));
-                    server.setCreatedOn(resultSet.getTimestamp(12));
-                    server.setModifiedOn(resultSet.getTimestamp(13));
-
-                    servers.add(server);
                 }
-                resultSet.close();
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());

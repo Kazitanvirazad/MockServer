@@ -18,7 +18,7 @@ import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public enum ServerManager {
     INSTANCE;

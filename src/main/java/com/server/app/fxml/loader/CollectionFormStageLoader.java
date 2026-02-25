@@ -18,7 +18,7 @@ import static com.server.app.constants.ApplicationConstants.APP_COLLECTION_FORM_
 import static com.server.app.constants.ApplicationConstants.EDIT_COLLECTION_FORM_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class CollectionFormStageLoader implements StageLoader<CollectionFormController> {
     private static final Logger log = LogManager.getLogger(CollectionFormStageLoader.class);

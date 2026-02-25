@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerRestartService {
     private final ServerRestartRepository serverRestartRepository;

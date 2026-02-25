@@ -3,7 +3,7 @@ package com.server.app.exception;
 import java.io.Serial;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class StageLoadException extends RuntimeException {
     @Serial

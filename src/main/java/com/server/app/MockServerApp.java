@@ -33,7 +33,7 @@ import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.readStartupSQLScript;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class MockServerApp extends Application {
     private static final Logger log = LogManager.getLogger(MockServerApp.class);
@@ -55,6 +55,7 @@ public class MockServerApp extends Application {
             }
             StageLoader<SplashScreenController> splashScreenStageLoader = new SplashScreenStageLoader();
             StageLoader<MainAppController> mainStageLoader = new MainStageLoader(primaryStage);
+            // Loading splash screen during application startup
             splashScreenStageLoader.loadStage();
             Stage splashScreenStage = splashScreenStageLoader.getStage();
 
@@ -74,7 +75,9 @@ public class MockServerApp extends Application {
                 } catch (Exception exception) {
                     log.error(exception.getMessage());
                 }
+                // closing splash screen
                 splashScreenStage.close();
+                // Loading application main stage
                 mainStageLoader.loadStage();
             });
         } catch (RuntimeException exception) {

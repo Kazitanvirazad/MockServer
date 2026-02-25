@@ -18,7 +18,7 @@ import java.net.URL;
 import static com.server.app.constants.ApplicationConstants.ACTIVE_SERVER_MANAGER_TITLE;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ActiveServersStageLoader implements StageLoader<ActiveServersController> {
     private static final Logger log = LogManager.getLogger(ActiveServersStageLoader.class);

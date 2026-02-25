@@ -10,7 +10,9 @@ import javafx.scene.input.KeyEvent;
 import org.apache.commons.collections4.CollectionUtils;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
+ * <p>
+ * @apiNote EventHandler for copying table row data using keyboard copy shortcut
  */
 public class TableRowCopyKeyEventHandler implements EventHandler<KeyEvent> {
 

@@ -30,7 +30,7 @@ import static com.server.app.constants.ApplicationConstants.HYPHEN;
 import static com.server.app.constants.ApplicationConstants.SECURE_RANDOM_ALGORITHM;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public final class AppUtil {
     private static final Logger log = LogManager.getLogger(AppUtil.class);

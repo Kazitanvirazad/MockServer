@@ -6,7 +6,7 @@ import javafx.scene.input.KeyCombination;
 import org.apache.commons.lang3.SystemUtils;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public enum CustomKeyCode {
     INSTANCE;

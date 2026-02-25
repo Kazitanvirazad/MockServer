@@ -17,7 +17,7 @@ import static com.server.app.util.Serializer.deSerialize;
 import static com.server.app.util.Serializer.serialize;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class SettingsRepository {
     private static final Logger log = LogManager.getLogger(SettingsRepository.class);
@@ -28,13 +28,13 @@ public class SettingsRepository {
         try {
             executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    String configJsonText = resultSet.getString(2);
-                    Optional<Configuration> currentConfigOptional = deSerialize(configJsonText, Configuration.class);
-                    currentConfigOptional.ifPresent(AppConfig.INSTANCE.getConfiguration()::updateConfiguration);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String configJsonText = resultSet.getString(2);
+                        Optional<Configuration> currentConfigOptional = deSerialize(configJsonText, Configuration.class);
+                        currentConfigOptional.ifPresent(AppConfig.INSTANCE.getConfiguration()::updateConfiguration);
+                    }
                 }
-                resultSet.close();
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());
@@ -66,11 +66,11 @@ public class SettingsRepository {
         try {
             executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    count.set(resultSet.getInt(1));
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        count.set(resultSet.getInt(1));
+                    }
                 }
-                resultSet.close();
             });
         } catch (Exception exception) {
             log.error(exception.getMessage());

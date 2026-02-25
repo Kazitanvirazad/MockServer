@@ -7,7 +7,7 @@ import org.apache.commons.lang3.SystemProperties;
 import tools.jackson.databind.ObjectMapper;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public enum AppConfig {
     INSTANCE;

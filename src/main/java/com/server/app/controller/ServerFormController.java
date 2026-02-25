@@ -60,7 +60,7 @@ import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ServerFormController {
     private static final Logger log = LogManager.getLogger(ServerFormController.class);

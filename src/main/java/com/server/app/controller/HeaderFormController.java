@@ -14,7 +14,7 @@ import static com.server.app.util.AppUtil.closeWindowButtonEvent;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class HeaderFormController {
     private static final Logger log = LogManager.getLogger(HeaderFormController.class);

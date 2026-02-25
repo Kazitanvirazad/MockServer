@@ -33,7 +33,7 @@ import static com.server.app.util.AppUtil.triggerConfirmationPrompt;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ActiveServersController implements Initializable {
     private final ServerService serverService;

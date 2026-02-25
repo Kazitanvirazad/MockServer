@@ -16,16 +16,17 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.server.app.constants.ApplicationConstants.BLOCK_COMMENT_END;
 import static com.server.app.constants.ApplicationConstants.BLOCK_COMMENT_START;
-import static com.server.app.constants.ApplicationConstants.SQL_QUERY_SEPARATOR;
 import static com.server.app.constants.ApplicationConstants.SQL_COMMENT;
 import static com.server.app.constants.ApplicationConstants.SQL_DDL_QUERY_FILE_PATH;
 import static com.server.app.constants.ApplicationConstants.SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY;
+import static com.server.app.constants.ApplicationConstants.SQL_QUERY_SEPARATOR;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public final class DatabaseUtil {
     private static final Logger log = LogManager.getLogger(DatabaseUtil.class);
@@ -67,6 +68,16 @@ public final class DatabaseUtil {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         try (Connection connection = dataSource.getConnection()) {
             consumer.accept(connection);
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            throw exception;
+        }
+    }
+
+    public static <T> Optional<T> executeFetchQuery(CheckedFunction<Connection, Optional<T>> function) throws Exception {
+        final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            return function.apply(connection);
         } catch (Exception exception) {
             log.error(exception.getMessage());
             throw exception;

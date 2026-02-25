@@ -27,7 +27,7 @@ import static com.server.app.util.Serializer.deSerializeList;
 import static com.server.app.util.Serializer.serializeList;
 
 /**
- * author: Kazi Tanvir Azad
+ * @author Kazi Tanvir Azad
  */
 public class ImportExportUtil {
     private static final Logger log = LogManager.getLogger(ImportExportUtil.class);
@@ -41,6 +41,7 @@ public class ImportExportUtil {
 
     public void exportCollection(File selectedDirectory, List<Collection> collections) {
         try {
+            // converts the data to be exported
             List<CollectionDto> exportData = collections.stream()
                     .filter(Objects::nonNull)
                     .map(collection -> {
@@ -49,11 +50,14 @@ public class ImportExportUtil {
                         collection.setServers(servers);
                         return new CollectionDto(collection);
                     }).toList();
+            // json serialization of the export data
             Optional<String> optionalCollectionJson = serializeList(exportData);
             if (FileUtils.isDirectory(selectedDirectory) && optionalCollectionJson.isPresent()) {
                 int randomNumberInRange = getRandomNumberInRange(999, 3999);
+                // Creating the export file name by concatenating with random number to avoid file overwrite
                 File output = new File(selectedDirectory.getAbsolutePath() + SystemProperties.getFileSeparator()
                         + "collection_" + randomNumberInRange + ".json");
+                // writing the file to the specified directory
                 FileUtils.writeStringToFile(output, optionalCollectionJson.get(), StandardCharsets.UTF_8);
             }
         } catch (Exception exception) {
@@ -64,7 +68,9 @@ public class ImportExportUtil {
 
     public boolean importCollection(File selectedCollectionFile) {
         try {
+            // Reading the collection file json content to be imported
             String inputJson = FileUtils.readFileToString(selectedCollectionFile, StandardCharsets.UTF_8);
+            // deserializing the json to the collection list
             Optional<List<CollectionDto>> optionalCollections = deSerializeList(inputJson, CollectionDto.class);
             if (optionalCollections.isEmpty()) {
                 triggerErrorAlert("Collection import failed!", "Insufficient input data");
@@ -86,6 +92,8 @@ public class ImportExportUtil {
             }
             for (Collection collection : collections) {
                 Optional<Collection> optionalExisting = collectionService.getCollectionByName(collection.getCollectionName());
+                // appending the imported collection name with random number to avoid overwriting
+                // in case collection exists with the same name
                 if (optionalExisting.isPresent()) {
                     int randomNumberInRange = getRandomNumberInRange(999, 5999);
                     String keepingCollectionName = collection.getCollectionName() + UNDERSCORE + randomNumberInRange;
@@ -94,6 +102,7 @@ public class ImportExportUtil {
                 Optional<String> optionalImportedCollectionId = collectionService.createImportedCollection(collection);
                 if (optionalImportedCollectionId.isPresent() && CollectionUtils.isNotEmpty(collection.getServers())) {
                     List<Server> servers = collection.getServers();
+                    // creating all the servers present in the imported collection
                     servers.forEach(server -> serverService.createImportedServer(server, optionalImportedCollectionId.get()));
                 }
             }
