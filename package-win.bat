@@ -3,6 +3,9 @@ TITLE "MockServer Packaging"
 
 echo "MockServer Packaging"
 
+echo "Deleting build directory..."
+IF EXIST "target\" rmdir /s /q "target\"
+
 echo "Building Maven project..."
 call mvn clean
 call mvn package -DskipTests
@@ -16,7 +19,7 @@ IF NOT EXIST target\installer-work mkdir target\installer-work
 
 echo "Packaging Windows MSI..."
 
-call jpackage ^
+call "%JAVA_HOME%\bin\jpackage" ^
  --name MockServer ^
  --vendor "Kazi Tanvir Azad" ^
  --verbose ^
@@ -33,6 +36,7 @@ call jpackage ^
  --win-per-user-install ^
  --win-dir-chooser ^
  --win-shortcut-prompt ^
- --win-menu-group 'MockServer'
+ --win-menu-group 'MockServer' ^
+ --runtime-image "%JAVA_HOME%"
 
 echo "Packaging script execution complete!"

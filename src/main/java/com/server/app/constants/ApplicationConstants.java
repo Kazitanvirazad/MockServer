@@ -74,6 +74,5 @@ public final class ApplicationConstants {
     public static final String LIGHT_GREY_COLOR_HEX_CODE = "#e3e3e3;";
     public static final String LIGHT_RED_COLOR_HEX_CODE = "#fcc6c2;";
     public static final String LIGHT_GREEN_COLOR_HEX_CODE = "#cafadb;";
-    public static final String DELETE_BUTTON_IMAGE_PATH =
-            String.format("%1$sstatic%1$sicons%1$sdelete-24.png", SystemProperties.getFileSeparator());
+    public static final String DELETE_BUTTON_IMAGE_PATH = "/static/icons/delete-24.png";
 }
