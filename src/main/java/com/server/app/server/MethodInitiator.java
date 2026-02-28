@@ -11,7 +11,7 @@ public class MethodInitiator {
     private long delay;
     private String serverId;
     private String serverName;
-    private String responseData;
+    private byte[] responseData;
     private List<KeyValue> headers;
 
     public MethodInitiator() {
@@ -46,11 +46,11 @@ public class MethodInitiator {
         this.responseCode = responseCode;
     }
 
-    public String getResponseData() {
+    public byte[] getResponseData() {
         return responseData;
     }
 
-    public void setResponseData(String responseData) {
+    public void setResponseData(byte[] responseData) {
         this.responseData = responseData;
     }
 

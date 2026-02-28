@@ -8,14 +8,13 @@ import com.sun.net.httpserver.HttpServer;
 import javafx.collections.ObservableSet;
 import javafx.scene.control.ButtonType;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -156,11 +155,11 @@ public class ServerInitiator {
                     methodInitiator.getHeaders().forEach(header -> {
                         exchange.getResponseHeaders().add(header.key(), header.value());
                     });
-                    String responseBody = methodInitiator.getResponseData();
+                    byte[] responseBody = methodInitiator.getResponseData();
                     long responseLength;
                     // getting response content length
-                    if (StringUtils.isNotEmpty(responseBody)) {
-                        responseLength = responseBody.getBytes(StandardCharsets.UTF_8).length;
+                    if (ArrayUtils.isNotEmpty(responseBody)) {
+                        responseLength = responseBody.length;
                     } else {
                         responseLength = DEFAULT_RESPONSE_LENGTH;
                     }
@@ -174,7 +173,7 @@ public class ServerInitiator {
                         }
                     }
                     // adding response body
-                    outputStream.write(responseBody.getBytes(StandardCharsets.UTF_8));
+                    outputStream.write(responseBody);
                 } else {
                     // sending method not allowed error
                     exchange.sendResponseHeaders(METHOD_NOT_ALLOWED_HTTP_CODE, DEFAULT_RESPONSE_LENGTH);

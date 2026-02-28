@@ -3,7 +3,9 @@ package com.server.app.server;
 import com.server.app.constants.Method;
 import com.server.app.model.data.Server;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,9 @@ public class EndpointInitiator {
         methodInitiator.setResponseCode(server.getResponseCode());
         methodInitiator.setServerId(server.getServerId());
         methodInitiator.setServerName(server.getServerName());
-        methodInitiator.setResponseData(server.getResponseData());
+        byte[] response = StringUtils.isNotBlank(server.getResponseData()) ?
+                server.getResponseData().getBytes(StandardCharsets.UTF_8) : new byte[0];
+        methodInitiator.setResponseData(response);
         if (CollectionUtils.isNotEmpty(server.getHeaders())) {
             server.getHeaders().forEach(header ->
                     methodInitiator.addHeader(new KeyValue(header.getKey(), header.getValue())));
