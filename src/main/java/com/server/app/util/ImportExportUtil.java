@@ -39,6 +39,12 @@ public class ImportExportUtil {
         this.collectionService = Service.INSTANCE.getCollectionService();
     }
 
+    /**
+     * Utility method to export collection list passed in the argument to a file which has been passed in the argument
+     *
+     * @param selectedDirectory {@link File}
+     * @param collections       {@link List}
+     */
     public void exportCollection(File selectedDirectory, List<Collection> collections) {
         try {
             // converts the data to be exported
@@ -66,6 +72,12 @@ public class ImportExportUtil {
         }
     }
 
+    /**
+     * Utility method to import collections for the file passed in the method argument
+     *
+     * @param selectedCollectionFile {@link File}
+     * @return True if importing is successfully done, otherwise False {@code  boolean}
+     */
     public boolean importCollection(File selectedCollectionFile) {
         try {
             // Reading the collection file json content to be imported

@@ -22,6 +22,11 @@ public class EndpointInitiator {
         this.methods = new HashMap<>();
     }
 
+    /**
+     * Adds the {@link MethodInitiator} based on the {@link Server} data in the {@link Method} map
+     *
+     * @param server {@link Server} to be used to add the {@link MethodInitiator} based on its data in the {@link Method} map
+     */
     public void addMethod(Server server) {
         MethodInitiator methodInitiator = new MethodInitiator();
         methodInitiator.setDelay(server.getDelay());

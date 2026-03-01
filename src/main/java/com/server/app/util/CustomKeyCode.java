@@ -7,6 +7,7 @@ import org.apache.commons.lang3.SystemUtils;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote Enumeration for Singleton {@link KeyCode} for perform or handle various keyboard key press events
  */
 public enum CustomKeyCode {
     INSTANCE;

@@ -17,6 +17,7 @@ import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote This class has database repository methods for performing all SQL queries for {@link Collection}
  */
 public class CollectionRepository {
     private static final Logger log = LogManager.getLogger(CollectionRepository.class);

@@ -20,6 +20,7 @@ import static com.server.app.util.Serializer.deSerializeList;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote This class has database repository methods for performing all SQL queries for {@link Server}
  */
 public class ServerRepository {
     private static final Logger log = LogManager.getLogger(ServerRepository.class);

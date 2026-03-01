@@ -12,6 +12,8 @@ import java.util.Optional;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote Utility class to serialize Pojo, List of Pojo to json string
+ * and deserialize json string to Pojo or List of Pojo.
  */
 public final class Serializer {
     private static final Logger log = LogManager.getLogger(Serializer.class);

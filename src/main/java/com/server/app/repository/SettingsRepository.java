@@ -18,6 +18,7 @@ import static com.server.app.util.Serializer.serialize;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote This class has database repository methods for performing all SQL queries for {@link Configuration}
  */
 public class SettingsRepository {
     private static final Logger log = LogManager.getLogger(SettingsRepository.class);

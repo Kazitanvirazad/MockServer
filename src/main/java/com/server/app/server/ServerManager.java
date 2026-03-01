@@ -26,6 +26,16 @@ public enum ServerManager {
     private final Map<Integer, ServerInitiator> activeServers;
     private final ServerService serverService;
 
+    /**
+     * Starts the given server in the method argument or overrides the server which has same port number,
+     * <br>url endpoint and http method
+     *
+     * @param server {@link Server} to start if it's already not running or override the similar server
+     * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
+     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
+     * @apiNote overriding the existing server will happen after taking user's consent by triggering a confirmation Alert
+     */
     public void startServer(Server server, boolean silent) {
         // execute basic validations
         if (Objects.isNull(server)
@@ -70,6 +80,14 @@ public enum ServerManager {
         }
     }
 
+    /**
+     * Stops the given server in the method argument if it's already running
+     *
+     * @param server {@link Server} to be stopped if it's already running
+     * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
+     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
+     */
     public void stopServer(Server server, boolean silent) {
         // execute basic validations
         if (Objects.isNull(server)
@@ -109,6 +127,12 @@ public enum ServerManager {
         }
     }
 
+    /**
+     * Checks if the server with the provided id in the argument is active
+     *
+     * @param serverId {@link String} Server id to used for checking if it's active
+     * @return {@code boolean} True if the server with the provided id in the argument is active or False otherwise
+     */
     public boolean isServerActive(String serverId) {
         return activeServerIds.contains(serverId);
     }
@@ -119,14 +143,32 @@ public enum ServerManager {
         this.serverService = Service.INSTANCE.getServerService();
     }
 
+    /**
+     * Returns a {@link ObservableSet} of all the active servers
+     *
+     * @return {@link ObservableSet} of all the active servers
+     */
     public ObservableSet<String> getActiveServerIds() {
         return activeServerIds;
     }
 
+    /**
+     * Checks whether any server is active
+     *
+     * @return True if there is any currently active server, False otherwise
+     */
     public boolean hasAnyActiveServer() {
         return CollectionUtils.isNotEmpty(activeServerIds);
     }
 
+    /**
+     * Stops all the currently active servers and returns their id in the {@link List}
+     *
+     * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
+     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
+     * @return {@link List} of server ids which are made to stop
+     */
     public List<String> stopAllServers(boolean silent) {
         List<Server> activeServers = activeServerIds.stream()
                 .filter(StringUtils::isNotBlank)

@@ -35,14 +35,35 @@ public final class DatabaseUtil {
         throw new AssertionError("Initialization of this class is not allowed");
     }
 
+    /**
+     * Executes DML or DDL query in the consumer and returns the status
+     *
+     * @param updateFunction {@link CheckedFunction}<{@link Connection}, {@link Integer}>
+     * @return {@link Integer} Status of the result returned by the {@link CheckedFunction}
+     * @throws Exception if a database access error occurs
+     */
     public static Integer executeUpdateQuery(CheckedFunction<Connection, Integer> updateFunction) throws Exception {
         return execute(updateFunction);
     }
 
+    /**
+     * Executes DML or DDL query in the consumer and returns the status
+     *
+     * @param createFunction {@link CheckedFunction}<{@link Connection}, {@link Integer}>
+     * @return {@link Integer} Status of the result returned by the {@link CheckedFunction}
+     * @throws Exception if a database access error occurs
+     */
     public static Integer executeCreateQuery(CheckedFunction<Connection, Integer> createFunction) throws Exception {
         return execute(createFunction);
     }
 
+    /**
+     * Executes DML or DDL query in the consumer and returns the status
+     *
+     * @param function {@link CheckedFunction}<{@link Connection}, {@link Integer}>
+     * @return {@link Integer} Status of the result returned by the {@link CheckedFunction}
+     * @throws Exception if a database access error occurs
+     */
     private static Integer execute(CheckedFunction<Connection, Integer> function) throws Exception {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         int status;
@@ -64,6 +85,12 @@ public final class DatabaseUtil {
         return status;
     }
 
+    /**
+     * Executes SQL DQL query in the consumer
+     *
+     * @param consumer {@link CheckedConsumer}<{@link Connection}> consumer to run with the {@link Connection}
+     * @throws Exception if a database access error occurs
+     */
     public static void executeFetchQuery(CheckedConsumer<Connection> consumer) throws Exception {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         try (Connection connection = dataSource.getConnection()) {
@@ -74,6 +101,14 @@ public final class DatabaseUtil {
         }
     }
 
+    /**
+     * Executes SQL SELECT query in the function and returns the result of the function
+     *
+     * @param function {@link CheckedFunction}<{@link Connection}, {@link Optional}<{@code T}>>
+     * @param <T>      Return type of the function
+     * @return the {@link Optional}<{@code T}> of the result returned by the {@link CheckedFunction}
+     * @throws Exception if a database access error occurs
+     */
     public static <T> Optional<T> executeFetchQuery(CheckedFunction<Connection, Optional<T>> function) throws Exception {
         final DataSource dataSource = DBConfig.INSTANCE.getDataSource();
         try (Connection connection = dataSource.getConnection()) {
@@ -84,6 +119,11 @@ public final class DatabaseUtil {
         }
     }
 
+    /**
+     * Reads and returns the list of all the sql queries from the ddl.sql file from the classpath resource
+     *
+     * @return {@link List}<{@link String}> of sql queries from the classpath resource file
+     */
     public static List<String> readStartupSQLScript() {
         List<String> queries = new ArrayList<>();
         InputStream inputStream = DatabaseUtil.class.getResourceAsStream(SQL_DDL_QUERY_FILE_PATH);

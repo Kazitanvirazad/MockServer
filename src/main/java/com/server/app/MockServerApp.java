@@ -44,15 +44,16 @@ public class MockServerApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Setting tracer for logging
-            generateUUID7BasedId().ifPresent(tracer -> MDC.put(TRACER, tracer));
-            // Setting HostServices to Server
-            Service.INSTANCE.setHostServices(getHostServices());
             // Setting BouncyCastle Provider to java.security
             final BouncyCastleProvider provider = new BouncyCastleProvider();
             if (null == Security.getProvider(BouncyCastleProvider.PROVIDER_NAME)) {
                 Security.addProvider(provider);
             }
+            // Setting tracer for logging
+            generateUUID7BasedId().ifPresent(tracer -> MDC.put(TRACER, tracer));
+            // Setting HostServices to Server
+            Service.INSTANCE.setHostServices(getHostServices());
+            // Initializing Stage for splash screen and Main app window
             StageLoader<SplashScreenController> splashScreenStageLoader = new SplashScreenStageLoader();
             StageLoader<MainAppController> mainStageLoader = new MainStageLoader(primaryStage);
             // Loading splash screen during application startup
@@ -70,8 +71,8 @@ public class MockServerApp extends Application {
                                 .map(Optional::get)
                                 .forEach(server -> ServerManager.INSTANCE.startServer(server, true));
                     }
-                    // Keeping the Splash screen for 1.4 seconds
-                    Thread.sleep(1400);
+                    // Keeping the Splash screen for 1 seconds
+                    Thread.sleep(1000);
                 } catch (Exception exception) {
                     log.error(exception.getMessage());
                 }

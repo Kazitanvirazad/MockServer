@@ -39,6 +39,9 @@ public class ServerInitiator {
         this.portNumber = portNumber;
     }
 
+    /**
+     * Initialize the {@link HttpServer} with port number
+     */
     private void initServer() {
         try {
             // Create and initialize httpServer
@@ -51,6 +54,14 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * Adds the {@link Server} to the endPoints map. If there is similar server is already added
+     * then overrides the server by taking user's consent
+     *
+     * @param server          {@link Server} to be added in the {@link EndpointInitiator}
+     * @param activeServerIds {@link ObservableSet} of currently server ids
+     * @apiNote {@link Server}s are mapped based on the hierarchy of port number > url endpoint > method
+     */
     public void addEndpoint(Server server, final ObservableSet<String> activeServerIds) {
         String urlEndpoint = server.getUrlEndpoint();
         EndpointInitiator existingEndpointInitiator = endPoints.getOrDefault(urlEndpoint, null);
@@ -90,6 +101,11 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * Stops the server and the removes it from the endPoints map and then restarts the server
+     *
+     * @param server {@link Server} to be removed
+     */
     public void removeEndpoint(Server server) {
         stopServer();
         endPoints.remove(server.getUrlEndpoint());
@@ -98,6 +114,9 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * Initialize the {@link HttpServer} with port number, initializes the server context and starts the server
+     */
     public void startServer() {
         initServer();
         if (Objects.nonNull(httpServer)) {
@@ -108,6 +127,9 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * Initializes the server context
+     */
     private void initializeServerContext() {
         if (MapUtils.isNotEmpty(this.endPoints)) {
             BiConsumer<String, EndpointInitiator> endpointBiConsumer = new EndpointBiConsumer(this.httpServer);
@@ -115,15 +137,26 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * Performs server restart
+     */
     public void restartServer() {
         stopServer();
         startServer();
     }
 
+    /**
+     * Checks if the server is stopped
+     *
+     * @return {@code boolean} True if server is already stopped, False otherwise
+     */
     public boolean isServerStopped() {
         return Objects.isNull(httpServer) && MapUtils.isEmpty(endPoints);
     }
 
+    /**
+     * Stops the server
+     */
     private void stopServer() {
         if (Objects.nonNull(httpServer)) {
             httpServer.stop(1);
@@ -131,6 +164,11 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * {@link BiConsumer} for setting {@link HttpServer} context
+     *
+     * @param httpServer {@link HttpServer} where the context will be created
+     */
     private record EndpointBiConsumer(HttpServer httpServer) implements BiConsumer<String, EndpointInitiator> {
         @Override
         public void accept(String url, EndpointInitiator endpointInitiator) {
@@ -139,6 +177,11 @@ public class ServerInitiator {
         }
     }
 
+    /**
+     * {@link HttpHandler} for handling all the mock server's {@link HttpExchange} request and response
+     *
+     * @param endpointInitiator {@link EndpointInitiator} data to used for setting {@link HttpExchange} data
+     */
     private record MockHttpHandler(EndpointInitiator endpointInitiator) implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {

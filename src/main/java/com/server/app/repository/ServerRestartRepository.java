@@ -17,6 +17,8 @@ import static com.server.app.util.DatabaseUtil.executeUpdateQuery;
 
 /**
  * @author Kazi Tanvir Azad
+ * @apiNote This class has database repository methods for performing all SQL queries
+ * <br>for {@link com.server.app.model.data.Server} restart settings during application startup
  */
 public class ServerRestartRepository {
     private static final Logger log = LogManager.getLogger(ServerRestartRepository.class);
