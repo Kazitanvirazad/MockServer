@@ -125,4 +125,13 @@ public class ImportExportUtil {
         }
         return true;
     }
+
+    public byte[] readFile(String fileAbsolutePath) {
+        try {
+            File file = new File(fileAbsolutePath);
+            return FileUtils.readFileToByteArray(file);
+        } catch (Exception exception) {
+            return new byte[0];
+        }
+    }
 }

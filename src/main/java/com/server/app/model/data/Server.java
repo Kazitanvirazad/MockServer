@@ -22,12 +22,14 @@ import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
 public class Server implements Comparable<Server> {
     private long delay;
     private int port;
+    private boolean isDefaultResponseBinary;
     private Integer responseCode;
     private String serverId;
     private String collectionId;
     private String serverName;
     private String urlEndpoint;
     private String responseData;
+    private String responseBinaryPath;
     private Method method;
     private Timestamp createdOn;
     private Timestamp modifiedOn;
@@ -113,6 +115,8 @@ public class Server implements Comparable<Server> {
         this.delay = 0L;
         this.urlEndpoint = DEFAULT_PATH;
         this.responseData = EMPTY_STRING;
+        this.isDefaultResponseBinary = false;
+        this.responseBinaryPath = EMPTY_STRING;
     }
 
     @Override
@@ -239,6 +243,22 @@ public class Server implements Comparable<Server> {
 
     public void setCollectionId(String collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public boolean isDefaultResponseBinary() {
+        return isDefaultResponseBinary;
+    }
+
+    public void setDefaultResponseBinary(boolean defaultResponseBinary) {
+        isDefaultResponseBinary = defaultResponseBinary;
+    }
+
+    public String getResponseBinaryPath() {
+        return responseBinaryPath;
+    }
+
+    public void setResponseBinaryPath(String responseBinaryPath) {
+        this.responseBinaryPath = responseBinaryPath;
     }
 
     @Override

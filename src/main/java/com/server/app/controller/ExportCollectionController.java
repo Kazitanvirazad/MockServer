@@ -27,8 +27,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static com.server.app.constants.ApplicationConstants.APP_EXPORT_COLLECTION_TITLE;
-import static com.server.app.constants.ApplicationConstants.DIRECTORY_SELECTOR_TITLE;
 import static com.server.app.constants.ApplicationConstants.EXPORT_DIRECTORY_PATH_DEFAULT_TEXT;
+import static com.server.app.constants.ApplicationConstants.EXPORT_DIRECTORY_SELECTOR_TITLE;
 import static com.server.app.constants.ApplicationConstants.JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH;
 import static com.server.app.util.AppUtil.closeWindowButtonEvent;
 import static com.server.app.util.AppUtil.getApplicationWindowByTitle;
@@ -58,7 +58,7 @@ public class ExportCollectionController implements Initializable {
     @FXML
     private void handleSelectDirectory(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(DIRECTORY_SELECTOR_TITLE);
+        directoryChooser.setTitle(EXPORT_DIRECTORY_SELECTOR_TITLE);
         if (FileUtils.isDirectory(selectedDirectory)) {
             directoryChooser.setInitialDirectory(selectedDirectory);
         } else {

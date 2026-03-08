@@ -62,8 +62,9 @@ public final class ApplicationConstants {
     public static final String APP_SERVER_FORM_EDIT_TITLE = "Edit Mock Server";
     public static final String APP_SERVER_FORM_SAVE_BUTTON = "Create Server";
     public static final String APP_SERVER_FORM_EDIT_BUTTON = "Update Server";
-    public static final String DIRECTORY_SELECTOR_TITLE = "Select directory to export collections";
-    public static final String FILE_SELECTOR_TITLE = "Select collection file to import";
+    public static final String EXPORT_DIRECTORY_SELECTOR_TITLE = "Select directory to export collections";
+    public static final String IMPORT_FILE_SELECTOR_TITLE = "Select collection file to import";
+    public static final String RESPONSE_BINARY_FILE_SELECTOR_TITLE = "Select response file";
     public static final String ACTIVE_SERVER_MANAGER_TITLE = "Active Server Manager";
     public static final String EXPORT_DIRECTORY_PATH_DEFAULT_TEXT = "Path: ";
     public static final String IMPORT_FILE_PATH_DEFAULT_TEXT = "File Name: ";

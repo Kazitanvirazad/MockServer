@@ -1,5 +1,6 @@
 package com.server.app.server;
 
+import com.server.app.config.AppConfig;
 import com.server.app.constants.Method;
 import com.server.app.model.data.Server;
 import org.apache.commons.collections4.CollectionUtils;
@@ -33,8 +34,13 @@ public class EndpointInitiator {
         methodInitiator.setResponseCode(server.getResponseCode());
         methodInitiator.setServerId(server.getServerId());
         methodInitiator.setServerName(server.getServerName());
-        byte[] response = StringUtils.isNotBlank(server.getResponseData()) ?
-                server.getResponseData().getBytes(StandardCharsets.UTF_8) : new byte[0];
+        byte[] response;
+        if (server.isDefaultResponseBinary()) {
+            response = AppConfig.INSTANCE.getIoUtil().readFile(server.getResponseBinaryPath());
+        } else {
+            response = StringUtils.isNotBlank(server.getResponseData()) ?
+                    server.getResponseData().getBytes(StandardCharsets.UTF_8) : new byte[0];
+        }
         methodInitiator.setResponseData(response);
         if (CollectionUtils.isNotEmpty(server.getHeaders())) {
             server.getHeaders().forEach(header ->

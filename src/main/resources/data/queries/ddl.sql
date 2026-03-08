@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS server (
     delay BIGINT DEFAULT 0,
     port INT NOT NULL,
     response_data TEXT DEFAULT '',
+    response_binary_path TEXT DEFAULT '',
+    is_default_response_binary INT DEFAULT 0,
     headers TEXT,
     cookies TEXT,
     createdOn DATETIME NOT NULL DEFAULT (datetime('now','localtime')),

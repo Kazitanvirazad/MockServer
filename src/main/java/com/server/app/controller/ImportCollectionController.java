@@ -22,8 +22,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static com.server.app.constants.ApplicationConstants.APP_IMPORT_COLLECTION_TITLE;
-import static com.server.app.constants.ApplicationConstants.FILE_SELECTOR_TITLE;
 import static com.server.app.constants.ApplicationConstants.IMPORT_FILE_PATH_DEFAULT_TEXT;
+import static com.server.app.constants.ApplicationConstants.IMPORT_FILE_SELECTOR_TITLE;
 import static com.server.app.constants.ApplicationConstants.JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH;
 import static com.server.app.constants.ApplicationConstants.JSON_FILE_EXTENSION;
 import static com.server.app.constants.ApplicationConstants.LIGHT_GREEN_COLOR_HEX_CODE;
@@ -52,7 +52,7 @@ public class ImportCollectionController implements Initializable {
     @FXML
     private void handleSelectFileButton(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(FILE_SELECTOR_TITLE);
+        fileChooser.setTitle(IMPORT_FILE_SELECTOR_TITLE);
         if (FileUtils.isRegularFile(selectedFile) && FileUtils.isDirectory(selectedFile.getParentFile())) {
             fileChooser.setInitialDirectory(selectedFile.getParentFile());
         } else {

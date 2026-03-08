@@ -28,8 +28,8 @@ public class ServerRepository {
     public Optional<Server> getServerById(String serverId) {
         final String query = """
                 SELECT s.server_id, s.server_name, s.url_endpoint, s.response_code, s.method, s.delay, s.port,
-                s.response_data, s.headers, s.cookies, s.collection_id, s.createdOn, s.modifiedOn
-                FROM server s WHERE s.server_id = ?""";
+                s.response_data, s.headers, s.cookies, s.collection_id, s.createdOn, s.modifiedOn,
+                s.is_default_response_binary, s.response_binary_path FROM server s WHERE s.server_id = ?""";
         try {
             return executeFetchQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -56,6 +56,8 @@ public class ServerRepository {
                         server.setCollectionId(resultSet.getString(11));
                         server.setCreatedOn(resultSet.getTimestamp(12));
                         server.setModifiedOn(resultSet.getTimestamp(13));
+                        server.setDefaultResponseBinary(resultSet.getInt(14) == 0 ? false : true);
+                        server.setResponseBinaryPath(resultSet.getString(15));
                     }
                 }
                 return Optional.ofNullable(server);
@@ -73,8 +75,8 @@ public class ServerRepository {
     private List<Server> getServersByCollection(String collectionId) {
         final String query = """
                 SELECT s.server_id, s.server_name, s.url_endpoint, s.response_code, s."method", s.delay, s.port,
-                s.response_data, s.headers, s.cookies, s.collection_id, s.createdOn, s.modifiedOn
-                 FROM server s WHERE s.collection_id = ?""";
+                s.response_data, s.headers, s.cookies, s.collection_id, s.createdOn, s.modifiedOn,
+                s.is_default_response_binary, s.response_binary_path FROM server s WHERE s.collection_id = ?""";
         final List<Server> servers = new ArrayList<>();
         try {
             executeFetchQuery(connection -> {
@@ -102,6 +104,8 @@ public class ServerRepository {
                         server.setCollectionId(resultSet.getString(11));
                         server.setCreatedOn(resultSet.getTimestamp(12));
                         server.setModifiedOn(resultSet.getTimestamp(13));
+                        server.setDefaultResponseBinary(resultSet.getInt(14) == 0 ? false : true);
+                        server.setResponseBinaryPath(resultSet.getString(15));
 
                         servers.add(server);
                     }
@@ -117,7 +121,7 @@ public class ServerRepository {
         int status = 0;
         final String query = """
                 INSERT INTO server (server_id,server_name,url_endpoint,response_code,method,delay,port,response_data,
-                headers,cookies,collection_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)""";
+                headers,cookies,collection_id,is_default_response_binary,response_binary_path) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""";
         try {
             status = executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -132,6 +136,8 @@ public class ServerRepository {
                 preparedStatement.setString(9, headerJson);
                 preparedStatement.setString(10, cookieJson);
                 preparedStatement.setString(11, server.getCollectionId());
+                preparedStatement.setInt(12, server.isDefaultResponseBinary() ? 1 : 0);
+                preparedStatement.setString(13, server.getResponseBinaryPath());
                 return preparedStatement.executeUpdate();
             });
         } catch (Exception exception) {
@@ -144,7 +150,8 @@ public class ServerRepository {
         int status = 0;
         final String query = """
                 INSERT INTO server (server_id,server_name,url_endpoint,response_code,method,delay,port,response_data,
-                headers,cookies,createdOn,modifiedOn,collection_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""";
+                headers,cookies,createdOn,modifiedOn,collection_id,is_default_response_binary,response_binary_path)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""";
         try {
             status = executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -161,6 +168,8 @@ public class ServerRepository {
                 preparedStatement.setTimestamp(11, server.getCreatedOn());
                 preparedStatement.setTimestamp(12, server.getModifiedOn());
                 preparedStatement.setString(13, collectionId);
+                preparedStatement.setInt(14, server.isDefaultResponseBinary() ? 1 : 0);
+                preparedStatement.setString(15, server.getResponseBinaryPath());
                 return preparedStatement.executeUpdate();
             });
         } catch (Exception exception) {
@@ -173,8 +182,8 @@ public class ServerRepository {
         int status = 0;
         final String query = """
                 UPDATE server SET server_name = ?, url_endpoint = ?, response_code = ?, method = ?, delay = ?, port = ?,
-                response_data = ?, headers = ?, cookies = ?, collection_id = ?, modifiedOn = datetime('now','localtime')
-                 WHERE server_id = ?""";
+                response_data = ?, headers = ?, cookies = ?, collection_id = ?, modifiedOn = datetime('now','localtime'),
+                is_default_response_binary = ?, response_binary_path = ? WHERE server_id = ?""";
         try {
             status = executeUpdateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -188,7 +197,9 @@ public class ServerRepository {
                 preparedStatement.setString(8, headerJson);
                 preparedStatement.setString(9, cookieJson);
                 preparedStatement.setString(10, server.getCollectionId());
-                preparedStatement.setString(11, server.getServerId());
+                preparedStatement.setInt(11, server.isDefaultResponseBinary() ? 1 : 0);
+                preparedStatement.setString(12, server.getResponseBinaryPath());
+                preparedStatement.setString(13, server.getServerId());
                 return preparedStatement.executeUpdate();
             });
         } catch (Exception exception) {

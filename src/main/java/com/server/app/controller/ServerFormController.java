@@ -22,7 +22,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -34,12 +36,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,8 @@ import static com.server.app.constants.ApplicationConstants.APP_HEADER_FORM_TITL
 import static com.server.app.constants.ApplicationConstants.DEFAULT_PATH;
 import static com.server.app.constants.ApplicationConstants.DEFAULT_RESPONSE_CODE;
 import static com.server.app.constants.ApplicationConstants.DELETE_BUTTON_IMAGE_PATH;
+import static com.server.app.constants.ApplicationConstants.JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH;
+import static com.server.app.constants.ApplicationConstants.RESPONSE_BINARY_FILE_SELECTOR_TITLE;
 import static com.server.app.util.AppUtil.RESPONSE_CODE_RANGE;
 import static com.server.app.util.AppUtil.SERVER_PORT_RANGE;
 import static com.server.app.util.AppUtil.bringExistingActiveWindowToFrontOrElse;
@@ -108,10 +115,15 @@ public class ServerFormController {
     private TextField delayInput;
     @FXML
     private TextArea responseDataInput;
+    @FXML
+    private Text binaryResponseFilePath;
+    @FXML
+    private CheckBox defaultResponseBinaryCheck;
 
     private Collection defaultSelectedCollection;
     private Server serverInput;
     private String serverId;
+    private String responseBinaryPath;
 
     @FXML
     private void handleCreateServerButtonEvent(ActionEvent event) {
@@ -188,6 +200,18 @@ public class ServerFormController {
         if (StringUtils.isNotBlank(responseDataInput.getText())) {
             serverInput.setResponseData(responseDataInput.getText());
         }
+        if (defaultResponseBinaryCheck.isSelected() && StringUtils.isBlank(responseBinaryPath)) {
+            serverInput = null;
+            triggerErrorAlert("Invalid Binary Response path!",
+                    """
+                            Binary Response file must be added if it's set to default.
+                            Attach file to continue.""");
+            return;
+        }
+        if (StringUtils.isNotBlank(responseBinaryPath)) {
+            serverInput.setResponseBinaryPath(responseBinaryPath);
+        }
+        serverInput.setDefaultResponseBinary(defaultResponseBinaryCheck.isSelected());
         serverInput.setCollectionId(collectionChoice.getValue().getCollectionId());
         final List<Header> headers = new ArrayList<>();
         headerTable.getItems().forEach(headerTableData ->
@@ -202,6 +226,18 @@ public class ServerFormController {
             serverInput.setCookies(cookies);
         }
         closeWindowButtonEvent(event);
+    }
+
+    @FXML
+    private void handleAttachBinaryButtonEvent(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(RESPONSE_BINARY_FILE_SELECTOR_TITLE);
+        fileChooser.setInitialDirectory(new File(JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH));
+        File newSelectedFile = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
+        if (FileUtils.isRegularFile(newSelectedFile)) {
+            responseBinaryPath = newSelectedFile.getAbsolutePath();
+            viewSelectedFile();
+        }
     }
 
     @FXML
@@ -297,6 +333,13 @@ public class ServerFormController {
                 methodChoice.setValue(server.getMethod());
                 delayInput.setText(String.valueOf(server.getDelay()));
                 responseDataInput.setText(server.getResponseData());
+                String binaryPath = server.getResponseBinaryPath();
+                if (StringUtils.isNotBlank(binaryPath)) {
+                    binaryResponseFilePath.setText(binaryPath.length() >= 30 ?
+                            binaryPath.substring(binaryPath.length() - 29) : binaryPath);
+                    responseBinaryPath = binaryPath;
+                }
+                defaultResponseBinaryCheck.setSelected(server.isDefaultResponseBinary());
                 if (CollectionUtils.isNotEmpty(server.getHeaders()))
                     headerTable.setItems(FXCollections.observableList(server.getHeaders()
                             .stream().map(header -> new HeaderTableData(new SimpleObjectProperty<>(header)))
@@ -457,6 +500,10 @@ public class ServerFormController {
                 new SimpleObjectProperty<>(cellData.getValue().getCookieSimpleObjectProperty().value()));
     }
 
+    private void initializeBinaryResponse() {
+
+    }
+
     public void setMockServerFormTitle(String mockServerFormTitle) {
         this.mockServerFormTitle.setText(mockServerFormTitle);
     }
@@ -476,5 +523,13 @@ public class ServerFormController {
 
     public void setServerId(String serverId) {
         this.serverId = serverId;
+    }
+
+    private void viewSelectedFile() {
+        // setting last 30 characters of the file absolute path to the file path view
+        if (StringUtils.isNotBlank(responseBinaryPath)) {
+            binaryResponseFilePath.setText(responseBinaryPath.length() >= 30 ?
+                    responseBinaryPath.substring(responseBinaryPath.length() - 29) : responseBinaryPath);
+        }
     }
 }

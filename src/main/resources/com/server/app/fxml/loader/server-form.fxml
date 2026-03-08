@@ -123,7 +123,7 @@
                                 </VBox>
                                 <VBox prefHeight="112.0" prefWidth="503.0">
                                     <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Response Data">
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text Response">
                                             <VBox.margin>
                                                 <Insets bottom="5.0"/>
                                             </VBox.margin>
@@ -138,6 +138,48 @@
                                     <padding>
                                         <Insets left="5.0" right="20.0" top="10.0"/>
                                     </padding>
+                                </VBox>
+                                <VBox prefHeight="112.0" prefWidth="247.0">
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Binary Response">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <CheckBox fx:id="defaultResponseBinaryCheck" mnemonicParsing="false"
+                                                  text="Set default response">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </CheckBox>
+                                        <Button mnemonicParsing="false" onAction="#handleAttachBinaryButtonEvent"
+                                                style="-fx-background-color: #31ae28;" text="Attach"
+                                                textAlignment="CENTER" textFill="WHITE">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND"/>
+                                            </cursor>
+                                            <font>
+                                                <Font name="System Bold" size="12.0"/>
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Button>
+                                        <Text fx:id="binaryResponseFilePath" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <VBox.margin>
+                                                <Insets/>
+                                            </VBox.margin>
+                                            <font>
+                                                <Font size="13.0"/>
+                                            </font>
+                                        </Text>
+                                    </children>
                                 </VBox>
                             </children>
                             <VBox.margin>
