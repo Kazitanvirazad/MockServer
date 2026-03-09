@@ -18,14 +18,19 @@ import org.apache.commons.lang3.IntegerRange;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
 
 import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
+import static com.server.app.constants.ApplicationConstants.ENV_PROPERTY_FILE_PATH;
 import static com.server.app.constants.ApplicationConstants.HYPHEN;
 import static com.server.app.constants.ApplicationConstants.SECURE_RANDOM_ALGORITHM;
 
@@ -263,5 +268,24 @@ public final class AppUtil {
      */
     public static int getRandomNumberInRange(int min, int max) throws NoSuchAlgorithmException {
         return getRandom().nextInt(max - min) + min;
+    }
+
+    /**
+     * Load properties from the specified property file present in the classpath
+     *
+     * @return {@link Properties} Loaded properties from the env.properties file
+     */
+    public static Properties loadEnvironmentProperties() {
+        Properties envProperties = new Properties();
+        InputStream inputStream = AppUtil.class.getResourceAsStream(ENV_PROPERTY_FILE_PATH);
+        if (null == inputStream) {
+            return envProperties;
+        }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            envProperties.load(reader);
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+        }
+        return envProperties;
     }
 }

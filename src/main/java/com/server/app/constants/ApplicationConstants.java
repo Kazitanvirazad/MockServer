@@ -36,6 +36,7 @@ public final class ApplicationConstants {
     public static final String SECURE_RANDOM_ALGORITHM = "SHA1PRNG";
     public static final String SQL_DDL_QUERY_FILE_PATH = "/data/queries/ddl.sql";
     public static final String SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY = "PRAGMA foreign_keys = ON";
+    public static final String ENV_PROPERTY_FILE_PATH = "/properties/env.properties";
     public static final String HTTP_SCHEME = "http";
     public static final String HTTPS_SCHEME = "https";
     public static final String LOCALHOST = "localhost";

@@ -28,6 +28,7 @@ import java.util.Optional;
 import static com.server.app.constants.ApplicationConstants.TRACER;
 import static com.server.app.util.AppUtil.exitApplication;
 import static com.server.app.util.AppUtil.generateUUID7BasedId;
+import static com.server.app.util.AppUtil.loadEnvironmentProperties;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.DatabaseUtil.executeCreateQuery;
 import static com.server.app.util.DatabaseUtil.readStartupSQLScript;
@@ -58,10 +59,12 @@ public class MockServerApp extends Application {
             StageLoader<MainAppController> mainStageLoader = new MainStageLoader(primaryStage);
             // Loading splash screen during application startup
             splashScreenStageLoader.loadStage();
-            Stage splashScreenStage = splashScreenStageLoader.getStage();
 
             // handling the Splash Screen Stage closure and Main App Stage loading
             Platform.runLater(() -> {
+                // Loading environment properties
+                AppConfig.INSTANCE.setEnvProperties(loadEnvironmentProperties());
+                Stage splashScreenStage = splashScreenStageLoader.getStage();
                 try {
                     // restart servers during app startup if configured in settings
                     if (AppConfig.INSTANCE.getConfiguration().isStartServerOnStartup()) {
@@ -71,8 +74,8 @@ public class MockServerApp extends Application {
                                 .map(Optional::get)
                                 .forEach(server -> ServerManager.INSTANCE.startServer(server, true));
                     }
-                    // Keeping the Splash screen for 1 seconds
-                    Thread.sleep(1000);
+                    // Keeping the Splash screen for 800 milliseconds
+                    Thread.sleep(800);
                 } catch (Exception exception) {
                     log.error(exception.getMessage());
                 }

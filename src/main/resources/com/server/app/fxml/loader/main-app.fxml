@@ -28,11 +28,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Donate"/>
-                        <MenuItem mnemonicParsing="false" text="MIT License"/>
-                        <MenuItem mnemonicParsing="false" text="Source Code"/>
-                        <MenuItem mnemonicParsing="false" text="Check for update"/>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem fx:id="donateMenuItem" mnemonicParsing="false" text="Donate"/>
+                        <MenuItem fx:id="licenseMenuItem" mnemonicParsing="false" text="MIT License"/>
+                        <MenuItem fx:id="sourceCodeMenuItem" mnemonicParsing="false" text="Source Code"/>
+                        <MenuItem fx:id="checkForUpdateMenuItem" mnemonicParsing="false" text="Check for update"/>
+                        <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About"/>
                     </items>
                 </Menu>
             </menus>
