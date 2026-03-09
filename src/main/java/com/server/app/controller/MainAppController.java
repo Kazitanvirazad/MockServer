@@ -1,5 +1,6 @@
 package com.server.app.controller;
 
+import com.server.app.config.AppConfig;
 import com.server.app.control.ButtonImageViewTableCell;
 import com.server.app.control.ServerTableStatusFontColorTableCell;
 import com.server.app.event.handler.TableRowCopyKeyEventHandler;
@@ -95,6 +96,16 @@ public class MainAppController implements Initializable {
     private MenuItem closeAppMenuItem;
     @FXML
     private MenuItem activeServersMenuItem;
+    @FXML
+    private MenuItem donateMenuItem;
+    @FXML
+    private MenuItem licenseMenuItem;
+    @FXML
+    private MenuItem sourceCodeMenuItem;
+    @FXML
+    private MenuItem checkForUpdateMenuItem;
+    @FXML
+    private MenuItem aboutMenuItem;
     @FXML
     private HBox activeServerHBox;
     @FXML
@@ -203,19 +214,19 @@ public class MainAppController implements Initializable {
     }
 
     private void setMenuItemEvents() {
-        // setting File>Close MenuItem action event
+        // setting File>'Close' MenuItem action event
         closeAppMenuItem.setOnAction(AppUtil::exitApplication);
-        // setting Options>Create Collection MenuItem action event
+        // setting Options>'Create Collection' MenuItem action event
         createCollectionMenuItem.setOnAction(this::createCollection);
-        // setting Options>Active Servers MenuItem action event
+        // setting Options>'Active Servers' MenuItem action event
         activeServersMenuItem.setOnAction(event -> {
             if (ServerManager.INSTANCE.hasAnyActiveServer()) {
                 initializeActiveServerManager(event);
             }
         });
-        // setting Options>Active Servers MenuItem disable property binding
+        // setting Options>'Active Servers' MenuItem disable property binding
         activeServersMenuItem.disableProperty().bind(isEmpty(ServerManager.INSTANCE.getActiveServerIds()));
-        // setting File>Import Collections MenuItem action event
+        // setting File>'Import Collections' MenuItem action event
         importCollectionMenuItem.setOnAction(event ->
                 bringExistingActiveWindowToFrontOrElse(() -> {
                     // get currently selected collection
@@ -243,7 +254,7 @@ public class MainAppController implements Initializable {
                         }
                     }
                 }, APP_IMPORT_COLLECTION_TITLE));
-        // setting File>Export Collections MenuItem action event
+        // setting File>'Export Collections' MenuItem action event
         exportCollectionMenuItem.setOnAction(event -> {
             if (CollectionUtils.isEmpty(collectionTable.getItems())) {
                 triggerErrorAlert("Collections Empty!", "Add Collection before export");
@@ -254,12 +265,32 @@ public class MainAppController implements Initializable {
                 }, APP_EXPORT_COLLECTION_TITLE);
             }
         });
-        // setting File>Settings MenuItem action event
+        // setting File>'Settings' MenuItem action event
         settingsMenuItem.setOnAction(event ->
                 bringExistingActiveWindowToFrontOrElse(() -> {
                     StageLoader<SettingsController> settingsStageLoader = new SettingsStageLoader();
                     settingsStageLoader.loadStage();
                 }, APP_SETTING_TITLE));
+        // setting Help>'MIT License' MenuItem action event
+        licenseMenuItem.setOnAction(event ->
+                AppConfig.INSTANCE.getEnvProperty("url.license")
+                        .ifPresent(Service.INSTANCE::openUrlInBrowser));
+        // setting Help>'Source Code' MenuItem action event
+        sourceCodeMenuItem.setOnAction(event ->
+                AppConfig.INSTANCE.getEnvProperty("url.sourcecode")
+                        .ifPresent(Service.INSTANCE::openUrlInBrowser));
+        // setting Help>'About' MenuItem action event
+        aboutMenuItem.setOnAction(event ->
+                AppConfig.INSTANCE.getEnvProperty("url.about")
+                        .ifPresent(Service.INSTANCE::openUrlInBrowser));
+        // setting Help>'Donate' MenuItem action event
+        donateMenuItem.setOnAction(event ->
+                AppConfig.INSTANCE.getEnvProperty("url.donate")
+                        .ifPresent(Service.INSTANCE::openUrlInBrowser));
+        // setting Help>'Check for update' MenuItem action event
+        checkForUpdateMenuItem.setOnAction(event ->
+                AppConfig.INSTANCE.getEnvProperty("url.checkupdate")
+                        .ifPresent(Service.INSTANCE::openUrlInBrowser));
     }
 
     private void initializeActiveServerView() {

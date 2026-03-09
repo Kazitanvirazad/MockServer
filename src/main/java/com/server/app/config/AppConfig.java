@@ -5,6 +5,9 @@ import com.server.app.util.ImportExportUtil;
 import javafx.scene.image.Image;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.Optional;
+import java.util.Properties;
+
 /**
  * @author Kazi Tanvir Azad
  */
@@ -15,6 +18,7 @@ public enum AppConfig {
     private final ObjectMapper mapper;
     private final Configuration configuration;
     private final ImportExportUtil ioUtil;
+    private Properties envProperties;
 
     public Image getAppLogo() {
         return appLogo;
@@ -34,6 +38,16 @@ public enum AppConfig {
 
     public ImportExportUtil getIoUtil() {
         return ioUtil;
+    }
+
+    public void setEnvProperties(Properties envProperties) {
+        this.envProperties = envProperties;
+    }
+
+    public Optional<String> getEnvProperty(String name) {
+        return Optional.ofNullable(name)
+                .map(key -> this.envProperties.getProperty(key))
+                .map(String::trim);
     }
 
     {
