@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.server.app</groupId>
+    <artifactId>mockserver-app</artifactId>
+    <name>MockServer-App</name>
+    <description>Cross platform desktop MockServer application to create and run mock servers locally for testing
+    </description>
+
+    <parent>
+        <groupId>com.server</groupId>
+        <artifactId>mockserver</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/Kazitanvirazad/MockServer/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>Kazitanvirazad</id>
+            <name>Kazi Tanvir Azad</name>
+            <email>tanvir.kaziazad@gmail.com</email>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+            <url>https://www.linkedin.com/in/kazitanvirazad/</url>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.server.core</groupId>
+            <artifactId>mockserver-core</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>MockServer</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.7.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/libs
+                            </outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>
+                                com.server.app.Launcher
+                            </mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

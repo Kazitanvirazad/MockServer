@@ -1,0 +1,53 @@
+package com.server.app.controller;
+
+import com.server.core.config.CommonConfig;
+import com.server.core.model.data.Header;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Optional;
+
+import static com.server.app.util.AppUtil.closeWindowButtonEvent;
+
+/**
+ * @author Kazi Tanvir Azad
+ */
+public class HeaderFormController {
+    private static final Logger log = LogManager.getLogger(HeaderFormController.class);
+    @FXML
+    private TextField headerKeyInput;
+    @FXML
+    private TextField headerValueInput;
+    private Header headerInput;
+
+    @FXML
+    private void handleSubmitButtonEvent(Event event) {
+        var key = headerKeyInput.getText();
+        var value = headerValueInput.getText();
+        if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
+            try {
+                headerInput = new Header(key.trim(), value.trim());
+            } catch (RuntimeException exception) {
+                headerInput = null;
+            }
+            closeWindowButtonEvent(event);
+        } else {
+            CommonConfig.INSTANCE.notification()
+                    .triggerErrorNotification("Invalid Header Input!", "Continue to add Key and Value to the Header");
+        }
+    }
+
+    @FXML
+    private void handleCancelButtonEvent(Event event) {
+        closeWindowButtonEvent(event);
+    }
+
+    // Get Header form input
+    public Optional<Header> getHeaderInput() {
+        return Optional.ofNullable(headerInput);
+    }
+}

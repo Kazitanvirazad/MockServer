@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0"
+            prefWidth="571.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.server.core.controller.ActiveServersController">
+    <children>
+        <VBox layoutX="156.0" layoutY="67.0" prefHeight="332.0" prefWidth="571.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Active Servers">
+                    <VBox.margin>
+                        <Insets bottom="5.0" top="5.0"/>
+                    </VBox.margin>
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Text>
+                <TableView fx:id="activeServerTable" prefHeight="299.0" prefWidth="561.0">
+                    <columns>
+                        <TableColumn fx:id="serverNameCol" editable="false" prefWidth="169.0" resizable="false"
+                                     text="Name"/>
+                        <TableColumn fx:id="serverUrlCol" editable="false" prefWidth="318.0" resizable="false"
+                                     sortable="false" text="URL"/>
+                        <TableColumn fx:id="serverPortCol" editable="false" prefWidth="83.0" resizable="false"
+                                     text="Port"/>
+                    </columns>
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                </TableView>
+                <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="565.0">
+                    <VBox.margin>
+                        <Insets bottom="5.0"/>
+                    </VBox.margin>
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleStopServerButton"
+                                style="-fx-background-color: #f44336;" text="Stop Server" textFill="WHITE">
+                            <HBox.margin>
+                                <Insets right="6.0"/>
+                            </HBox.margin>
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleStopAllServerButton"
+                                style="-fx-background-color: red;" text="Stop All Servers" textFill="WHITE">
+                            <HBox.margin>
+                                <Insets right="3.0"/>
+                            </HBox.margin>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

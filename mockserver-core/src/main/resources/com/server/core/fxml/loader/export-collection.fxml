@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="242.0"
+            prefWidth="597.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.server.core.controller.ExportCollectionController">
+    <children>
+        <VBox alignment="CENTER" layoutX="228.0" layoutY="21.0" prefHeight="200.0" prefWidth="100.0"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="628.0">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0"/>
+                    </VBox.margin>
+                    <children>
+                        <CheckBox fx:id="exportAllCheck" mnemonicParsing="false" prefHeight="17.0" prefWidth="95.0"
+                                  text="Export all">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </CheckBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select collection to export">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="20.0"/>
+                            </HBox.margin>
+                        </Text>
+                        <ChoiceBox fx:id="collectionChoice" prefHeight="25.0" prefWidth="261.0">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </ChoiceBox>
+                    </children>
+                </HBox>
+                <VBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="587.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleSelectDirectory"
+                                style="-fx-background-color: #31ae28;" text="Select directory" textAlignment="CENTER"
+                                textFill="WHITE">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+                        <Text fx:id="exportDirectoryText" strokeType="OUTSIDE" strokeWidth="0.0">
+                            <font>
+                                <Font size="13.0"/>
+                            </font>
+                            <VBox.margin>
+                                <Insets top="10.0"/>
+                            </VBox.margin>
+                        </Text>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets top="10.0"/>
+                    </padding>
+                </VBox>
+                <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="587.0">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleExportCollectionButton"
+                                style="-fx-background-color: #31ae28;" text="Export Collection" textAlignment="CENTER"
+                                textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="13.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets right="10.0"/>
+                            </HBox.margin>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

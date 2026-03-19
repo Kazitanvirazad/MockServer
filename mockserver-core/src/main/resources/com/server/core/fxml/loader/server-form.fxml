@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0"
+            prefWidth="1014.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.server.core.controller.ServerFormController">
+    <center>
+        <AnchorPane prefHeight="285.0" prefWidth="1014.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="241.0" prefWidth="1004.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="5.0"
+                      AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                    <children>
+                        <HBox prefHeight="70.0" prefWidth="994.0">
+                            <children>
+                                <VBox prefHeight="70.0" prefWidth="180.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server Name">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <TextField fx:id="serverNameInput" prefHeight="25.0" prefWidth="151.0"
+                                                   promptText="Server Name"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="70.0" prefWidth="430.0">
+                                    <children>
+                                        <HBox prefHeight="10.0" prefWidth="405.0">
+                                            <children>
+                                                <StackPane alignment="CENTER_LEFT" prefHeight="12.0" prefWidth="200.0">
+                                                    <children>
+                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Endpoint">
+                                                            <StackPane.margin>
+                                                                <Insets bottom="5.0"/>
+                                                            </StackPane.margin>
+                                                        </Text>
+                                                        <ImageView fx:id="endpointInfoImageView" fitHeight="15.0"
+                                                                   fitWidth="15.0" pickOnBounds="true"
+                                                                   preserveRatio="true">
+                                                            <StackPane.margin>
+                                                                <Insets bottom="5.0" left="60.0"/>
+                                                            </StackPane.margin>
+                                                        </ImageView>
+                                                    </children>
+                                                </StackPane>
+                                            </children>
+                                        </HBox>
+                                        <TextField fx:id="endpointInput" prefHeight="25.0" prefWidth="386.0"
+                                                   promptText="Ex: /order"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="70.0" prefWidth="180.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Http Status Code">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <TextField fx:id="responseCodeInput" promptText="Ex: 200"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="70.0" prefWidth="180.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Server Port">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <TextField fx:id="portInput" promptText="Ex: 8080"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="5.0" top="5.0"/>
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="112.0" prefWidth="994.0">
+                            <children>
+                                <VBox prefHeight="70.0" prefWidth="128.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Method">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <ChoiceBox fx:id="methodChoice" prefWidth="150.0"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="131.0" prefWidth="116.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Delay">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <TextField fx:id="delayInput" prefHeight="25.0" prefWidth="206.0"
+                                                   promptText="Milliseconds"/>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="112.0" prefWidth="503.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text Response">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <TextArea fx:id="responseDataInput" prefHeight="200.0" prefWidth="200.0"
+                                                  promptText="Response Text" wrapText="true">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </TextArea>
+                                    </children>
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="112.0" prefWidth="247.0">
+                                    <padding>
+                                        <Insets left="5.0" right="20.0" top="10.0"/>
+                                    </padding>
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Binary Response">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Text>
+                                        <CheckBox fx:id="defaultResponseBinaryCheck" mnemonicParsing="false"
+                                                  text="Set default response">
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </CheckBox>
+                                        <Button mnemonicParsing="false" onAction="#handleAttachBinaryButtonEvent"
+                                                style="-fx-background-color: #31ae28;" text="Attach"
+                                                textAlignment="CENTER" textFill="WHITE">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND"/>
+                                            </cursor>
+                                            <font>
+                                                <Font name="System Bold" size="12.0"/>
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
+                                        </Button>
+                                        <Text fx:id="binaryResponseFilePath" strokeType="OUTSIDE" strokeWidth="0.0">
+                                            <VBox.margin>
+                                                <Insets/>
+                                            </VBox.margin>
+                                            <font>
+                                                <Font size="13.0"/>
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="5.0" top="5.0"/>
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </center>
+    <top>
+        <HBox prefHeight="35.0" prefWidth="994.0" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="10.0" right="10.0" top="5.0"/>
+            </BorderPane.margin>
+            <children>
+                <Text fx:id="mockServerFormTitle" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="595.89453125">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets left="5.0" top="5.0"/>
+                    </HBox.margin>
+                </Text>
+                <ChoiceBox fx:id="collectionChoice" prefHeight="25.0" prefWidth="249.0">
+                    <HBox.margin>
+                        <Insets left="20.0" top="5.0"/>
+                    </HBox.margin>
+                </ChoiceBox>
+                <Button fx:id="saveServerButton" mnemonicParsing="false" onAction="#handleCreateServerButtonEvent"
+                        prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #31ae28;"
+                        textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                    <HBox.margin>
+                        <Insets left="10.0" top="5.0"/>
+                    </HBox.margin>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+    </top>
+    <bottom>
+        <AnchorPane prefHeight="304.0" prefWidth="1014.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox layoutX="219.0" layoutY="50.0" prefHeight="100.0" prefWidth="1004.0" AnchorPane.bottomAnchor="5.0"
+                      AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                    <children>
+                        <TableView fx:id="headerTable" prefHeight="294.0" prefWidth="500.0">
+                            <columns>
+                                <TableColumn fx:id="headerKeyColumn" prefWidth="174.0" resizable="false"
+                                             text="Header Key"/>
+                                <TableColumn fx:id="headerValueColumn" minWidth="0.0" prefWidth="263.0"
+                                             resizable="false" text="Header Value"/>
+                                <TableColumn fx:id="headerDeleteColumn" prefWidth="49.0" resizable="false"
+                                             sortable="false">
+                                    <graphic>
+                                        <Button mnemonicParsing="false" onAction="#handleAddHeaderButtonEvent"
+                                                style="-fx-background-color: #31ae28;" text="Add" textAlignment="CENTER"
+                                                textFill="WHITE">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND"/>
+                                            </cursor>
+                                        </Button>
+                                    </graphic>
+                                </TableColumn>
+                            </columns>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </HBox.margin>
+                        </TableView>
+                        <TableView fx:id="cookieTable" prefHeight="294.0" prefWidth="500.0">
+                            <columns>
+                                <TableColumn fx:id="cookieColumn" prefWidth="437.0" resizable="false" text="Cookie"/>
+                                <TableColumn fx:id="cookieDeleteColumn" prefWidth="49.0" resizable="false"
+                                             sortable="false">
+                                    <graphic>
+                                        <Button mnemonicParsing="false" onAction="#handleAddCookieButtonEvent"
+                                                style="-fx-background-color: #31ae28;" text="Add" textAlignment="CENTER"
+                                                textFill="WHITE">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND"/>
+                                            </cursor>
+                                        </Button>
+                                    </graphic>
+                                </TableColumn>
+                            </columns>
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </HBox.margin>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </bottom>
+</BorderPane>

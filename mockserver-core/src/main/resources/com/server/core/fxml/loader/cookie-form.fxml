@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.server.core.controller.CookieFormController">
+    <children>
+        <VBox layoutX="300.0" layoutY="74.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <HBox alignment="CENTER" prefHeight="96.0" prefWidth="600.0">
+                    <children>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="51.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="2.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="cookieNameInput" promptText="Cookie Name">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value" wrappingWidth="51.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="1.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="cookieValueInput" promptText="Cookie Value">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="96.0" prefWidth="600.0">
+                    <children>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Domain" wrappingWidth="67.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="2.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="domainInput" promptText="some-company.co.uk">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Expires" wrappingWidth="60.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="1.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="expiresInput" promptText="Ex: Wed, 21 Oct 2015 07:28:00 GMT">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="96.0" prefWidth="600.0">
+                    <children>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <CheckBox fx:id="httpOnlyCheckbox" mnemonicParsing="false" prefHeight="28.0"
+                                          prefWidth="91.0" text="Http Only"/>
+                                <CheckBox fx:id="portionedCheckbox" mnemonicParsing="false" prefHeight="28.0"
+                                          prefWidth="91.0" text="Partitioned"/>
+                                <CheckBox fx:id="secureCheckbox" mnemonicParsing="false" prefHeight="28.0"
+                                          prefWidth="91.0" text="Secure"/>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="96.0" prefWidth="280.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max-Age" wrappingWidth="74.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="1.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="maxAgeInput" promptText="Ex: 2592000">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="96.0" prefWidth="600.0">
+                    <children>
+                        <VBox prefHeight="96.0" prefWidth="266.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Path" wrappingWidth="43.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="2.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <TextField fx:id="pathInput" promptText="Ex: /docs">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                </TextField>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                        <VBox prefHeight="96.0" prefWidth="221.0">
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                            <children>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SameSite" wrappingWidth="81.0">
+                                    <font>
+                                        <Font size="15.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" top="1.0"/>
+                                    </VBox.margin>
+                                </Text>
+                                <ChoiceBox fx:id="sameSiteChoice" prefHeight="31.0" prefWidth="116.0"/>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" right="10.0" top="10.0"/>
+                            </padding>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="96.0" prefWidth="79.0">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#handleSaveCookieButtonEvent"
+                                        prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: #31ae28;"
+                                        text="Save" textAlignment="CENTER" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <VBox.margin>
+                                        <Insets top="15.0"/>
+                                    </VBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
