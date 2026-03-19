@@ -29,6 +29,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.server.app.constants.ApplicationConstants.DEFAULT_ID_LENGTH;
 import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
 import static com.server.app.constants.ApplicationConstants.ENV_PROPERTY_FILE_PATH;
 import static com.server.app.constants.ApplicationConstants.HYPHEN;
@@ -47,7 +48,7 @@ public final class AppUtil {
     }
 
     /**
-     * Finds the window with the provided title
+     * Finds the window with the provided title<br>
      *
      * @param title {@link String}
      * @return {@link Window} with the provided title or {@code null} if no window found
@@ -63,8 +64,8 @@ public final class AppUtil {
     }
 
     /**
-     * Brings the window to front if its already open to prevent opening same window multiple times. Or else performs
-     * the {@link Runnable} action if there is no same window opened
+     * Brings the window to front if its already open to prevent opening same window multiple times.<br> Or else performs
+     * the {@link Runnable} action if there is no same window opened<br>
      *
      * @param OrElseAction {@link Runnable} Action to perform if there is no window found with the provided titles
      * @param filterTitles {@link String} Array of titles to filter from all the opened windows
@@ -90,7 +91,7 @@ public final class AppUtil {
     }
 
     /**
-     * Closes the stage bound with {@link Event} passed in the argument
+     * Closes the stage bound with {@link Event} passed in the argument<br>
      *
      * @param event {@link Event}
      */
@@ -101,7 +102,7 @@ public final class AppUtil {
     }
 
     /**
-     * Closed all the stages with the specified titles passed in the argument
+     * Closed all the stages with the specified titles passed in the argument<br>
      *
      * @param titles {@link String} Array of titles
      */
@@ -117,7 +118,7 @@ public final class AppUtil {
     }
 
     /**
-     * Closed all the stages with the specified title passed in the argument
+     * Closed all the stages with the specified title passed in the argument<br>
      *
      * @param windows {@link ObservableList}<{@link Window}>
      * @param title   {@link String} Title of the stage to be closed
@@ -133,8 +134,8 @@ public final class AppUtil {
     }
 
     /**
-     * Closes all the opened window and performs application exit.
-     * <br>{@link javafx.application.Application} stop method will get executed
+     * Closes all the opened window and performs application exit.<br>
+     * {@link javafx.application.Application} stop method will get executed
      */
     public static void exitApplication() {
         exitApplication(null);
@@ -142,7 +143,7 @@ public final class AppUtil {
 
     /**
      * Closes all the opened window and performs application exit.
-     * <br>{@link javafx.application.Application} stop method will get executed
+     * <br>{@link javafx.application.Application} stop method will get executed<br>
      *
      * @param event {@link Event}
      */
@@ -161,7 +162,7 @@ public final class AppUtil {
     }
 
     /**
-     * Opens a JavaFX Alert window with Error {@link AlertType}
+     * Opens a JavaFX Alert window with Error {@link AlertType}<br>
      *
      * @param headerText  {@link String} Text to display in the header section of the Alert stage
      * @param contentText {@link String} Text to display in the context section of the Alert stage
@@ -171,7 +172,7 @@ public final class AppUtil {
     }
 
     /**
-     * Opens a JavaFX Alert window with Information {@link AlertType}
+     * Opens a JavaFX Alert window with Information {@link AlertType}<br>
      *
      * @param headerText  {@link String} Text to display in the header section of the Alert stage
      * @param contentText {@link String} Text to display in the context section of the Alert stage
@@ -181,7 +182,7 @@ public final class AppUtil {
     }
 
     /**
-     * Opens a JavaFX Alert window with provided {@link AlertType}
+     * Opens a JavaFX Alert window with provided {@link AlertType}<br>
      *
      * @param headerText  {@link String} Text to display in the header section of the Alert stage
      * @param contentText {@link String} Text to display in the context section of the Alert stage
@@ -202,7 +203,7 @@ public final class AppUtil {
     }
 
     /**
-     * Opens a JavaFX Alert Confirmation window for prompting user to choose one from OK and Cancel button
+     * Opens a JavaFX Alert Confirmation window for prompting user to choose one from OK and Cancel button<br>
      *
      * @param headerText  {@link String} Text to display in the header section of the Alert stage
      * @param contentText {@link String} Text to display in the context section of the Alert stage
@@ -220,8 +221,17 @@ public final class AppUtil {
     }
 
     /**
-     * Generates a unique alphanumeric key based on UUID version 7.
-     * This method first generates UUID version 7, then it removes the hyphen and converts the string to upper case.
+     * Generates a unique alphanumeric key based on {@link SecureRandom} of the default length<br>
+     *
+     * @return {@link Optional}<{@link String}> Returns an Optional of unique alphanumeric key
+     */
+    public static Optional<String> generateUniqueAlphanumericId() {
+        return generateUniqueAlphanumericId(DEFAULT_ID_LENGTH);
+    }
+
+    /**
+     * Generates a unique alphanumeric key based on UUID version 7.<br>
+     * This method first generates UUID version 7, then it removes the hyphen and converts the string to upper case.<br>
      *
      * @return {@link Optional}<{@link String}> Returns an Optional of unique alphanumeric key based on UUID version 7
      */
@@ -232,7 +242,7 @@ public final class AppUtil {
     }
 
     /**
-     * Generates UUID version 7
+     * Generates UUID version 7<br>
      *
      * @return Returns {@link UUID} in {@link Optional}<{@link String}> format
      */
@@ -247,10 +257,35 @@ public final class AppUtil {
     }
 
     /**
-     * Returns a SecureRandom object that implements the 'SHA1PRNG' algorithm
+     * Generates a unique alphanumeric key based on {@link SecureRandom} of the specified length<br>
+     *
+     * @param idLength {@code int} Specify the length of the unique id to be generated
+     * @return {@link Optional}<{@link String}> Returns an Optional of unique alphanumeric key
+     */
+    public static Optional<String> generateUniqueAlphanumericId(int idLength) {
+        var upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+        var numbers = "1234567890";
+        var alphanumeric = upperCaseChars + lowerCaseChars + numbers;
+        try {
+            Random random = getRandom();
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < idLength; i++) {
+                int index = random.nextInt(alphanumeric.length());
+                stringBuilder.append(alphanumeric.charAt(index));
+            }
+            return Optional.of(stringBuilder.toString());
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Returns a SecureRandom object that implements the 'SHA1PRNG' algorithm<br>
      *
      * @return {@link Random}
-     * @throws NoSuchAlgorithmException if no {@code Provider} supports a {@code SecureRandomSpi}
+     * @throws NoSuchAlgorithmException if no {@code Provider} supports a {@code SecureRandomSpi}<br>
      *                                  implementation for the specified algorithm
      */
     private static Random getRandom() throws NoSuchAlgorithmException {
@@ -258,12 +293,12 @@ public final class AppUtil {
     }
 
     /**
-     * Securely generates a random number within the given range
+     * Securely generates a random number within the given range<br>
      *
      * @param min {@code int} Minimum number in the range
      * @param max {@code int} Maximum number in the range
      * @return {@code int} Random number within the given range
-     * @throws NoSuchAlgorithmException if no {@code Provider} supports a {@code SecureRandomSpi}
+     * @throws NoSuchAlgorithmException if no {@code Provider} supports a {@code SecureRandomSpi}<br>
      *                                  implementation for the specified algorithm
      */
     public static int getRandomNumberInRange(int min, int max) throws NoSuchAlgorithmException {
@@ -271,7 +306,7 @@ public final class AppUtil {
     }
 
     /**
-     * Load properties from the specified property file present in the classpath
+     * Load properties from the specified property file present in the classpath<br>
      *
      * @return {@link Properties} Loaded properties from the env.properties file
      */
