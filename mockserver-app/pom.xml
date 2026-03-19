@@ -7,7 +7,7 @@
     <groupId>com.server.app</groupId>
     <artifactId>mockserver-app</artifactId>
     <name>MockServer-App</name>
-    <description>Cross platform desktop MockServer application to create and run mock servers locally for testing
+    <description>Cross platform MockServer desktop application to create and run mock servers locally for testing
     </description>
 
     <parent>

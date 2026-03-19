@@ -9,7 +9,7 @@
     <version>1.0</version>
     <name>MockServer</name>
     <packaging>pom</packaging>
-    <description>MockServer application to create and run mock servers locally for testing</description>
+    <description>MockServer to create and run mock servers locally for testing</description>
 
     <modules>
         <module>mockserver-core</module>
