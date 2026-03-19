@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.server.app.util.AppUtil.generateUUID7BasedId;
+import static com.server.app.util.AppUtil.generateUniqueAlphanumericId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 
@@ -74,7 +74,7 @@ public class CollectionService {
      * @return the newly created {@link Optional} of {@link Collection}
      */
     public Optional<Collection> createCollection(String collectionName) {
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             triggerErrorAlert("Something went wrong while saving collection!", "Please try again later.");
             return Optional.empty();
@@ -97,7 +97,7 @@ public class CollectionService {
      * @apiNote This method creates the {@link Collection} silently without triggering any Alert in case of failure
      */
     public Optional<String> createImportedCollection(Collection collection) {
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             return Optional.empty();
         }

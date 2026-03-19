@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.server.app.constants.ApplicationConstants.EQUALS_CHAR;
-import static com.server.app.util.AppUtil.generateUUID7BasedId;
+import static com.server.app.util.AppUtil.generateUniqueAlphanumericId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
@@ -34,7 +34,7 @@ public class Header implements Serializable {
     }
 
     public Header() {
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             triggerErrorAlert("Something went wrong while creating Header!",
                     "Please try again later.");

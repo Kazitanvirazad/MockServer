@@ -11,8 +11,9 @@ public final class ApplicationConstants {
     }
 
     public static final int DEFAULT_RESPONSE_CODE = 200;
-    public static final long DEFAULT_RESPONSE_LENGTH = 0L;
     public static final int METHOD_NOT_ALLOWED_HTTP_CODE = 405;
+    public static final int DEFAULT_ID_LENGTH = 8;
+    public static final long DEFAULT_RESPONSE_LENGTH = 0L;
     public static final String EMPTY_STRING = "";
     public static final String EMPTY_SPACE = " ";
     public static final String EQUALS_CHAR = "=";
@@ -22,24 +23,15 @@ public final class ApplicationConstants {
     public static final String SEMI_COLON = ";";
     public static final String COLON = ":";
     public static final String DEFAULT_PATH = "/";
-    public static final String AMPERSAND_CHAR = "&";
-    public static final String QUERY_CHAR = "?";
     public static final String SQL_COMMENT = "--";
     public static final String SQL_QUERY = "(?)";
     public static final String BLOCK_COMMENT_START = "/*";
     public static final String BLOCK_COMMENT_END = "*/";
     public static final String SQL_QUERY_SEPARATOR = "\\|~\\|~\\|";
-    public static final String SPLIT_URL_AND_QUERY_PARAM_REGEX = "\\?(?!\\?)";
-    public static final String LOCALHOST_1 = "127.0.0.1";
-    public static final String LOCALHOST_2 = "0.0.0.0";
-    public static final String CHARSET_UTF8 = "charset=UTF-8";
     public static final String SECURE_RANDOM_ALGORITHM = "SHA1PRNG";
     public static final String SQL_DDL_QUERY_FILE_PATH = "/data/queries/ddl.sql";
     public static final String SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY = "PRAGMA foreign_keys = ON";
     public static final String ENV_PROPERTY_FILE_PATH = "/properties/env.properties";
-    public static final String HTTP_SCHEME = "http";
-    public static final String HTTPS_SCHEME = "https";
-    public static final String LOCALHOST = "localhost";
     public static final String COOKIE_HEADER_KEY = "set-cookie";
     public static final String DOMAIN = "Domain";
     public static final String EXPIRES = "Expires";

@@ -20,7 +20,7 @@ import static com.server.app.constants.ApplicationConstants.PATH;
 import static com.server.app.constants.ApplicationConstants.SAME_SITE;
 import static com.server.app.constants.ApplicationConstants.SECURE;
 import static com.server.app.constants.ApplicationConstants.SEMI_COLON;
-import static com.server.app.util.AppUtil.generateUUID7BasedId;
+import static com.server.app.util.AppUtil.generateUniqueAlphanumericId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 
 /**
@@ -72,7 +72,7 @@ public class Cookie implements Serializable {
 
     public Cookie() {
         this.path = DEFAULT_PATH;
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             triggerErrorAlert("Something went wrong while creating Cookie!",
                     "Please try again later.");

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.server.app.constants.ApplicationConstants.EMPTY_STRING;
-import static com.server.app.util.AppUtil.generateUUID7BasedId;
+import static com.server.app.util.AppUtil.generateUniqueAlphanumericId;
 import static com.server.app.util.AppUtil.triggerErrorAlert;
 import static com.server.app.util.AppUtil.triggerInfoAlert;
 import static com.server.app.util.Serializer.serializeList;
@@ -69,7 +69,7 @@ public class ServerService {
         if (null == server) {
             return Optional.empty();
         }
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             triggerErrorAlert("Something went wrong while creating Server!",
                     "Please try again later.");
@@ -103,7 +103,7 @@ public class ServerService {
         if (null == server) {
             return Optional.empty();
         }
-        Optional<String> uid = generateUUID7BasedId();
+        Optional<String> uid = generateUniqueAlphanumericId();
         if (uid.isEmpty()) {
             return Optional.empty();
         }
