@@ -21,6 +21,7 @@ import static com.server.app.constants.AppConstants.APP_SERVER_FORM_EDIT_TITLE;
 import static com.server.app.constants.AppConstants.APP_SERVER_FORM_SAVE_BUTTON;
 import static com.server.app.constants.AppConstants.APP_SERVER_FORM_TITLE;
 import static com.server.app.util.AppUtil.closeWindowWithTitle;
+import static com.server.app.util.AppUtil.setCloseWindowOnEscapeButtonPress;
 
 /**
  * @author Kazi Tanvir Azad
@@ -71,6 +72,8 @@ public class ServerFormStageLoader implements StageLoader<ServerFormController> 
             getController().setSaveServerButton(this.saveServerButtonText);
             getController().initialize(location, null);
             Scene scene = new Scene(root);
+            // Adding key press event handler for server form Scene
+            setCloseWindowOnEscapeButtonPress(stage, scene);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle(this.title);

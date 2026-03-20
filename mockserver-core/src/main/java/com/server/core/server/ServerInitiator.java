@@ -110,7 +110,13 @@ public class ServerInitiator {
      */
     public void removeEndpoint(Server server, boolean silent) {
         stopServer();
-        endPoints.remove(server.getUrlEndpoint());
+        EndpointInitiator existingEndpoints = endPoints.getOrDefault(server.getUrlEndpoint(), null);
+        if (Objects.nonNull(existingEndpoints)) {
+            existingEndpoints.removeMethod(server.getMethod());
+            if (MapUtils.isEmpty(existingEndpoints.getMethods())) {
+                endPoints.remove(server.getUrlEndpoint());
+            }
+        }
         if (MapUtils.isNotEmpty(endPoints)) {
             startServer(silent);
         }

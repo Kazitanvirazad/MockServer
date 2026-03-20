@@ -3,7 +3,6 @@ package com.server.app.fxml.loader;
 import com.server.app.config.AppConfig;
 import com.server.app.controller.ActiveServersController;
 import com.server.app.exception.StageLoadException;
-import com.server.app.util.CustomKeyCode;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static com.server.app.constants.AppConstants.APP_ACTIVE_SERVER_MANAGER_TITLE;
+import static com.server.app.util.AppUtil.setCloseWindowOnEscapeButtonPress;
 
 /**
  * @author Kazi Tanvir Azad
@@ -37,11 +37,7 @@ public class ActiveServersStageLoader implements StageLoader<ActiveServersContro
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             // Adding key press event handler for active server Scene
-            scene.setOnKeyPressed(keyEvent -> {
-                if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
-                    stage.close();
-                }
-            });
+            setCloseWindowOnEscapeButtonPress(stage, scene);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle(APP_ACTIVE_SERVER_MANAGER_TITLE);
