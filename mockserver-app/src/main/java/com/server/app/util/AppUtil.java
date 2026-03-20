@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.commons.collections4.CollectionUtils;
@@ -140,6 +141,22 @@ public final class AppUtil {
             Platform.exit();
         } catch (Exception exception) {
             log.error(exception.getMessage());
+        }
+    }
+
+    /**
+     * Add key press event handler for active Scene
+     *
+     * @param stage {@link Stage}
+     * @param scene {@link Scene}
+     */
+    public static void setCloseWindowOnEscapeButtonPress(Stage stage, Scene scene) {
+        if (Objects.nonNull(stage) && Objects.nonNull(scene)) {
+            scene.setOnKeyPressed(keyEvent -> {
+                if (CustomKeyCode.INSTANCE.getEscapeKeycode().equals(keyEvent.getCode())) {
+                    stage.close();
+                }
+            });
         }
     }
 

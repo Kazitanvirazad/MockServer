@@ -61,6 +61,10 @@ public class EndpointInitiator {
         this.methods = methods;
     }
 
+    public void removeMethod(Method method) {
+        this.methods.remove(method);
+    }
+
     public String getUrlEndpoint() {
         return urlEndpoint;
     }
