@@ -507,10 +507,6 @@ public class ServerFormController {
                 new SimpleObjectProperty<>(cellData.getValue().getCookieSimpleObjectProperty().value()));
     }
 
-    private void initializeBinaryResponse() {
-
-    }
-
     public void setMockServerFormTitle(String mockServerFormTitle) {
         this.mockServerFormTitle.setText(mockServerFormTitle);
     }
