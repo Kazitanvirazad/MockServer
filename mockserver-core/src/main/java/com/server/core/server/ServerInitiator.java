@@ -40,15 +40,17 @@ public class ServerInitiator {
     /**
      * Initialize the {@link HttpServer} with port number
      */
-    private void initServer() {
+    private void initServer(boolean silent) {
         try {
             // Create and initialize httpServer
             this.httpServer = HttpServer.create(new InetSocketAddress(portNumber), 0);
             httpServer.setExecutor(null);
         } catch (IOException exception) {
-            CommonConfig.INSTANCE.notification()
-                    .triggerErrorNotification("Something went wrong while initializing server",
-                            exception.getMessage());
+            if (!silent) {
+                CommonConfig.INSTANCE.notification()
+                        .triggerErrorNotification("Something went wrong while initializing server",
+                                exception.getMessage());
+            }
             throw new RuntimeException(exception);
         }
     }
@@ -106,19 +108,19 @@ public class ServerInitiator {
      *
      * @param server {@link Server} to be removed
      */
-    public void removeEndpoint(Server server) {
+    public void removeEndpoint(Server server, boolean silent) {
         stopServer();
         endPoints.remove(server.getUrlEndpoint());
         if (MapUtils.isNotEmpty(endPoints)) {
-            startServer();
+            startServer(silent);
         }
     }
 
     /**
      * Initialize the {@link HttpServer} with port number, initializes the server context and starts the server
      */
-    public void startServer() {
-        initServer();
+    public void startServer(boolean silent) {
+        initServer(silent);
         if (Objects.nonNull(httpServer)) {
             // Add server context logic from 'endPoints'
             initializeServerContext();
@@ -140,9 +142,9 @@ public class ServerInitiator {
     /**
      * Performs server restart
      */
-    public void restartServer() {
+    public void restartServer(boolean silent) {
         stopServer();
-        startServer();
+        startServer(silent);
     }
 
     /**

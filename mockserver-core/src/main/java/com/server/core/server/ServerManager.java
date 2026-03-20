@@ -30,7 +30,7 @@ public enum ServerManager {
      *
      * @param server {@link Server} to start if it's already not running or override the similar server
      * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
-     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>true then no Alert will be triggered in case of any failures and exceptions
      *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
      * @apiNote overriding the existing server will happen after taking user's consent by triggering a confirmation Alert
      */
@@ -64,12 +64,12 @@ public enum ServerManager {
                 ServerInitiator existinogServerInitiator = activeServers.getOrDefault(server.getPort(), null);
                 if (Objects.nonNull(existinogServerInitiator)) {
                     existinogServerInitiator.addEndpoint(server, activeServerIds);
-                    existinogServerInitiator.restartServer();
+                    existinogServerInitiator.restartServer(silent);
                 }
             } else {
                 ServerInitiator serverInitiator = new ServerInitiator(server.getPort());
                 serverInitiator.addEndpoint(server, activeServerIds);
-                serverInitiator.startServer();
+                serverInitiator.startServer(silent);
                 activeServers.put(server.getPort(), serverInitiator);
             }
             activeServerIds.add(server.getServerId());
@@ -86,7 +86,7 @@ public enum ServerManager {
      *
      * @param server {@link Server} to be stopped if it's already running
      * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
-     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>true then no Alert will be triggered in case of any failures and exceptions
      *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
      */
     public void stopServer(Server server, boolean silent) {
@@ -117,7 +117,7 @@ public enum ServerManager {
             // getting already running server with same port
             ServerInitiator existinogServerInitiator = activeServers.getOrDefault(server.getPort(), null);
             if (Objects.nonNull(existinogServerInitiator)) {
-                existinogServerInitiator.removeEndpoint(server);
+                existinogServerInitiator.removeEndpoint(server, silent);
                 activeServerIds.remove(server.getServerId());
                 if (existinogServerInitiator.isServerStopped()) {
                     activeServers.remove(server.getPort());
@@ -169,7 +169,7 @@ public enum ServerManager {
      * Stops all the currently active servers and returns their id in the {@link List}
      *
      * @param silent {@code boolean} Flags if the operation will be processed silently, which means if it's set to
-     *               <br>true then no JavaFX Alert will be triggered in case of any failures and exceptions
+     *               <br>true then no Alert will be triggered in case of any failures and exceptions
      *               <br>and if it's set to false then Alerts will be triggered in case of failure and exceptions
      * @return {@link List} of server ids which are made to stop
      */
