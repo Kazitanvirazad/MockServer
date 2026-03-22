@@ -10,8 +10,9 @@
 - [Who is this for?](#who-is-this-for)
 - [Features](#features)
 - [Download](#download)
-- [How to use Mock Server](#how-to-use-mock-server)
 - [FAQ](#faq)
+- [How to use Mock Server](#how-to-use-mock-server)
+- [Donate](#donate)
 
 ---
 
@@ -35,11 +36,11 @@ The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For det
 
 | Topic | What you get |
 |--------|----------------|
-| **Mock server** setup | Name, port, path, method, HTTP status, delay, body size |
+| **Mock server** setup | Name, port, path, method, HTTP status, delay, body |
 | **Dummy server** workflows | Start/stop per server or manage all active servers in one view |
 | **Organization** | Collections to group mock servers |
 | **Collaboration** | Export/import collections (JSON) for backup and sharing |
-| **Platform** | Desktop GUI (JavaFX); Windows builds available |
+| **Platform** | Desktop GUI (JavaFX); Available for Windows. macOS release is planned |
 
 ---
 
@@ -47,7 +48,7 @@ The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For det
 
 Currently available for **Windows**. A **macOS** release is planned.
 
-- **Windows** —
+- [**Windows**](https://github.com/Kazitanvirazad/MockServer/releases)
 
 ---
 
@@ -295,13 +296,13 @@ Choose whether **active mock servers** should **restart automatically** when you
 
 If you find **Mock Server** useful, consider buying me a coffee.
 
-UPI Details:
-tanvir.kaziazad-1@okhdfcbank
+**UPI Details:**<br>
+tanvir.kaziazad-1@okhdfcbank<br>
 
-Bank Transfer Details:
-Account name- Kazi tanvir azad
-Account Number- 50100462520399
-IFSC- HDFC0000833
+**Bank Transfer Details:**<br>
+**Account name**- Kazi tanvir azad<br>
+**Account Number**- 50100462520399<br>
+**IFSC**- HDFC0000833
 
 ---
 
