@@ -1,7 +1,12 @@
 @echo OFF
 TITLE "MockServer Packaging"
 
-echo "MockServer Packaging"
+echo "Loading signing properties..."
+call "%~dp0load-win-signing.bat"
+
+setlocal EnableDelayedExpansion
+
+echo "Packaging Started..."
 
 echo "Deleting existing build directory..."
 IF EXIST "target\" rmdir /s /q "target\"
@@ -11,7 +16,12 @@ IF EXIST "build\" rmdir /s /q "build\"
 
 echo "Building Maven project..."
 call mvn clean
-call mvn package -DskipTests
+if defined MOCKSERVER_JARSIGN_KEYSTORE (
+  echo "JAR signing enabled (MOCKSERVER_JARSIGN_KEYSTORE is set); running mvn verify -Pjar-sign ..."
+  call mvn verify -DskipTests -Pjar-sign
+) else (
+  call mvn package -DskipTests
+)
 IF ERRORLEVEL 1 EXIT /B 1
 
 call cd mockserver-app
@@ -50,3 +60,9 @@ echo "Packaging script execution complete!"
 echo "Copying msi installer to build directory!"
 IF NOT EXIST ..\build mkdir ..\build
 call copy target\installer\MockServer-*.msi ..\build\
+
+if defined MOCKSERVER_CODESIGN_PFX (
+  echo "Signing MSI (Authenticode)..."
+  call "%~dp0sign-win-msi.bat" "%~dp0..\build"
+  IF ERRORLEVEL 1 EXIT /B 1
+)
