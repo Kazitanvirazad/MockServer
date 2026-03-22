@@ -110,6 +110,8 @@ public class MainAppController implements Initializable {
     @FXML
     private Text activeServerCountText;
     @FXML
+    private Text versionText;
+    @FXML
     private TableView<ServerTableData> serverTable;
     @FXML
     private TableColumn<ServerTableData, String> serverNameCol;
@@ -214,6 +216,8 @@ public class MainAppController implements Initializable {
         initializeServerTable();
         // setting active server view
         initializeActiveServerView();
+        // initializing version Text View
+        initializeVersionTextView();
     }
 
     private void setMenuItemEvents() {
@@ -313,6 +317,11 @@ public class MainAppController implements Initializable {
                 initializeActiveServerManager(event);
             }
         });
+    }
+
+    private void initializeVersionTextView() {
+        AppConfig.INSTANCE.getEnvProperty("app.version")
+                .ifPresent(version -> versionText.setText("Version: " + version));
     }
 
     private void initializeCollectionTable() {
