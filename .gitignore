@@ -99,4 +99,6 @@ package-lock.json
 *.db
 *.db-*
 
-
+# Jar and Code signing material
+**/signtools/*.jks
+**/signtools/*.pfx

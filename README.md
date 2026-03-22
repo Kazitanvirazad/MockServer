@@ -1,6 +1,6 @@
 # Mock Server
 
-**Mock Server** is a free, cross-platform desktop app for **local API testing**. Run lightweight **mock servers** on your machine so you can develop and test clients without hitting a real backend. Need a **dummy server** or stand-in HTTP endpoint? Mock Server lets you define routes, status codes, headers, cookies, and delays—then start and stop servers from a simple JavaFX GUI.
+**Mock Server** is a free, cross-platform desktop app for **local API testing**. Run lightweight **mock servers** on your machine so you can develop and test clients without hitting a real backend. Need a **dummy server** or standalone HTTP endpoint? Mock Server lets you define routes, status codes, headers, cookies, and delays—then start and stop servers from a simple JavaFX GUI.
 
 ---
 
@@ -19,7 +19,7 @@
 
 The **Mock Server** application helps you test software locally by creating servers that imitate a real API. You can run **multiple mock servers on different ports** at the same time. Servers are grouped into **collections**; you can **export** a collection and share it with teammates so everyone uses the same **dummy server** definitions—useful for collaboration and consistent integration tests.
 
-The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For details on that API, see the Java documentation.
+The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For details on that API, see the Java documentation [here](https://docs.oracle.com/javase/8/docs/jre/api/net/httpserver/spec/com/sun/net/httpserver/HttpServer.html).
 
 ---
 
@@ -48,6 +48,34 @@ The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For det
 Currently available for **Windows**. A **macOS** release is planned.
 
 - **Windows** —
+
+---
+
+## FAQ
+
+### What is a mock server?
+
+A **mock server** is a local or test HTTP server that returns predefined responses so you can develop and test clients without a real backend. **Mock Server** (this app) is a desktop tool to configure and run such servers on your machine.
+
+### What is a dummy server?
+
+A **dummy server** is another name for a simple standalone server used in testing. In this project, **Mock Server** acts as a **dummy server** you configure with endpoints, status codes, headers, and cookies.
+
+### Is Mock Server the same as a production API?
+
+No. **Mock Server** is for **local testing** and **integration tests**. It does not replace a real API in production.
+
+### Can I run multiple mock servers at once?
+
+Yes. You can run **multiple mock servers on multiple ports** in parallel, organized by collections.
+
+### How do I share mock server configs with my team?
+
+Use **File → Export Collections** to export JSON, then **File → Import Collections** on another machine. That way teammates can reuse the same **mock server** definitions.
+
+### Which platforms are supported?
+
+**Windows** builds are available. **macOS** support is planned.
 
 ---
 
@@ -263,31 +291,17 @@ Choose whether **active mock servers** should **restart automatically** when you
 
 ---
 
-## FAQ
+## Donate
 
-### What is a mock server?
+If you find **Mock Server** useful, consider buying me a coffee.
 
-A **mock server** is a local or test HTTP server that returns predefined responses so you can develop and test clients without a real backend. **Mock Server** (this app) is a desktop tool to configure and run such servers on your machine.
+UPI Details:
+tanvir.kaziazad-1@okhdfcbank
 
-### What is a dummy server?
-
-A **dummy server** is another name for a simple stand-in server used in testing. In this project, **Mock Server** acts as a **dummy server** you configure with endpoints, status codes, headers, and cookies.
-
-### Is Mock Server the same as a production API?
-
-No. **Mock Server** is for **local testing** and **integration tests**. It does not replace a real API in production.
-
-### Can I run multiple mock servers at once?
-
-Yes. You can run **multiple mock servers on multiple ports** in parallel, organized by collections.
-
-### How do I share mock server configs with my team?
-
-Use **File → Export Collections** to export JSON, then **File → Import Collections** on another machine. That way teammates can reuse the same **mock server** definitions.
-
-### Which platforms are supported?
-
-**Windows** builds are available. **macOS** support is planned.
+Bank Transfer Details:
+Account name- Kazi tanvir azad
+Account Number- 50100462520399
+IFSC- HDFC0000833
 
 ---
 
