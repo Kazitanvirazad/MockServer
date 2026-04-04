@@ -24,11 +24,11 @@ public class AppConstants {
     public static final String APP_SERVER_FORM_EDIT_TITLE = "Edit Mock Server";
     public static final String APP_SERVER_FORM_SAVE_BUTTON = "Create Server";
     public static final String APP_SERVER_FORM_EDIT_BUTTON = "Update Server";
-    public static final String TRACER = "tracer";
     public static final String JAVA_CROSS_PLATFORM_USER_DIRECTORY_PATH = SystemProperties.getUserHome();
     public static final String LIGHT_GREY_COLOR_HEX_CODE = "#e3e3e3;";
     public static final String LIGHT_RED_COLOR_HEX_CODE = "#fcc6c2;";
     public static final String LIGHT_GREEN_COLOR_HEX_CODE = "#cafadb;";
     public static final String DELETE_BUTTON_IMAGE_PATH = "/static/icons/delete-24.png";
     public static final String ENV_PROPERTY_FILE_PATH = "/properties/env.properties";
+    public static final String SQL_DDL_APP_QUERY_FILE_PATH = "/data/queries/ddl-app.sql";
 }

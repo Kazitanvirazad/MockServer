@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.server</groupId>
         <artifactId>mockserver</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
 
     <licenses>
@@ -95,6 +95,84 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>jacoco-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/server/app/Launcher.class</exclude>
+                                <exclude>com/server/app/MockServerApp.class</exclude>
+                                <exclude>com/server/app/config/**</exclude>
+                                <exclude>com/server/app/constants/**</exclude>
+                                <exclude>com/server/app/control/**</exclude>
+                                <exclude>com/server/app/controller/**</exclude>
+                                <exclude>com/server/app/event/**</exclude>
+                                <exclude>com/server/app/exception/**</exclude>
+                                <exclude>com/server/app/fxml/**</exclude>
+                                <exclude>com/server/app/model/**</exclude>
+                                <exclude>com/server/app/repository/**</exclude>
+                                <exclude>com/server/app/service/TableDataService.class</exclude>
+                                <exclude>com/server/app/util/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/server/app/Launcher.class</exclude>
+                                <exclude>com/server/app/MockServerApp.class</exclude>
+                                <exclude>com/server/app/config/**</exclude>
+                                <exclude>com/server/app/constants/**</exclude>
+                                <exclude>com/server/app/control/**</exclude>
+                                <exclude>com/server/app/controller/**</exclude>
+                                <exclude>com/server/app/event/**</exclude>
+                                <exclude>com/server/app/exception/**</exclude>
+                                <exclude>com/server/app/fxml/**</exclude>
+                                <exclude>com/server/app/model/**</exclude>
+                                <exclude>com/server/app/repository/**</exclude>
+                                <exclude>com/server/app/service/TableDataService.class</exclude>
+                                <exclude>com/server/app/util/**</exclude>
+                            </excludes>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

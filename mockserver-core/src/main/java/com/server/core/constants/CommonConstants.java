@@ -27,7 +27,7 @@ public final class CommonConstants {
     public static final String BLOCK_COMMENT_END = "*/";
     public static final String SQL_QUERY_SEPARATOR = "\\|~\\|~\\|";
     public static final String SECURE_RANDOM_ALGORITHM = "SHA1PRNG";
-    public static final String SQL_DDL_QUERY_FILE_PATH = "/data/queries/ddl.sql";
+    public static final String SQL_DDL_CORE_QUERY_FILE_PATH = "/data/queries/ddl-core.sql";
     public static final String SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY = "PRAGMA foreign_keys = ON";
     public static final String COOKIE_HEADER_KEY = "set-cookie";
     public static final String DOMAIN = "Domain";
@@ -46,4 +46,5 @@ public final class CommonConstants {
     public static final String IMPORT_FILE_PATH_DEFAULT_TEXT = "File Name: ";
     public static final String ACTIVE = "ACTIVE";
     public static final String INACTIVE = "INACTIVE";
+    public static final String TRACER = "tracer";
 }

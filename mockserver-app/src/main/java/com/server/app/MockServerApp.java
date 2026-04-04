@@ -22,17 +22,17 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.slf4j.MDC;
 
 import java.security.Security;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
-import static com.server.app.constants.AppConstants.TRACER;
+import static com.server.app.constants.AppConstants.SQL_DDL_APP_QUERY_FILE_PATH;
 import static com.server.app.util.AppUtil.exitApplication;
 import static com.server.app.util.AppUtil.loadEnvironmentProperties;
-import static com.server.core.util.CommonUtil.generateUUID7BasedId;
+import static com.server.core.util.CommonUtil.removeLogTracer;
+import static com.server.core.util.CommonUtil.setLogTracer;
 import static com.server.core.util.DatabaseUtil.executeCreateQuery;
 import static com.server.core.util.DatabaseUtil.readStartupSQLScript;
 
@@ -57,7 +57,7 @@ public class MockServerApp extends Application {
                 Security.addProvider(provider);
             }
             // Setting tracer for logging
-            generateUUID7BasedId().ifPresent(tracer -> MDC.put(TRACER, tracer));
+            setLogTracer();
             // Setting HostServices to Server
             AppService.INSTANCE.setHostServices(getHostServices());
             // Initializing Stage for splash screen and Main core window
@@ -106,7 +106,7 @@ public class MockServerApp extends Application {
     public void init() throws Exception {
         super.init();
         // Execute sql DDL queries during application initialization
-        List<String> queries = readStartupSQLScript();
+        List<String> queries = readStartupSQLScript(SQL_DDL_APP_QUERY_FILE_PATH);
         for (String query : queries) {
             executeCreateQuery(connection -> {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -130,9 +130,7 @@ public class MockServerApp extends Application {
         // Save the settings in case not updated
         settingsService.updateConfig();
         // Remove the log tracer
-        if (null != MDC.get(TRACER)) {
-            MDC.remove(TRACER);
-        }
+        removeLogTracer();
     }
 
     public static void initiateLaunch(String[] args) {
