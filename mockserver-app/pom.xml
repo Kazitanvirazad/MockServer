@@ -125,9 +125,7 @@
                                 <exclude>com/server/app/exception/**</exclude>
                                 <exclude>com/server/app/fxml/**</exclude>
                                 <exclude>com/server/app/model/**</exclude>
-                                <exclude>com/server/app/repository/**</exclude>
                                 <exclude>com/server/app/service/TableDataService.class</exclude>
-                                <exclude>com/server/app/util/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -149,9 +147,7 @@
                                 <exclude>com/server/app/exception/**</exclude>
                                 <exclude>com/server/app/fxml/**</exclude>
                                 <exclude>com/server/app/model/**</exclude>
-                                <exclude>com/server/app/repository/**</exclude>
                                 <exclude>com/server/app/service/TableDataService.class</exclude>
-                                <exclude>com/server/app/util/**</exclude>
                             </excludes>
                             <rules>
                                 <rule>
