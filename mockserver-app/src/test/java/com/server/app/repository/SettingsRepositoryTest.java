@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -73,6 +74,23 @@ class SettingsRepositoryTest {
     }
 
     @Test
+    void syncConfigurationKeepsExistingConfigWhenDeserializationReturnsEmpty() throws Exception {
+        AppConfig.INSTANCE.getConfiguration().setStartServerOnStartup(false);
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(true, false);
+        when(resultSet.getString(2)).thenReturn("{\"startServerOnStartup\":true}");
+
+        try (MockedStatic<Serializer> serializerMock = mockStatic(Serializer.class)) {
+            serializerMock.when(() -> Serializer.deSerialize("{\"startServerOnStartup\":true}", Configuration.class))
+                    .thenReturn(Optional.empty());
+
+            settingsRepository.syncConfiguration();
+
+            assertTrue(!AppConfig.INSTANCE.getConfiguration().isStartServerOnStartup());
+        }
+    }
+
+    @Test
     void updateConfigurationPersistsSerializedConfig() throws Exception {
         AppConfig.INSTANCE.getConfiguration().setStartServerOnStartup(true);
         when(preparedStatement.execute()).thenReturn(true);
@@ -90,6 +108,18 @@ class SettingsRepositoryTest {
     }
 
     @Test
+    void updateConfigurationSkipsDatabaseWhenSerializationReturnsEmpty() throws Exception {
+        try (MockedStatic<Serializer> serializerMock = mockStatic(Serializer.class)) {
+            serializerMock.when(() -> Serializer.serialize(AppConfig.INSTANCE.getConfiguration()))
+                    .thenReturn(Optional.empty());
+
+            settingsRepository.updateConfiguration();
+
+            verify(connection, never()).commit();
+        }
+    }
+
+    @Test
     void getRowCountReturnsCountFromDatabase() throws Exception {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
@@ -98,6 +128,16 @@ class SettingsRepositoryTest {
         int actual = settingsRepository.getRowCount();
 
         org.junit.jupiter.api.Assertions.assertEquals(4, actual);
+    }
+
+    @Test
+    void getRowCountReturnsZeroWhenQueryHasNoRows() throws Exception {
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(resultSet.next()).thenReturn(false);
+
+        int actual = settingsRepository.getRowCount();
+
+        org.junit.jupiter.api.Assertions.assertEquals(0, actual);
     }
 
     @Test

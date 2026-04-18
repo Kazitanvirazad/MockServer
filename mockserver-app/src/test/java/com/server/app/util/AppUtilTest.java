@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -146,6 +147,31 @@ class AppUtilTest {
         verify(scene).setOnKeyPressed(captor.capture());
         captor.getValue().handle(keyEvent);
         verify(stage).close();
+    }
+
+    @Test
+    void setCloseWindowOnEscapeButtonPressIgnoresOtherKeys() {
+        Stage stage = mock(Stage.class);
+        Scene scene = mock(Scene.class);
+        KeyEvent keyEvent = mock(KeyEvent.class);
+        when(keyEvent.getCode()).thenReturn(KeyCode.ENTER);
+        ArgumentCaptor<EventHandler<KeyEvent>> captor = ArgumentCaptor.forClass(EventHandler.class);
+
+        AppUtil.setCloseWindowOnEscapeButtonPress(stage, scene);
+
+        verify(scene).setOnKeyPressed(captor.capture());
+        captor.getValue().handle(keyEvent);
+        verify(stage, never()).close();
+    }
+
+    @Test
+    void setCloseWindowOnEscapeButtonPressDoesNothingWhenArgumentsAreNull() {
+        Scene scene = mock(Scene.class);
+
+        AppUtil.setCloseWindowOnEscapeButtonPress(null, scene);
+        AppUtil.setCloseWindowOnEscapeButtonPress(mock(Stage.class), null);
+
+        verify(scene, never()).setOnKeyPressed(org.mockito.ArgumentMatchers.any());
     }
 
     @Test

@@ -64,4 +64,31 @@ class FXAlertNotificationTest {
             assertFalse(actual);
         }
     }
+
+    @Test
+    void triggerConfirmationPromptReturnsFalseForCancelSelection() {
+        try (MockedConstruction<Alert> alertConstruction = mockConstruction(Alert.class,
+                (mock, context) -> when(mock.showAndWait()).thenReturn(Optional.of(ButtonType.CANCEL)));
+             MockedConstruction<ImageView> imageViewConstruction = mockConstruction(ImageView.class)) {
+            boolean actual = new FXAlertNotification().triggerConfirmationPrompt("Confirm", "Continue?");
+
+            assertFalse(actual);
+        }
+    }
+
+    @Test
+    void initializeAlertSetsWarningTitle() throws Exception {
+        try (MockedConstruction<Alert> alertConstruction = mockConstruction(Alert.class);
+             MockedConstruction<ImageView> imageViewConstruction = mockConstruction(ImageView.class)) {
+            java.lang.reflect.Method initializeAlert = FXAlertNotification.class.getDeclaredMethod(
+                    "initializeAlert", String.class, String.class, Alert.AlertType.class);
+            initializeAlert.setAccessible(true);
+
+            initializeAlert.invoke(null, "Warning", "Check this", Alert.AlertType.WARNING);
+
+            Alert alert = alertConstruction.constructed().get(0);
+            verify(alert).setTitle("Warning");
+            verify(alert).show();
+        }
+    }
 }
