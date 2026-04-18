@@ -14,6 +14,8 @@ import com.server.app.fxml.loader.StageLoader;
 import com.server.app.model.view.CollectionTableData;
 import com.server.app.model.view.ServerTableData;
 import com.server.app.service.AppService;
+import com.server.app.service.CpuUsageScheduledService;
+import com.server.app.service.MemoryUsageScheduledService;
 import com.server.app.util.AppUtil;
 import com.server.app.util.CustomKeyCode;
 import com.server.core.config.CommonConfig;
@@ -25,6 +27,7 @@ import com.server.core.service.ServerService;
 import com.server.core.service.Service;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.ScheduledService;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -96,6 +99,8 @@ public class MainAppController implements Initializable {
     @FXML
     private MenuItem activeServersMenuItem;
     @FXML
+    private MenuItem refreshViewMenuItem;
+    @FXML
     private MenuItem donateMenuItem;
     @FXML
     private MenuItem licenseMenuItem;
@@ -111,6 +116,10 @@ public class MainAppController implements Initializable {
     private Text activeServerCountText;
     @FXML
     private Text versionText;
+    @FXML
+    private Text memoryUsageText;
+    @FXML
+    private Text cpuUsageText;
     @FXML
     private TableView<ServerTableData> serverTable;
     @FXML
@@ -216,8 +225,8 @@ public class MainAppController implements Initializable {
         initializeServerTable();
         // setting active server view
         initializeActiveServerView();
-        // initializing version Text View
-        initializeVersionTextView();
+        // initializing all static & dynamic labels in the main ui view
+        initializeLabels();
     }
 
     private void setMenuItemEvents() {
@@ -233,34 +242,15 @@ public class MainAppController implements Initializable {
         });
         // setting Options>'Active Servers' MenuItem disable property binding
         activeServersMenuItem.disableProperty().bind(isEmpty(ServerManager.INSTANCE.getActiveServerIds()));
+        // setting Options>'Refresh View' MenuItem action event
+        refreshViewMenuItem.setOnAction(event -> refreshView(null));
         // setting File>'Import Collections' MenuItem action event
         importCollectionMenuItem.setOnAction(event ->
-                bringExistingActiveWindowToFrontOrElse(() -> {
-                    // get currently selected collection
-                    Collection selectedCollection = null;
-                    CollectionTableData selectedCollectionTableData = collectionTable.getSelectionModel().getSelectedItem();
-                    // get currently selected collection
-                    Server selectedServer = null;
-                    ServerTableData serverTableData = serverTable.getSelectionModel().getSelectedItem();
-                    if (Objects.nonNull(selectedCollectionTableData) &&
-                            Objects.nonNull(selectedCollectionTableData.getCollectionObjectProperty())) {
-                        selectedCollection = selectedCollectionTableData.getCollectionObjectProperty();
-                    }
-                    if (Objects.nonNull(serverTableData) &&
-                            Objects.nonNull(serverTableData.getServerObjectProperty())) {
-                        selectedServer = serverTableData.getServerObjectProperty();
-                    }
-                    StageLoader<ImportCollectionController> importCollectionStageLoader = new ImportCollectionStageLoader();
-                    importCollectionStageLoader.loadStage();
-                    // refresh collection table
-                    collectionTable.setItems(FXCollections.observableList(AppService.INSTANCE.getTableDataService().getCollectionTableData()));
-                    if (Objects.nonNull(selectedCollection)) {
-                        selectCollection(selectedCollection);
-                        if (Objects.nonNull(selectedServer)) {
-                            selectServer(selectedServer);
-                        }
-                    }
-                }, APP_IMPORT_COLLECTION_TITLE));
+                bringExistingActiveWindowToFrontOrElse(() ->
+                        refreshView(() -> {
+                            StageLoader<ImportCollectionController> importCollectionStageLoader = new ImportCollectionStageLoader();
+                            importCollectionStageLoader.loadStage();
+                        }), APP_IMPORT_COLLECTION_TITLE));
         // setting File>'Export Collections' MenuItem action event
         exportCollectionMenuItem.setOnAction(event -> {
             if (CollectionUtils.isEmpty(collectionTable.getItems())) {
@@ -319,9 +309,23 @@ public class MainAppController implements Initializable {
         });
     }
 
-    private void initializeVersionTextView() {
+    private void initializeLabels() {
         AppConfig.INSTANCE.getEnvProperty("app.version")
                 .ifPresent(version -> versionText.setText("Version: " + version));
+        // Setting ScheduledService for viewing live memory usage in the main ui with refresh in every 2 seconds period
+        ScheduledService<Long> memoryUsageScheduledService = new MemoryUsageScheduledService(1, 2);
+        memoryUsageScheduledService.setOnSucceeded(event -> {
+            long memoryUsage = memoryUsageScheduledService.getValue();
+            memoryUsageText.setText(String.format("Memory usage: %s MB", memoryUsage));
+        });
+        memoryUsageScheduledService.start();
+        // Setting ScheduledService for viewing current JVM process cpu usage in the main ui with refresh in every 2 seconds period
+        ScheduledService<Double> cpuUsageScheduledService = new CpuUsageScheduledService(1, 2);
+        cpuUsageScheduledService.setOnSucceeded(event -> {
+            double cpuUsage = cpuUsageScheduledService.getValue();
+            cpuUsageText.setText(String.format("CPU usage: %.2f %%", cpuUsage));
+        });
+        cpuUsageScheduledService.start();
     }
 
     private void initializeCollectionTable() {
@@ -649,30 +653,10 @@ public class MainAppController implements Initializable {
     }
 
     private void initializeActiveServerManager(Event event) {
-        // get currently selected collection
-        Collection selectedCollection = null;
-        CollectionTableData selectedCollectionTableData = collectionTable.getSelectionModel().getSelectedItem();
-        // get currently selected collection
-        Server selectedServer = null;
-        ServerTableData serverTableData = serverTable.getSelectionModel().getSelectedItem();
-        if (Objects.nonNull(selectedCollectionTableData) &&
-                Objects.nonNull(selectedCollectionTableData.getCollectionObjectProperty())) {
-            selectedCollection = selectedCollectionTableData.getCollectionObjectProperty();
-        }
-        if (Objects.nonNull(serverTableData) &&
-                Objects.nonNull(serverTableData.getServerObjectProperty())) {
-            selectedServer = serverTableData.getServerObjectProperty();
-        }
-        StageLoader<ActiveServersController> stageLoader = new ActiveServersStageLoader();
-        stageLoader.loadStage();
-        // refresh collection table
-        collectionTable.setItems(FXCollections.observableList(AppService.INSTANCE.getTableDataService().getCollectionTableData()));
-        if (Objects.nonNull(selectedCollection)) {
-            selectCollection(selectedCollection);
-            if (Objects.nonNull(selectedServer)) {
-                selectServer(selectedServer);
-            }
-        }
+        refreshView(() -> {
+            StageLoader<ActiveServersController> stageLoader = new ActiveServersStageLoader();
+            stageLoader.loadStage();
+        });
     }
 
     private void clearCollectionTableSelection() {
@@ -754,6 +738,35 @@ public class MainAppController implements Initializable {
                 return true;
             }
             return false;
+        }
+    }
+
+    private void refreshView(Runnable runnable) {
+        // get currently selected collection
+        Collection selectedCollection = null;
+        CollectionTableData selectedCollectionTableData = collectionTable.getSelectionModel().getSelectedItem();
+        // get currently selected server
+        Server selectedServer = null;
+        ServerTableData serverTableData = serverTable.getSelectionModel().getSelectedItem();
+        if (Objects.nonNull(selectedCollectionTableData) &&
+                Objects.nonNull(selectedCollectionTableData.getCollectionObjectProperty())) {
+            selectedCollection = selectedCollectionTableData.getCollectionObjectProperty();
+        }
+        if (Objects.nonNull(serverTableData) &&
+                Objects.nonNull(serverTableData.getServerObjectProperty())) {
+            selectedServer = serverTableData.getServerObjectProperty();
+        }
+        // Invoking runnable if not null
+        if (Objects.nonNull(runnable)) {
+            runnable.run();
+        }
+        // refresh collection table
+        collectionTable.setItems(FXCollections.observableList(AppService.INSTANCE.getTableDataService().getCollectionTableData()));
+        if (Objects.nonNull(selectedCollection)) {
+            selectCollection(selectedCollection);
+            if (Objects.nonNull(selectedServer)) {
+                selectServer(selectedServer);
+            }
         }
     }
 }
