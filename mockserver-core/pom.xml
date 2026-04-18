@@ -69,7 +69,6 @@
                                 <exclude>com/server/core/function/**</exclude>
                                 <exclude>com/server/core/model/**</exclude>
                                 <exclude>com/server/core/service/Service.class</exclude>
-                                <exclude>com/server/core/server/**</exclude>
                                 <exclude>com/server/core/util/Notification.class</exclude>
                             </excludes>
                         </configuration>
@@ -88,7 +87,6 @@
                                 <exclude>com/server/core/function/**</exclude>
                                 <exclude>com/server/core/model/**</exclude>
                                 <exclude>com/server/core/service/Service.class</exclude>
-                                <exclude>com/server/core/server/**</exclude>
                                 <exclude>com/server/core/util/Notification.class</exclude>
                             </excludes>
                             <rules>
