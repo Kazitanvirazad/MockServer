@@ -21,7 +21,7 @@ import java.util.Optional;
 import static com.server.core.constants.CommonConstants.BLOCK_COMMENT_END;
 import static com.server.core.constants.CommonConstants.BLOCK_COMMENT_START;
 import static com.server.core.constants.CommonConstants.SQL_COMMENT;
-import static com.server.core.constants.CommonConstants.SQL_DDL_QUERY_FILE_PATH;
+import static com.server.core.constants.CommonConstants.SQL_DDL_CORE_QUERY_FILE_PATH;
 import static com.server.core.constants.CommonConstants.SQL_PRAGMA_ENABLE_FOREIGN_KEY_QUERY;
 import static com.server.core.constants.CommonConstants.SQL_QUERY_SEPARATOR;
 
@@ -120,13 +120,30 @@ public final class DatabaseUtil {
     }
 
     /**
-     * Reads and returns the list of all the sql queries from the ddl.sql file from the classpath resource
+     * Reads and returns the list of all the SQL queries from the ddl-core.sql file for Mock Server's core DDL SQL queries
+     * from the classpath resource and also the queries found in the classpaths which are provided on the method argument
      *
-     * @return {@link List}<{@link String}> of sql queries from the classpath resource file
+     * @param resourcePath {@code String...} classpath resource paths
+     * @return {@link List}<{@link String}> of SQL queries from the classpath resource file
      */
-    public static List<String> readStartupSQLScript() {
+    public static List<String> readStartupSQLScript(String... resourcePath) {
+        // Reading Mock Server's core DDL SQL queries
+        List<String> queries = new ArrayList<>(readSQLScriptFromClassResource(SQL_DDL_CORE_QUERY_FILE_PATH));
+        for (String path : resourcePath) {
+            queries.addAll(readSQLScriptFromClassResource(path));
+        }
+        return queries;
+    }
+
+    /**
+     * Reads and returns the list of all the SQL queries from the classpath resource which is provided on the method argument
+     *
+     * @param resourcePath {@link String} classpath resource path
+     * @return {@link List}<{@link String}> of SQL queries from the classpath resource file
+     */
+    private static List<String> readSQLScriptFromClassResource(String resourcePath) {
         List<String> queries = new ArrayList<>();
-        InputStream inputStream = DatabaseUtil.class.getResourceAsStream(SQL_DDL_QUERY_FILE_PATH);
+        InputStream inputStream = DatabaseUtil.class.getResourceAsStream(resourcePath);
         if (null == inputStream) {
             return queries;
         }

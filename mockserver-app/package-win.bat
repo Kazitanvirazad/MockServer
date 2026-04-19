@@ -18,9 +18,9 @@ echo "Building Maven project..."
 call mvn clean
 if defined MOCKSERVER_JARSIGN_KEYSTORE (
   echo "JAR signing enabled (MOCKSERVER_JARSIGN_KEYSTORE is set); running mvn verify -Pjar-sign ..."
-  call mvn verify -DskipTests -Pjar-sign
+  call mvn verify -Pjar-sign
 ) else (
-  call mvn package -DskipTests
+  call mvn package
 )
 IF ERRORLEVEL 1 EXIT /B 1
 
@@ -39,7 +39,7 @@ call "%JAVA_HOME%\bin\jpackage" ^
  --name MockServer ^
  --vendor "Kazi Tanvir Azad" ^
  --verbose ^
- --app-version 1.0 ^
+ --app-version 1.1 ^
  --main-jar MockServer.jar ^
  --main-class com.server.app.Launcher ^
  --icon appicon.ico ^

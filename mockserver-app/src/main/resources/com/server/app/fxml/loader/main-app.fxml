@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <BorderPane fx:id="mainlayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.server.app.controller.MainAppController">
@@ -24,6 +31,7 @@
                     <items>
                         <MenuItem fx:id="activeServersMenuItem" mnemonicParsing="false" text="Active Servers"/>
                         <MenuItem fx:id="createCollectionMenuItem" mnemonicParsing="false" text="Create Collection"/>
+                        <MenuItem fx:id="refreshViewMenuItem" mnemonicParsing="false" text="Refresh View"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -39,7 +47,7 @@
         </MenuBar>
     </top>
     <left>
-        <AnchorPane prefHeight="633.0" prefWidth="240.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="596.0" prefWidth="240.0" BorderPane.alignment="CENTER">
             <children>
                 <TableView fx:id="collectionTable" editable="true" layoutX="2.0" prefHeight="633.0" prefWidth="240.0"
                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -70,7 +78,7 @@
         </AnchorPane>
     </left>
     <center>
-        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="597.0" prefWidth="946.0" BorderPane.alignment="CENTER">
             <children>
                 <TableView fx:id="serverTable" layoutX="4.0" layoutY="32.0" prefHeight="639.0" prefWidth="962.0"
                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -130,43 +138,65 @@
         </AnchorPane>
     </center>
     <bottom>
-        <AnchorPane prefHeight="32.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="0.0" prefWidth="1190.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0"/>
+                <Insets bottom="2.0" left="5.0" right="5.0"/>
             </BorderPane.margin>
             <children>
-                <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="1219.0" AnchorPane.bottomAnchor="0.0"
-                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <HBox alignment="BASELINE_CENTER" layoutY="61.0" prefHeight="39.0" prefWidth="1200.0"
+                      AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+                      AnchorPane.topAnchor="5.0">
                     <children>
-                        <Text fx:id="versionText" fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0">
-                            <font>
-                                <Font name="System Bold" size="12.0"/>
-                            </font>
-                            <HBox.margin>
-                                <Insets right="100.0"/>
-                            </HBox.margin>
-                        </Text>
-                        <Button mnemonicParsing="false" onAction="#startServerEvent"
-                                style="-fx-background-color: #31ae28;" text="Start Server" textFill="WHITE">
-                            <cursor>
-                                <Cursor fx:constant="HAND"/>
-                            </cursor>
-                            <HBox.margin>
-                                <Insets right="5.0"/>
-                            </HBox.margin>
-                            <font>
-                                <Font name="System Bold" size="12.0"/>
-                            </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#stopServerEvent"
-                                style="-fx-background-color: #f44336;" text="Stop Server" textFill="WHITE">
-                            <cursor>
-                                <Cursor fx:constant="HAND"/>
-                            </cursor>
-                            <font>
-                                <Font name="System Bold" size="12.0"/>
-                            </font>
-                        </Button>
+                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="490.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text fx:id="versionText" fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0">
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="30.0"/>
+                                    </HBox.margin>
+                                </Text>
+                                <Text fx:id="memoryUsageText" fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0">
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="30.0"/>
+                                    </HBox.margin>
+                                </Text>
+                                <Text fx:id="cpuUsageText" fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0">
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                </Text>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="490.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#startServerEvent"
+                                        style="-fx-background-color: #31ae28;" text="Start Server" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <HBox.margin>
+                                        <Insets right="5.0"/>
+                                    </HBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#stopServerEvent"
+                                        style="-fx-background-color: #f44336;" text="Stop Server" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
                     </children>
                 </HBox>
             </children>

@@ -10,8 +10,8 @@ import tools.jackson.databind.ObjectMapper;
 public enum CommonConfig {
     INSTANCE;
     private Notification notification;
-    private final ObjectMapper mapper;
 
+    private final ObjectMapper mapper;
     private final ImportExportUtil ioUtil;
 
     public ObjectMapper getMapper() {

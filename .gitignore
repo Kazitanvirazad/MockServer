@@ -15,6 +15,7 @@ target/
 .mvn
 mvnw.*
 mvnw
+.m2
 
 # Ignore spring local profile property files
 *-local.*

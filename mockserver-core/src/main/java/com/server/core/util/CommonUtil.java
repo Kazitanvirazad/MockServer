@@ -5,9 +5,11 @@ import com.fasterxml.uuid.UUIDClock;
 import org.apache.commons.lang3.IntegerRange;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.MDC;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -16,6 +18,7 @@ import static com.server.core.constants.CommonConstants.DEFAULT_ID_LENGTH;
 import static com.server.core.constants.CommonConstants.EMPTY_STRING;
 import static com.server.core.constants.CommonConstants.HYPHEN;
 import static com.server.core.constants.CommonConstants.SECURE_RANDOM_ALGORITHM;
+import static com.server.core.constants.CommonConstants.TRACER;
 
 /**
  * @author Kazi Tanvir Azad
@@ -55,7 +58,7 @@ public final class CommonUtil {
      *
      * @return Returns {@link UUID} in {@link Optional}<{@link String}> format
      */
-    private static Optional<String> generateUUID7() {
+    public static Optional<String> generateUUID7() {
         try {
             UUID uuid7 = Generators.timeBasedEpochRandomGenerator(getRandom(), UUIDClock.systemTimeClock()).generate();
             return Optional.ofNullable(uuid7.toString());
@@ -112,5 +115,21 @@ public final class CommonUtil {
      */
     public static int getRandomNumberInRange(int min, int max) throws NoSuchAlgorithmException {
         return getRandom().nextInt(max - min) + min;
+    }
+
+    /**
+     * Sets 'Tracer' attribute value in the log4j2 logs. The value is based on uuid7 with hyphens removed
+     */
+    public static void setLogTracer() {
+        generateUUID7BasedId().ifPresent(tracer -> MDC.put(TRACER, tracer));
+    }
+
+    /**
+     * Removed existing 'Tracer' attribute value from the log4j2 logs
+     */
+    public static void removeLogTracer() {
+        if (Objects.nonNull(MDC.get(TRACER))) {
+            MDC.remove(TRACER);
+        }
     }
 }

@@ -1,6 +1,8 @@
-# Mock Server
+# MockServer – Desktop GUI Mock Server for API Testing
 
-**Mock Server** is a free, cross-platform desktop app for **local API testing**. Run lightweight **mock servers** on your machine so you can develop and test clients without hitting a real backend. Need a **dummy server** or standalone HTTP endpoint? Mock Server lets you define routes, status codes, headers, cookies, and delays—then start and stop servers from a simple JavaFX GUI.
+**MockServer** is a free, cross-platform desktop application that lets developers create local HTTP mock servers with a graphical interface. It helps test frontend apps, mobile apps, and backend integrations without needing a real API.
+
+Run lightweight **mock servers** on your machine so you can develop and test clients without hitting a real backend. Need a **dummy server** or standalone HTTP endpoint? Mock Server lets you define routes, status codes, headers, cookies, and delays—then start and stop servers from a simple JavaFX GUI.
 
 ---
 
@@ -8,6 +10,7 @@
 
 - [About Mock Server](#about-mock-server)
 - [Who is this for?](#who-is-this-for)
+- [Use Cases](#use-cases)
 - [Features](#features)
 - [Download](#download)
 - [FAQ](#faq)
@@ -32,6 +35,16 @@ The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For det
 
 ---
 
+## Use Cases
+
+- Frontend development without backend ready
+- Mobile app API simulation
+- QA testing responses
+- Local REST API mocking
+- Demo environments
+
+---
+
 ## Features
 
 | Topic | What you get |
@@ -41,6 +54,14 @@ The embedded HTTP layer is based on `com.sun.net.httpserver.HttpServer`. For det
 | **Organization** | Collections to group mock servers |
 | **Collaboration** | Export/import collections (JSON) for backup and sharing |
 | **Platform** | Desktop GUI (JavaFX); Available for Windows. macOS release is planned |
+
+- GUI based mock server
+- Local REST API mocking
+- Local HTTP endpoints
+- Custom JSON/XML/Text/Binary responses
+- Request inspection
+- Frontend/backend/mobile testing
+- JavaFX desktop tool
 
 ---
 
