@@ -1,7 +1,7 @@
 package com.server.core.config;
 
+import com.server.core.notification.Notification;
 import com.server.core.util.ImportExportUtil;
-import com.server.core.util.Notification;
 import tools.jackson.databind.ObjectMapper;
 
 /**

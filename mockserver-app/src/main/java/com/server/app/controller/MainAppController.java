@@ -4,6 +4,8 @@ import com.server.app.config.AppConfig;
 import com.server.app.control.ButtonImageViewTableCell;
 import com.server.app.control.ServerTableStatusFontColorTableCell;
 import com.server.app.event.handler.TableRowCopyKeyEventHandler;
+import com.server.app.function.DeleteCollectionConsumer;
+import com.server.app.function.DeleteServerFunction;
 import com.server.app.fxml.loader.ActiveServersStageLoader;
 import com.server.app.fxml.loader.CollectionFormStageLoader;
 import com.server.app.fxml.loader.ExportCollectionStageLoader;
@@ -55,8 +57,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static com.server.app.constants.AppConstants.APP_COLLECTION_FORM_TITLE;
 import static com.server.app.constants.AppConstants.APP_EDIT_COLLECTION_FORM_TITLE;
@@ -363,7 +363,7 @@ public class MainAppController implements Initializable {
                         .map(collection -> collectionService.getCollectionById(collection.getCollectionId()))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
-                        .ifPresent(new DeleteCollectionConsumer());
+                        .ifPresent(new DeleteCollectionConsumer(collectionService, serverService, collectionTable, serverTable));
             }
         });
         // adding existing data
@@ -420,7 +420,7 @@ public class MainAppController implements Initializable {
                             .filter(Optional::isPresent)
                             .map(Optional::get)
                             .findFirst()
-                            .ifPresent(new DeleteCollectionConsumer());
+                            .ifPresent(new DeleteCollectionConsumer(collectionService, serverService, collectionTable, serverTable));
                 }
             });
             return deleteCollectionTableCell;
@@ -469,7 +469,7 @@ public class MainAppController implements Initializable {
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .stream()
-                        .map(new DeleteServerFunction())
+                        .map(new DeleteServerFunction(serverService, serverTable))
                         .findFirst()
                         .ifPresent(isServerDeleted -> {
                             if (!isServerDeleted) {
@@ -508,7 +508,7 @@ public class MainAppController implements Initializable {
                             .map(server -> serverService.getServerById(server.getServerId()))
                             .filter(Optional::isPresent)
                             .map(Optional::get)
-                            .map(new DeleteServerFunction())
+                            .map(new DeleteServerFunction(serverService, serverTable))
                             .findFirst()
                             .ifPresent(isServerDeleted -> {
                                 if (!isServerDeleted) {
@@ -705,40 +705,6 @@ public class MainAppController implements Initializable {
                         });
             }
         }, APP_SERVER_FORM_TITLE, APP_SERVER_FORM_EDIT_TITLE);
-    }
-
-    private class DeleteCollectionConsumer implements Consumer<Collection> {
-        @Override
-        public void accept(Collection collection) {
-            serverService.getServersByCollection(collection.getCollectionId())
-                    .filter(Objects::nonNull)
-                    .forEach(server -> {
-                        if (ServerManager.INSTANCE.isServerActive(server.getServerId())) {
-                            ServerManager.INSTANCE.stopServer(server, true);
-                        }
-                        serverService.deleteServerById(server.getServerId());
-                    });
-            if (collectionService.deleteCollectionById(collection.getCollectionId())) {
-                collectionTable.setItems(FXCollections.observableList(AppService.INSTANCE.getTableDataService()
-                        .getCollectionTableData()));
-                serverTable.getItems().clear();
-            }
-        }
-    }
-
-    private class DeleteServerFunction implements Function<Server, Boolean> {
-        @Override
-        public Boolean apply(Server server) {
-            if (ServerManager.INSTANCE.isServerActive(server.getServerId())) {
-                ServerManager.INSTANCE.stopServer(server, true);
-            }
-            if (serverService.deleteServerById(server.getServerId())) {
-                serverTable.setItems(FXCollections.observableList(AppService.INSTANCE.getTableDataService()
-                        .getServerTableDataList(server.getCollectionId())));
-                return true;
-            }
-            return false;
-        }
     }
 
     private void refreshView(Runnable runnable) {

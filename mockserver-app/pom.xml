@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.server.app</groupId>
@@ -125,6 +125,8 @@
                                 <exclude>com/server/app/exception/**</exclude>
                                 <exclude>com/server/app/fxml/**</exclude>
                                 <exclude>com/server/app/model/**</exclude>
+                                <exclude>com/server/app/function/**</exclude>
+                                <exclude>com/server/app/notification/**</exclude>
                                 <exclude>com/server/app/service/TableDataService.class</exclude>
                             </excludes>
                         </configuration>
@@ -147,6 +149,8 @@
                                 <exclude>com/server/app/exception/**</exclude>
                                 <exclude>com/server/app/fxml/**</exclude>
                                 <exclude>com/server/app/model/**</exclude>
+                                <exclude>com/server/app/function/**</exclude>
+                                <exclude>com/server/app/notification/**</exclude>
                                 <exclude>com/server/app/service/TableDataService.class</exclude>
                             </excludes>
                             <rules>

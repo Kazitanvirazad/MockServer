@@ -1,4 +1,4 @@
-package com.server.app.util;
+package com.server.app.notification;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
