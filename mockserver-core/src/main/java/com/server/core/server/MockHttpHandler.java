@@ -31,9 +31,8 @@ public record MockHttpHandler(EndpointInitiator endpointInitiator) implements Ht
             if (methods.containsKey(inputMethod)) {
                 MethodInitiator methodInitiator = methods.get(inputMethod);
                 //adding headers to the response
-                methodInitiator.getHeaders().forEach(header -> {
-                    exchange.getResponseHeaders().add(header.key(), header.value());
-                });
+                methodInitiator.getHeaders().forEach(header ->
+                        exchange.getResponseHeaders().add(header.key(), header.value()));
                 byte[] responseBody = methodInitiator.getResponseData();
                 long responseLength;
                 // getting response content length

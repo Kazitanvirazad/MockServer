@@ -49,8 +49,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.List;
@@ -77,7 +75,6 @@ import static javafx.beans.binding.Bindings.when;
  * @author Kazi Tanvir Azad
  */
 public class MainAppController implements Initializable {
-    private static final Logger log = LogManager.getLogger(MainAppController.class);
     private final CollectionService collectionService;
     private final ServerService serverService;
 
@@ -600,9 +597,8 @@ public class MainAppController implements Initializable {
         Optional.ofNullable(collectionTable.getSelectionModel())
                 .filter(collectionTableSelectionModel ->
                         !collectionTableSelectionModel.isEmpty())
-                .ifPresent(collectionTableSelectionModel -> {
-                    openCreateModifyCollectionWindow(null, true);
-                });
+                .ifPresent(collectionTableSelectionModel ->
+                        openCreateModifyCollectionWindow(null, true));
     }
 
     private void openCreateModifyCollectionWindow(ActionEvent event, boolean doEdit) {
@@ -673,9 +669,7 @@ public class MainAppController implements Initializable {
         Optional.ofNullable(serverTable.getSelectionModel())
                 .filter(serverTableSelectionModel ->
                         !serverTableSelectionModel.isEmpty())
-                .ifPresent(serverTableSelectionModel -> {
-                    openServerEditWindow();
-                });
+                .ifPresent(serverTableSelectionModel -> openServerEditWindow());
     }
 
     private void openServerEditWindow() {

@@ -6,8 +6,6 @@ import com.server.core.model.data.Server;
 import com.sun.net.httpserver.HttpServer;
 import javafx.collections.ObservableSet;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -20,9 +18,8 @@ import java.util.function.BiConsumer;
  * @author Kazi Tanvir Azad
  */
 public class ServerInitiator {
-    private static final Logger log = LogManager.getLogger(ServerInitiator.class);
-    private int portNumber;
     private HttpServer httpServer;
+    private final int portNumber;
     private final Map<String, EndpointInitiator> endPoints;
 
     public ServerInitiator(int portNumber) {
